@@ -12,11 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Windows.Devices.Gpio;
-using JP.Utils.Helper;
-using Windows.UI.Popups;
 
-namespace IoTTest
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
+
+namespace PlantSitter_Resp
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
@@ -26,13 +25,6 @@ namespace IoTTest
         public MainPage()
         {
             this.InitializeComponent();
-            Loaded += MainPage_Loaded;
-        }
-
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            TempHumSensor sensor = new TempHumSensor();
-            sensor.ReadValue();
         }
     }
 }
