@@ -136,9 +136,9 @@
       <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
       <Name>JP.Utils.UWP</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PlantSitterShardModel\PlantSitterShardModel.csproj">
+    <ProjectReference Include="..\PlantSitterShardModel\PlantSitterSharedModel.csproj">
       <Project>{d0bbc459-2798-45ba-9cb2-56703a0d5c5e}</Project>
-      <Name>PlantSitterShardModel</Name>
+      <Name>PlantSitterSharedModel</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

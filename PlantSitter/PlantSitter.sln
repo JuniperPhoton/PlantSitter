@@ -19,9 +19,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTTest", "IoTTest\IoTTest.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitter-Resp", "PlantSitter-Resp\PlantSitter-Resp.csproj", "{13FB8A12-01F7-4FF2-A0A5-4F9EBF1B50CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterShardModel", "PlantSitterShardModel\PlantSitterShardModel.csproj", "{D0BBC459-2798-45BA-9CB2-56703A0D5C5E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterSharedModel", "PlantSitterShardModel\PlantSitterSharedModel.csproj", "{D0BBC459-2798-45BA-9CB2-56703A0D5C5E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterCustomControl", "PlantSitterCustomControl\PlantSitterCustomControl.csproj", "{E525983B-258E-4754-9596-9A299DFC99A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterShared", "PlantSitterShared\PlantSitterShared.csproj", "{03507278-EC38-485A-BEA3-366035CE93C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -143,6 +145,22 @@ Global
 		{E525983B-258E-4754-9596-9A299DFC99A5}.Release|x64.Build.0 = Release|x64
 		{E525983B-258E-4754-9596-9A299DFC99A5}.Release|x86.ActiveCfg = Release|x86
 		{E525983B-258E-4754-9596-9A299DFC99A5}.Release|x86.Build.0 = Release|x86
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|ARM.ActiveCfg = Debug|ARM
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|ARM.Build.0 = Debug|ARM
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|x64.ActiveCfg = Debug|x64
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|x64.Build.0 = Debug|x64
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|x86.ActiveCfg = Debug|x86
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Debug|x86.Build.0 = Debug|x86
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|ARM.ActiveCfg = Release|ARM
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|ARM.Build.0 = Release|ARM
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|x64.ActiveCfg = Release|x64
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|x64.Build.0 = Release|x64
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|x86.ActiveCfg = Release|x86
+		{03507278-EC38-485A-BEA3-366035CE93C3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,5 +172,6 @@ Global
 		{13FB8A12-01F7-4FF2-A0A5-4F9EBF1B50CA} = {2D2E1D56-296C-4A0B-80D4-9F31BBF549CA}
 		{D0BBC459-2798-45BA-9CB2-56703A0D5C5E} = {2D2E1D56-296C-4A0B-80D4-9F31BBF549CA}
 		{E525983B-258E-4754-9596-9A299DFC99A5} = {2D2E1D56-296C-4A0B-80D4-9F31BBF549CA}
+		{03507278-EC38-485A-BEA3-366035CE93C3} = {2D2E1D56-296C-4A0B-80D4-9F31BBF549CA}
 	EndGlobalSection
 EndGlobal
