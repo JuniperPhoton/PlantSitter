@@ -12,7 +12,7 @@
             <ImageBrush Stretch="UniformToFill" ImageSource="ms-appx:///Assets/Backgrd/backgrd.png"/>
         </Grid.Background>
         <StackPanel VerticalAlignment="Center" Margin="0,0,0,50">
-            <Image Width="100" Source="ms-appx:///Assets/Backgrd/Logo2.png"/>
+            <Image Width="100" Source="ms-appx:///Assets/Backgrd/Logo500.png"/>
             <TextBlock HorizontalAlignment="Center" FontSize="20" Margin="0 50 0 0" Foreground="White" TextAlignment="Center">
             	<Run Text="Your plants are"/>
             	<LineBreak/>
