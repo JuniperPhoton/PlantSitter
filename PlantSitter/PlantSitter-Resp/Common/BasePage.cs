@@ -48,7 +48,7 @@ namespace PlantSitter_Resp.Common
             TransitionCollection collection = new TransitionCollection();
             NavigationThemeTransition theme = new NavigationThemeTransition();
 
-            var info = new ContinuumNavigationTransitionInfo();
+            var info = new DrillInNavigationTransitionInfo();
 
             theme.DefaultNavigationTransitionInfo = info;
             collection.Add(theme);

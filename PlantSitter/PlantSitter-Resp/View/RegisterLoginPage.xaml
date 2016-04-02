@@ -25,13 +25,13 @@
             <Grid MaxWidth="{StaticResource MaxWidth}" Grid.Row="1" Background="White">
                 <StackPanel Margin="20">
                     <Border Margin="0 0 0 0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" >
-                        <TextBox BorderThickness="0" PlaceholderText="请输入邮箱地址"/>
+                        <TextBox InputScope="EmailSmtpAddress" IsSpellCheckEnabled="False" Text="{x:Bind LoginVM.Email,Mode=TwoWay}" BorderThickness="0" PlaceholderText="请输入邮箱地址"/>
                     </Border>
                     <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" Margin="0,20,0,0" >
-                        <TextBox BorderThickness="0" PlaceholderText="请输入密码"/>
+                        <PasswordBox Password="{x:Bind LoginVM.Password,Mode=TwoWay}" BorderThickness="0" PlaceholderText="请输入密码"/>
                     </Border>
-                    <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" Margin="0,20,0,0" >
-                        <TextBox BorderThickness="0" PlaceholderText="请再次输入邮箱地址"/>
+                    <Border Visibility="{x:Bind LoginVM.ConfirmPwdVisibility,Mode=OneWay}" BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" Margin="0,20,0,0" >
+                        <PasswordBox Password="{x:Bind LoginVM.PasswordToBeConfirmed,Mode=TwoWay}" BorderThickness="0" PlaceholderText="请再次输入密码"/>
                     </Border>
                     <Button Command="{x:Bind LoginVM.ConfirmActionCommand,Mode=OneWay}" Margin="0 20 0 0" Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch">
                         <Border Background="#02000000" BorderThickness="1" BorderBrush="{StaticResource PlantSitterThemeColor}">
