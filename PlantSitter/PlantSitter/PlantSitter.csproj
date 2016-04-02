@@ -98,7 +98,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage.xaml.cs">
+    <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -124,10 +126,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
+    <Page Include="View\MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
+      <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
+      <Name>JP.Utils.UWP</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PlantSitterShardModel\PlantSitterShardModel.csproj">
+      <Project>{d0bbc459-2798-45ba-9cb2-56703a0d5c5e}</Project>
+      <Name>PlantSitterShardModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

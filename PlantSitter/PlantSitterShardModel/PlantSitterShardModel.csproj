@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{d0bbc459-2798-45ba-9cb2-56703a0d5c5e}</ProjectGuid>
+    <ProjectGuid>{D0BBC459-2798-45BA-9CB2-56703A0D5C5E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PlantSitterShardModel</RootNamespace>
@@ -107,9 +107,18 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Model\Plant.cs" />
+    <Compile Include="Model\PlantSitterUser.cs" />
+    <Compile Include="Model\PlantTimeline.cs" />
+    <Compile Include="Model\UserPlan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\PlantSitterShardModel.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
+      <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
+      <Name>JP.Utils.UWP</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

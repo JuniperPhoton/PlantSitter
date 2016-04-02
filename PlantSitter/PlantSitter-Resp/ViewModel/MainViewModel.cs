@@ -9,5 +9,6 @@ namespace PlantSitter_Resp.ViewModel
 {
     public class MainViewModel:ViewModelBase
     {
+
     }
 }

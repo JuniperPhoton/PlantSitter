@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantSitter.ViewModel
+namespace PlantSitter_Resp.ViewModel
 {
-    public class MainViewModel:ViewModelBase
+    public class LoginViewModel:ViewModelBase
     {
+
     }
 }

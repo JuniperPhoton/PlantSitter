@@ -3,7 +3,7 @@ using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using PlantSitter_Resp.ViewModel;
 
-namespace ButterUWP.ViewModel
+namespace PlantSitter_Resp.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

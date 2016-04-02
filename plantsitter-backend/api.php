@@ -19,7 +19,7 @@ do
         $ApiResult=array('isSuccessed' =>FALSE ,'error_code'=>"0","error_message"=>"");
 
         //连接到数据库
-        $db_source="mysql:dbname=schedule;host=localhost";
+        $db_source="mysql:dbname=plantsitter;host=localhost";
         $pdo=new PDO($db_source,$apiConfig['DB_USERNAME'],$apiConfig['DB_PASSWORD'],array(
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8",

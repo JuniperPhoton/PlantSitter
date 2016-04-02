@@ -14,11 +14,12 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+
 namespace PlantSitter_Resp.View
 {
-    public sealed partial class MainPage : BasePage
+    public sealed partial class RegisterLoginPage : BasePage
     {
-        public MainPage()
+        public RegisterLoginPage()
         {
             this.InitializeComponent();
         }
