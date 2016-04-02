@@ -1,4 +1,6 @@
-﻿using PlantSitter_Resp.Common;
+﻿using JP.Utils.Framework;
+using PlantSitter_Resp.Common;
+using PlantSitter_Resp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +21,12 @@ namespace PlantSitter_Resp.View
 {
     public sealed partial class RegisterLoginPage : BasePage
     {
+        public LoginViewModel LoginVM { get; set; }
+
         public RegisterLoginPage()
         {
             this.InitializeComponent();
+            this.DataContext = LoginVM = new LoginViewModel();
         }
     }
 }

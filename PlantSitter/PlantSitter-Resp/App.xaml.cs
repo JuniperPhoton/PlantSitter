@@ -8,6 +8,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +24,14 @@ namespace PlantSitter_Resp
     /// </summary>
     sealed partial class App : Application
     {
+        public static Frame RootFrame
+        {
+            get
+            {
+                return Window.Current.Content as Frame;
+            }
+        }
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -34,6 +43,7 @@ namespace PlantSitter_Resp
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
         }
 
         /// <summary>
@@ -80,6 +90,16 @@ namespace PlantSitter_Resp
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+                SystemNavigationManager.GetForCurrentView().BackRequested -= App_BackRequested;
+                SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
+            }
+        }
+
+        private void App_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if(RootFrame!=null)
+            {
+                if (RootFrame.CanGoBack) RootFrame.GoBack();
             }
         }
 

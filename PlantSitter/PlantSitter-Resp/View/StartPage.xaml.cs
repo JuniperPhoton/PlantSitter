@@ -1,4 +1,5 @@
 ﻿using PlantSitter_Resp.Common;
+using PlantSitter_Resp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -19,9 +20,12 @@ namespace PlantSitter_Resp.View
 {
     public sealed partial class StartPage : BasePage
     {
+        public StartViewModel StartVM { get; set; }
+
         public StartPage()
         {
             this.InitializeComponent();
+            this.DataContext = StartVM = new StartViewModel();
         }
     }
 }

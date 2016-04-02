@@ -6,9 +6,41 @@
     xmlns:common="using:PlantSitter_Resp.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d" Background="{StaticResource PlantSitterThemeColor}">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
+    <Grid>
+        <Grid.Resources>
+            <x:Double x:Key="MaxWidth">500</x:Double>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid Background="{StaticResource PlantSitterThemeColor}">
+            <Grid MaxWidth="{StaticResource MaxWidth}">
+                <TextBlock FontSize="18" Margin="20" Text="{x:Bind LoginVM.Title,Mode=OneWay}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" Background="White">
+            <Grid MaxWidth="{StaticResource MaxWidth}" Grid.Row="1" Background="White">
+                <StackPanel Margin="20">
+                    <Border Margin="0 0 0 0" BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" >
+                        <TextBox BorderThickness="0" PlaceholderText="请输入邮箱地址"/>
+                    </Border>
+                    <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" Margin="0,20,0,0" >
+                        <TextBox BorderThickness="0" PlaceholderText="请输入密码"/>
+                    </Border>
+                    <Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterLightGreyColor}" Margin="0,20,0,0" >
+                        <TextBox BorderThickness="0" PlaceholderText="请再次输入邮箱地址"/>
+                    </Border>
+                    <Button Command="{x:Bind LoginVM.ConfirmActionCommand,Mode=OneWay}" Margin="0 20 0 0" Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch">
+                        <Border Background="#02000000" BorderThickness="1" BorderBrush="{StaticResource PlantSitterThemeColor}">
+                            <TextBlock Foreground="Black" Margin="10" Text="{x:Bind LoginVM.ActionText,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Button>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
     </Grid>
 </common:BasePage>

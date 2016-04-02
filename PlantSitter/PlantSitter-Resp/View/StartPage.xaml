@@ -20,12 +20,12 @@
             	<LineBreak/>
             	<Run/>
             </TextBlock>
-            <Button Background="{x:Null}" Width="200" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center">
+            <Button Command="{x:Bind StartVM.GoToLoginPageCommand,Mode=OneWay}" Background="{x:Null}" Width="200" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center">
                 <Border Background="#1E000000" BorderThickness="1" BorderBrush="White">
                     <TextBlock Margin="10" Text="登录" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </Button>
-            <Button Margin="0 20 0 0" Background="{x:Null}" Width="200" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center">
+            <Button Command="{x:Bind StartVM.GoToRegisterPageCommand,Mode=OneWay}" Margin="0 20 0 0" Background="{x:Null}" Width="200" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center">
                 <Border Background="#1E000000" BorderThickness="1" BorderBrush="White">
                     <TextBlock Margin="10" Text="注册" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
