@@ -5,9 +5,6 @@
     <SolidColorBrush x:Key="PlantSitterThemeColor" Color="#FF34c978"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterThemeDarkColor" Color="#FF35A568"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterThemeLightColor" Color="#FF52E495"></SolidColorBrush>
-    <SolidColorBrush x:Key="PlantSitterDashboardLightColor">#FF36A897</SolidColorBrush>
-    <SolidColorBrush x:Key="PlantSitterDashboardColor">#FF1a786a</SolidColorBrush>
-    <SolidColorBrush x:Key="PlantSitterDashboardDarkColor">#FF355f58</SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkColor" Color="#FF414141"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkDarkColor" Color="#FF232323"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkLightColor" Color="#FF5E5E5E"></SolidColorBrush>

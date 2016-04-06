@@ -60,7 +60,6 @@ namespace PlantSitterShardModel.Model
             }
         }
 
-
         private Plant _currentPlant;
         public Plant CurrentPlant
         {
@@ -78,6 +77,9 @@ namespace PlantSitterShardModel.Model
             }
         }
 
+        public UserPlan()
+        {
 
+        }
     }
 }

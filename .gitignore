@@ -10,6 +10,11 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+/PlantSitter/PlantSitter/obj/
+/PlantSitter/PlantSitter/bin/
+/PlantSitter/PlantSitter-Resp/obj/
+/PlantSitter/PlantSitter-Resp/bin/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

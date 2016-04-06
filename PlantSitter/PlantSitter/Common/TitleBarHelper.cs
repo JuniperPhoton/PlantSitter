@@ -30,17 +30,17 @@ namespace PlantSitter_Resp.Common
         public static void SetupThemeTitleBar()
         {
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.BackgroundColor = (App.Current.Resources["PlantSitterDashboardDarkColor"] as SolidColorBrush).Color;
+            titleBar.BackgroundColor = (App.Current.Resources["PlantSitterThemeColor"] as SolidColorBrush).Color;
             titleBar.ForegroundColor = Colors.White;
             titleBar.InactiveBackgroundColor = titleBar.BackgroundColor;
             titleBar.InactiveForegroundColor = Colors.White;
-            titleBar.ButtonBackgroundColor = (App.Current.Resources["PlantSitterDashboardDarkColor"] as SolidColorBrush).Color;
+            titleBar.ButtonBackgroundColor = (App.Current.Resources["PlantSitterThemeColor"] as SolidColorBrush).Color;
             titleBar.ButtonForegroundColor = Colors.White;
             titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
             titleBar.ButtonInactiveForegroundColor = Colors.White;
-            titleBar.ButtonHoverBackgroundColor = (App.Current.Resources["PlantSitterDashboardLightColor"] as SolidColorBrush).Color;
+            titleBar.ButtonHoverBackgroundColor = (App.Current.Resources["PlantSitterThemeLightColor"] as SolidColorBrush).Color;
             titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonPressedBackgroundColor = (App.Current.Resources["PlantSitterDashboardDarkColor"] as SolidColorBrush).Color;
+            titleBar.ButtonPressedBackgroundColor = (App.Current.Resources["PlantSitterThemeDarkColor"] as SolidColorBrush).Color;
         }
     }
 }

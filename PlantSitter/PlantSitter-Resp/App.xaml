@@ -9,6 +9,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/ResourceDictionary/ColorDictionary.xaml"/>
                 <ResourceDictionary Source="/ResourceDictionary/StyleDictionary.xaml"/>
+                <ResourceDictionary Source="/ResourceDictionary/TemplateDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <vm:ViewModelLocator x:Key="Locator" xmlns:vm="using:PlantSitter_Resp.ViewModel" />
         </ResourceDictionary>
