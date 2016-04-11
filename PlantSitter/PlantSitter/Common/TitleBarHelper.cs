@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlantSitter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
 
-namespace PlantSitter_Resp.Common
+namespace PlantSitter.Common
 {
     public static class TitleBarHelper
     {

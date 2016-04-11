@@ -33,7 +33,7 @@ do {
             break;
 
         case 'GetSalt':
-            $email = $_POST['email'];
+            $email = $_GET['email'];
 
             $queryFind = $pdo->prepare('SELECT salt from user WHERE email=:email');
             $queryFind->bindParam(':email', $email, PDO::PARAM_STR);
@@ -92,11 +92,13 @@ do {
             //get salt
             $salt = GetRandStr(10);
             $newPwd = md5($password.$salt);
-
-            $queryInsert = $pdo->prepare('INSERT INTO user(email,password,salt) VALUES (:email,:password,:salt)');
+            $createTime=date("Y/m/d");
+            
+            $queryInsert = $pdo->prepare('INSERT INTO user(email,password,salt,create_time) VALUES (:email,:password,:salt,:create_time)');
             $queryInsert->bindParam(':email', $email, PDO::PARAM_STR);
             $queryInsert->bindParam(':password', $newPwd, PDO::PARAM_STR);
             $queryInsert->bindParam(':salt', $salt, PDO::PARAM_STR);
+            $queryInsert->bindParam(':create_time', $createTime, PDO::PARAM_STR);
 
             $resultInsert = $queryInsert->execute();
             if ($resultInsert) {
@@ -104,7 +106,7 @@ do {
                 
                 $accessToken = md5($sid);
 
-                $queryInsert = $pdo->prepare('INSERT INTO accesstoken(uid,access_token) VALUES (:uid,:access_token)');
+                $queryInsert = $pdo->prepare('INSERT INTO access_token(uid,access_token) VALUES (:uid,:access_token)');
                 $queryInsert->bindParam(':uid', $uid, PDO::PARAM_INT);
                 $queryInsert->bindParam(':access_token', $accessToken, PDO::PARAM_STR);
                 $resultInsert = $queryInsert->execute();
@@ -142,12 +144,13 @@ do {
             $queryFind = $pdo->prepare('SELECT * FROM user WHERE email=:email && password=:password');
             $queryFind->bindParam(':email', $email, PDO::PARAM_STR);
             $queryFind->bindParam(':password', $password, PDO::PARAM_STR);
+            
             $result = $queryFind->execute();
             if ($result) {
                 $user = $queryFind->fetch();
                 if ($user) {
 
-                    $querySelect = $pdo->prepare('SELECT * FROM accesstoken WHERE uid=:uid');
+                    $querySelect = $pdo->prepare('SELECT * FROM access_token WHERE uid=:uid');
                     $querySelect->bindParam(':uid', $user['uid'], PDO::PARAM_INT);
                     $resultSelect = $querySelect->execute();
                     if ($resultSelect) {
@@ -168,7 +171,7 @@ do {
                 } else {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = API_ERROR_USER_NOT_EXIST;
-                    $ApiResult['error_message'] = 'the user does not exists';
+                    $ApiResult['error_message'] = 'Please check your password.';
                     break;
                 }
             } else {

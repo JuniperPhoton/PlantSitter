@@ -1,16 +1,21 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using JP.Utils.Data;
+using JP.Utils.Data.Json;
+using JP.Utils.Debug;
 using JP.Utils.Framework;
 using JP.Utils.Functions;
+using JP.Utils.Network;
+using PlantSitter.Common;
+using PlantSitter.View;
 using PlantSitterCusomControl;
+using PlantSitterShared.API;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.UI.Xaml;
 
-namespace PlantSitter_Resp.ViewModel
+namespace PlantSitter.ViewModel
 {
     public enum LoginMode
     {
@@ -136,8 +141,14 @@ namespace PlantSitter_Resp.ViewModel
                 if (_confrimActionCommand != null) return _confrimActionCommand;
                 return _confrimActionCommand = new RelayCommand(async() =>
                   {
-                      if (!IsInputDataValid()) return;
-                      if(LoginMode==LoginMode.Register)
+                      if (!IsInputDataValid())
+                      {
+                          return;
+                      }
+
+                      ShowLoading = Visibility.Visible;
+
+                      if (LoginMode==LoginMode.Register)
                       {
                           await Register();
                       }
@@ -149,9 +160,27 @@ namespace PlantSitter_Resp.ViewModel
             }
         }
 
+        private Visibility _showLoading;
+        public Visibility ShowLoading
+        {
+            get
+            {
+                return _showLoading;
+            }
+            set
+            {
+                if (_showLoading != value)
+                {
+                    _showLoading = value;
+                    RaisePropertyChanged(() => ShowLoading);
+                }
+            }
+        }
+
+
         public LoginViewModel()
         {
-
+            ShowLoading = Visibility.Collapsed;
         }
 
         private bool IsInputDataValid()
@@ -184,14 +213,102 @@ namespace PlantSitter_Resp.ViewModel
             return true;
         }
 
-        private async Task Register()
-        {
-
-        }
-
         private async Task Login()
         {
+            try
+            {
+                var saltResult = await CloudService.GetSalt(Email, CTSFactory.MakeCTS(100000).Token);
+                saltResult.PraseAPIResult();
+                if (!saltResult.IsSuccessful)
+                {
+                    throw new ArgumentException("User does not exist.");
+                }
+                var saltObj = JsonObject.Parse(saltResult.JsonSrc);
+                var salt = JsonParser.GetStringFromJsonObj(saltObj, "Salt");
+                if (string.IsNullOrEmpty(salt))
+                {
+                    throw new ArgumentException("User does not exist.");
+                }
 
+                var newPwd = MD5.GetMd5String(Password);
+                var newPwdInSalt = MD5.GetMd5String(newPwd + salt);
+                var loginResult = await CloudService.Login(Email, newPwdInSalt, CTSFactory.MakeCTS(100000).Token);
+                loginResult.PraseAPIResult();
+                if (!loginResult.IsSuccessful)
+                {
+                    throw new ArgumentException(loginResult.ErrorMsg);
+                }
+                var loginObj = JsonObject.Parse(loginResult.JsonSrc);
+                var userObj = loginObj["UserInfo"];
+                var uid = JsonParser.GetStringFromJsonObj(userObj, "uid");
+                var accessToken = JsonParser.GetStringFromJsonObj(userObj, "access_token");
+                if (uid.IsNotNullOrEmpty() && accessToken.IsNotNullOrEmpty())
+                {
+                    LocalSettingHelper.AddValue("uid", uid);
+                    LocalSettingHelper.AddValue("access_token", accessToken);
+                    NavigationService.NavigateViaRootFrame(typeof(MainPage));
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                ToastService.SendToast("Connection time out");
+            }
+            catch (ArgumentException e)
+            {
+                ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to login");
+            }
+            catch (Exception e)
+            {
+                ToastService.SendToast("Fail to login");
+                var task = ExceptionHelper.WriteRecordAsync(e, nameof(LoginViewModel), nameof(Login));
+            }
+            finally
+            {
+                ShowLoading = Visibility.Collapsed;
+            }
+        }
+
+        private async Task Register()
+        {
+            try
+            {
+                var isUserExist = await CloudService.CheckUserExist(Email, CTSFactory.MakeCTS(10000).Token);
+                isUserExist.PraseAPIResult();
+                if (!isUserExist.IsSuccessful)
+                {
+                    throw new ArgumentException();
+                }
+                var json = JsonObject.Parse(isUserExist.JsonSrc);
+                var isExist = JsonParser.GetBooleanFromJsonObj(json, "isExist", false);
+                if (isExist)
+                {
+                    throw new ArgumentException("The email has been used.");
+                }
+
+                var registerResult = await CloudService.Register(Email, MD5.GetMd5String(Password), CTSFactory.MakeCTS(100000).Token);
+                registerResult.PraseAPIResult();
+                if (!registerResult.IsSuccessful)
+                {
+                    throw new ArgumentException();
+                }
+                await Login();
+            }
+            catch (ArgumentException e)
+            {
+                ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to register");
+            }
+            catch (TaskCanceledException e)
+            {
+
+            }
+            catch (Exception e)
+            {
+
+            }
+            finally
+            {
+                ShowLoading = Visibility.Collapsed;
+            }
         }
 
         public void Activate(object param)

@@ -14,6 +14,7 @@ namespace PlantSitter_Resp.View
         public MainViewModel MainVM { get; set; }
 
         private Compositor _compositor;
+        private Visual _loginVisual;
 
         public bool ShowLoginControl
         {
@@ -22,11 +23,12 @@ namespace PlantSitter_Resp.View
         }
 
         public static readonly DependencyProperty ShowLoginControlProperty =
-            DependencyProperty.Register("ShowLoginControl", typeof(bool), typeof(MainPage), new PropertyMetadata(true,
+            DependencyProperty.Register("ShowLoginControl", typeof(bool), typeof(MainPage), new PropertyMetadata(false,
                 (sender,e)=>
                 {
                     var page = sender as MainPage;
-                    page.PlayLoginControlAnim((bool)e.NewValue);
+                    if(e.NewValue!=e.OldValue)
+                        page.PlayLoginControlAnim((bool)e.NewValue);
                 }));
 
         public MainPage()
@@ -51,13 +53,16 @@ namespace PlantSitter_Resp.View
         private void InitialCompositor()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            _loginVisual = ElementCompositionPreview.GetElementVisual(LoginControl);
+            _loginVisual.Offset = new Vector3(150f, 0f, 0f);
+            _loginVisual.Opacity = 0f;
         }
 
         private void PlayLoginControlAnim(bool isShown)
         {
-            var loginVisual = ElementCompositionPreview.GetElementVisual(LoginControl);
-            loginVisual.Offset = isShown ? new Vector3(150f, 0f, 0f) : new Vector3(0, 0, 0);
-            loginVisual.Opacity = isShown ? 0f : 1f;
+            _loginVisual = ElementCompositionPreview.GetElementVisual(LoginControl);
+            _loginVisual.Offset = isShown ? new Vector3(150f, 0f, 0f) : new Vector3(0, 0, 0);
+            _loginVisual.Opacity = isShown ? 0f : 1f;
 
             var fadeAnim = _compositor.CreateScalarKeyFrameAnimation();
             fadeAnim.InsertKeyFrame(1f, isShown? 1f:0f);
@@ -67,8 +72,8 @@ namespace PlantSitter_Resp.View
             offsetAnim.InsertKeyFrame(1f, isShown? new Vector3(0, 0, 0):new Vector3(150,0,0));
             offsetAnim.Duration = TimeSpan.FromMilliseconds(1250);
 
-            loginVisual.StartAnimation("Offset", offsetAnim);
-            loginVisual.StartAnimation("Opacity", fadeAnim);
+            _loginVisual.StartAnimation("Offset", offsetAnim);
+            _loginVisual.StartAnimation("Opacity", fadeAnim);
         }
     }
 }

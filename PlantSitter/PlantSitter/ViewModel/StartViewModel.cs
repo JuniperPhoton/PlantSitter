@@ -1,14 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using JP.Utils.Framework;
-using PlantSitter_Resp.View;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PlantSitter.Common;
+using PlantSitter.View;
 
-namespace PlantSitter_Resp.ViewModel
+namespace PlantSitter.ViewModel
 {
     public class StartViewModel:ViewModelBase,INavigable
     {
@@ -20,7 +16,7 @@ namespace PlantSitter_Resp.ViewModel
                 if (_goToLoginPageCommand != null) return _goToLoginPageCommand;
                 return _goToLoginPageCommand = new RelayCommand(() =>
                 {
-                    App.RootFrame.Navigate(typeof(RegisterLoginPage), 1);
+                    NavigationService.NavigateViaRootFrame(typeof(RegisterLoginPage), 1);
                 });
             }
         }
@@ -33,7 +29,7 @@ namespace PlantSitter_Resp.ViewModel
                 if (_goToRegisterPageCommanad != null) return _goToRegisterPageCommanad;
                 return _goToRegisterPageCommanad = new RelayCommand(() =>
                 {
-                    App.RootFrame.Navigate(typeof(RegisterLoginPage), 0);
+                    NavigationService.NavigateViaRootFrame(typeof(RegisterLoginPage), 0);
                 });
             }
         }

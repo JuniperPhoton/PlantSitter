@@ -5,10 +5,18 @@
     xmlns:local="using:PlantSitter_Resp"
     xmlns:uc="using:PlantSitter_Resp.UC"
     xmlns:common="using:PlantSitter_Resp.Common"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:triggers="using:JP.CustomTriggers"
+    xmlns:attach="using:JP.Utils.Framework"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
+    <Interactivity:Interaction.Behaviors>
+        <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
+            <attach:InvokeCommandByKeyDown Command="{x:Bind MainVM.ConfirmActionCommand}" PressedKey="Enter" />
+        </Core:EventTriggerBehavior>
+    </Interactivity:Interaction.Behaviors>
     <Grid Background="{StaticResource PlantSitterDashboardColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>

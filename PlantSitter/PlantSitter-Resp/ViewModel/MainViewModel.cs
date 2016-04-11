@@ -7,18 +7,14 @@ using JP.Utils.Framework;
 using JP.Utils.Functions;
 using JP.Utils.Network;
 using PlantSitter_Resp.Common;
-using PlantSitter_Resp.View;
 using PlantSitterCusomControl;
 using PlantSitterShardModel.Model;
 using PlantSitterShared.API;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.UI.Xaml;
 
 namespace PlantSitter_Resp.ViewModel
 {
@@ -74,7 +70,9 @@ namespace PlantSitter_Resp.ViewModel
                 if (_confrimActionCommand != null) return _confrimActionCommand;
                 return _confrimActionCommand = new RelayCommand(async () =>
                 {
+                    if (!ShowLoginControl) return;
                     if (!IsInputDataValid()) return;
+                    ShowLoading = Visibility.Visible;
                     await Login();
                 });
             }
@@ -96,6 +94,25 @@ namespace PlantSitter_Resp.ViewModel
                 }
             }
         }
+
+
+        private Visibility _showLoading;
+        public Visibility ShowLoading
+        {
+            get
+            {
+                return _showLoading;
+            }
+            set
+            {
+                if (_showLoading != value)
+                {
+                    _showLoading = value;
+                    RaisePropertyChanged(() => ShowLoading);
+                }
+            }
+        }
+
         #endregion
 
         private ObservableCollection<Plant> _currentPlants;
@@ -123,6 +140,7 @@ namespace PlantSitter_Resp.ViewModel
                 ShowLoginControl = true;
             }
             CurrentPlants = new ObservableCollection<Plant>();
+            ShowLoading = Visibility.Collapsed;
         }
 
         private async Task Login()
@@ -130,24 +148,24 @@ namespace PlantSitter_Resp.ViewModel
             try
             {
                 var saltResult = await CloudService.GetSalt(Email, CTSFactory.MakeCTS(100000).Token);
-                saltResult.PhaseAPIResult();
+                saltResult.PraseAPIResult();
                 if (!saltResult.IsSuccessful)
                 {
-                    throw new ArgumentNullException("User does not exist.");
+                    throw new ArgumentException("User does not exist.");
                 }
                 var saltObj = JsonObject.Parse(saltResult.JsonSrc);
                 var salt = JsonParser.GetStringFromJsonObj(saltObj, "Salt");
                 if(string.IsNullOrEmpty(salt))
                 {
-                    throw new ArgumentNullException("User does not exist.");
+                    throw new ArgumentException("User does not exist.");
                 }
                 var newPwd = MD5.GetMd5String(Password);
                 var newPwdInSalt = MD5.GetMd5String(newPwd + salt);
                 var loginResult = await CloudService.Login(Email, newPwdInSalt, CTSFactory.MakeCTS(100000).Token);
-                loginResult.PhaseAPIResult();
+                loginResult.PraseAPIResult();
                 if(!loginResult.IsSuccessful)
                 {
-                    throw new ArgumentNullException();
+                    throw new ArgumentException();
                 }
                 var loginObj = JsonObject.Parse(loginResult.JsonSrc);
                 var userObj = loginObj["UserInfo"];
@@ -164,14 +182,18 @@ namespace PlantSitter_Resp.ViewModel
             {
                 ToastService.SendToast("Connection time out");
             }
-            catch(ArgumentNullException e)
+            catch(ArgumentException e)
             {
-                ToastService.SendToast(e.ParamName.IsNotNullOrEmpty()?e.Message:"Fail to login");
+                ToastService.SendToast(e.Message.IsNotNullOrEmpty()?e.Message:"Fail to login");
             }
             catch(Exception e)
             {
                 ToastService.SendToast("Fail to login");
                 var task = ExceptionHelper.WriteRecordAsync(e, nameof(MainViewModel), nameof(Login));
+            }
+            finally
+            {
+                ShowLoading = Visibility.Collapsed;
             }
         }
 
@@ -180,25 +202,41 @@ namespace PlantSitter_Resp.ViewModel
             try
             {
                 var isUserExist = await CloudService.CheckUserExist(Email, CTSFactory.MakeCTS(10000).Token);
-                isUserExist.PhaseAPIResult();
+                isUserExist.PraseAPIResult();
                 if (!isUserExist.IsSuccessful)
                 {
-
+                    throw new ArgumentException();
                 }
                 var json = JsonObject.Parse(isUserExist.JsonSrc);
                 var isExist = JsonParser.GetBooleanFromJsonObj(json, "isExist", false);
-                if (!isExist)
+                if (isExist)
                 {
-
+                    throw new ArgumentException("The email has been used.");
                 }
+
+                var registerResult = await CloudService.Register(Email, MD5.GetMd5String(Password), CTSFactory.MakeCTS(100000).Token);
+                registerResult.PraseAPIResult();
+                if(!registerResult.IsSuccessful)
+                {
+                    throw new ArgumentException();
+                }
+                await Login();
             }
-            catch(TaskCanceledException e)
+            catch(ArgumentException e)
+            {
+                ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to register");
+            }
+            catch (TaskCanceledException e)
             {
 
             }
             catch(Exception e)
             {
 
+            }
+            finally
+            {
+                ShowLoading = Visibility.Collapsed;
             }
         }
 

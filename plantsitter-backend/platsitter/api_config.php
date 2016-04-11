@@ -22,7 +22,8 @@ $ApiInterfaces = array('Resp', 'User', //Login Register
 'Plant', );
 
 //no access_Token and uid need
-$ApiUnauthorizedActions = array('User/Register/v1', 'User/Login/v1', 'User/GetSalt/v1', 'User/Test/V1');
+$ApiUnauthorizedActions = array(
+    'User/Register/v1', 'User/Login/v1', 'User/GetSalt/v1', 'User/Test/V1','User/CheckUserExist/v1');
 
 function GetRandStr($len) {
     $chars = array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9");

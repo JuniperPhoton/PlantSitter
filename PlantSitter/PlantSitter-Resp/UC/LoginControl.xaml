@@ -24,5 +24,12 @@
                 </Border>
             </Button>
         </StackPanel>
+        <Grid Grid.RowSpan="5" Visibility="{Binding ShowLoading,Mode=OneWay}">
+            <Border Background="#AB000000"/>
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressRing IsActive="True" Width="40" Height="40" Margin="10" Foreground="White"/>
+                <TextBlock Text="加载中..." FontSize="30" Foreground="White"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

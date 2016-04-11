@@ -50,10 +50,10 @@ namespace PlantSitterShared.API
             param.Add(new KeyValuePair<string, string>("email", email));
             param.Add(new KeyValuePair<string, string>("password", passwordSaltInMd5));
 
-            return await APIHelper.SendPostRequestAsync(UrlHelper.Register, param, token);
+            return await APIHelper.SendPostRequestAsync(UrlHelper.Login, param, token);
         }
 
-        public static void PhaseAPIResult(this CommonRespMsg result)
+        public static void PraseAPIResult(this CommonRespMsg result)
         {
             var json = JsonObject.Parse(result.JsonSrc);
             var isSuccess = JsonParser.GetBooleanFromJsonObj(json, "isSuccessed");

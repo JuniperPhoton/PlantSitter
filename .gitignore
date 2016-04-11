@@ -11,7 +11,11 @@
 *.userprefs
 
 *.opendb
+*.db
+*.g.i.cs
 
+/PlantSitter/IoTTest/obj/
+/PlantSitter/IoTTest/bin/
 /PlantSitter/PlantSitter/obj/
 /PlantSitter/PlantSitter/bin/
 /PlantSitter/PlantSitter-Resp/obj/
