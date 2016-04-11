@@ -1,0 +1,45 @@
+#API DESIGN
+
+##User
+
+1. CheckIsUserExist
+
+- GET
+
+PARAM
+- uid
+
+RETURN
+- "IsExist":true/false
+
+2. GetUserSalt
+
+- GET
+
+PARAM
+- uid
+
+RETURN
+- "Salt":(string)
+
+3. Register
+
+- POST
+
+PARAM
+- email
+- password(password in md5)
+
+4. Login
+
+- POST
+
+PARAM
+- email
+- password(md5((passwordInRaw)+salt))
+
+RETURN
+- "uid":(string)
+- "access_token":(string)
+
+

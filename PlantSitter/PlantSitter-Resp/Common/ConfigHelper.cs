@@ -13,7 +13,7 @@ namespace PlantSitter_Resp.Common
         {
             get
             {
-                if (LocalSettingHelper.HasValue("AccessToken") && LocalSettingHelper.HasValue("UID"))
+                if (LocalSettingHelper.HasValue("access_token") && LocalSettingHelper.HasValue("uid"))
                 {
                     return true;
                 }

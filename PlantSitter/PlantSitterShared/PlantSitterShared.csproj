@@ -107,6 +107,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API\CloudService.cs" />
+    <Compile Include="API\CTSFactory.cs" />
+    <Compile Include="API\UrlHelper.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\PlantSitterShared.rd.xml" />

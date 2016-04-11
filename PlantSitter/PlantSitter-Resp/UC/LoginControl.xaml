@@ -13,7 +13,7 @@
             <Image Width="150" Source="ms-appx:///Assets/Backgrd/Logo500.png"/>
             <TextBlock Text="您好，请登录" FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,0"/>
             <Border Margin="0 20 0 0 " BorderThickness="1" BorderBrush="White">
-                <TextBox Text="{Binding Email,Mode=TwoWay}" PlaceholderText="请输入登录邮箱" Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" BorderThickness="0" Style="{StaticResource TextBoxWithWhitePlaceHoderStyle}"/>
+                <TextBox Text="{Binding Email,Mode=TwoWay}" IsSpellCheckEnabled="False" PlaceholderText="请输入登录邮箱" Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" BorderThickness="0" Style="{StaticResource TextBoxWithWhitePlaceHoderStyle}"/>
             </Border>
             <Border Margin="0 20 0 0 " BorderThickness="1" BorderBrush="White">
                 <PasswordBox Password="{Binding Password,Mode=TwoWay}" PlaceholderText="请输入密码" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" Style="{StaticResource PasswordBoxWithWhitePlaceHolderStyle}"/>
