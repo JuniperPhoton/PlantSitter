@@ -19,16 +19,16 @@ do {
         $pdo = new PDO($db_source, $apiConfig['DB_USERNAME'], $apiConfig['DB_PASSWORD'], array(
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8", ));
-
+        
         do {
             
             //this action requires uid && accesstoken
-            if ($_GET['uid'] && $_GET['access_token'] && !in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
+            if ($_POST['uid'] && $_POST['access_token'] && !in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
                 
                 //verfiy uid and accesstoken
-                $query = $pdo->prepare("SELECT access_token FROM accesstoken WHERE access_token=:access_token && uid=:uid");
-                $query->bindParam(':access_token', $_GET['access_token'], PDO::PARAM_STR);
-                $query->bindParam(':uid', $_GET['uid'], PDO::PARAM_INT);
+                $query = $pdo->prepare("SELECT access_token FROM access_token WHERE access_token=:access_token && uid=:uid");
+                $query->bindParam(':access_token', $_POST['access_token'], PDO::PARAM_STR);
+                $query->bindParam(':uid', $_POST['uid'], PDO::PARAM_INT);
 
                 if (!$query->execute()) {
                     $ApiResult['isSuccessed'] = false;
@@ -52,7 +52,7 @@ do {
             else {
                 if (!in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
                     $ApiResult['error_code'] = API_ERROR_PARM_LACK;
-                    $ApiResult['error_message'] = 'LACK UID AND ACCESSTOKEN FROM GET REQUEST';
+                    $ApiResult['error_message'] = 'LACK UID AND ACCESSTOKEN';
                     break;
                 } else {
                     require_once("./Interface/$_GET[version]/$_GET[interface].php");
@@ -61,7 +61,7 @@ do {
 
         } while (0);
 
-        if (API_DEBUG) {
+        if (isDebugMode) {
             $ApiResult['executionTime'] = microtime() - $begin_time;
         } else unset($ApiResult['error_message']);
 
