@@ -1,6 +1,6 @@
 <?php 
 
-//包含文件
+//require some file
 require_once("./api_config.php");
 require_once("./error_config.php");
 require_once("./HttpClient.class.php");
@@ -11,19 +11,21 @@ do {
             $begin_time = microtime();
         }
 
-        //用于返回的JSON data
+        //the common APIResult to be returned
         $ApiResult = array('isSuccessed' => FALSE, 'error_code' => "0", "error_message" => "");
 
-        //连接到数据库
+        //connect to database
         $db_source = "mysql:dbname=plantsitter;host=localhost";
         $pdo = new PDO($db_source, $apiConfig['DB_USERNAME'], $apiConfig['DB_PASSWORD'], array(
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8", ));
 
         do {
-            //对于要传入AccessToken和eid的操作
-            if ($_GET['sid'] && $_GET['access_token'] && !in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
-                //验证AccessToken 和 UID
+            
+            //this action requires uid && accesstoken
+            if ($_GET['uid'] && $_GET['access_token'] && !in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
+                
+                //verfiy uid and accesstoken
                 $query = $pdo->prepare("SELECT access_token FROM accesstoken WHERE access_token=:access_token && uid=:uid");
                 $query->bindParam(':access_token', $_GET['access_token'], PDO::PARAM_STR);
                 $query->bindParam(':uid', $_GET['uid'], PDO::PARAM_INT);
@@ -43,10 +45,10 @@ do {
                     break;
                 }
 
-                //验证完，调用接口内容
+                //uid and accesstoken is matched
                 require_once("./Interface/$_GET[version]/$_GET[interface].php");
             }
-            //登录和注册接口
+            //register and login interface
             else {
                 if (!in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
                     $ApiResult['error_code'] = API_ERROR_PARM_LACK;

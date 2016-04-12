@@ -60,6 +60,27 @@ do {
                 break;
             }
             break;
+        case 'UpdateUserName':
+            $email = $_GET['email'];
+            $name=$_POST['username'];
+            
+            $queryFind = $pdo->prepare('UPDATE user SET name=:name WHERE email=:email');
+            $queryFind->bindParam(':email', $email, PDO::PARAM_STR);
+            $queryFind->bindParam(':name', $name, PDO::PARAM_STR);
+            
+            $result = $queryFind->execute();
+            if ($result) {
+                    $ApiResult['isSuccessed'] = true;
+                    $ApiResult['error_code'] = 0;
+                    $ApiResult['error_message'] = '';
+                    break;
+            } else {
+                $ApiResult['isSuccessed'] = false;
+                $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                $ApiResult['error_message'] = 'database error';
+                break;
+            }
+            break;    
         case 'Register':
 
             $email = $_POST['email'];

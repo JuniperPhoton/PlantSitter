@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 
 //common error define
 define('API_ERROR_DATABASE_ERROR', 100);
