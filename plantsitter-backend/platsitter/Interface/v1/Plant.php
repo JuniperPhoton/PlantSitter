@@ -92,10 +92,10 @@ do {
                     $querySearch = $pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
                     $querySearch->bindParam(':pid', $pid, PDO::PARAM_INT);
                 } else if ($name_e) {
-                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_e=:name_e');
+                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_e LIKE %:name_e%');
                     $querySearch->bindParam(':name_e', $name_e, PDO::PARAM_STR);
                 } else if ($name_c) {
-                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_c=:name_c');
+                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_c LIKE %:name_c%');
                     $querySearch->bindParam(':name_c', $name_c, PDO::PARAM_STR);
                 }
 

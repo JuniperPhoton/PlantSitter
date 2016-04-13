@@ -108,7 +108,9 @@
     <Compile Include="UC\LoginControl.xaml.cs">
       <DependentUpon>LoginControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\UserPlanViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
@@ -128,6 +130,7 @@
     <Content Include="Assets\Backgrd\backgrd.png" />
     <Content Include="Assets\Backgrd\Logo.png" />
     <Content Include="Assets\Backgrd\Logo500.png" />
+    <Content Include="Assets\Backgrd\Logo500_tran.png" />
     <Content Include="Assets\Backgrd\qq.png" />
     <Content Include="Assets\Backgrd\weibo.png" />
     <Content Include="Assets\NewStoreLogo.scale-100.png" />

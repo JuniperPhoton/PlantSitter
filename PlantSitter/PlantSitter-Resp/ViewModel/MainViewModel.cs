@@ -18,7 +18,7 @@ using Windows.UI.Xaml;
 
 namespace PlantSitter_Resp.ViewModel
 {
-    public class MainViewModel:ViewModelBase,INavigable
+    public class MainViewModel : ViewModelBase, INavigable
     {
         public bool IsInView { get; set; }
 
@@ -28,90 +28,8 @@ namespace PlantSitter_Resp.ViewModel
         private const string TEST_PWD = "TESTPWD";
 
         #region Login
-        private string _email;
-        public string Email
-        {
-            get
-            {
-                return _email;
-            }
-            set
-            {
-                if (_email != value)
-                {
-                    _email = value;
-                    RaisePropertyChanged(() => Email);
-                }
-            }
-        }
 
-        private string _password;
-        public string Password
-        {
-            get
-            {
-                return _password;
-            }
-            set
-            {
-                if (_password != value)
-                {
-                    _password = value;
-                    RaisePropertyChanged(() => Password);
-                }
-            }
-        }
-
-        private RelayCommand _confrimActionCommand;
-        public RelayCommand ConfirmActionCommand
-        {
-            get
-            {
-                if (_confrimActionCommand != null) return _confrimActionCommand;
-                return _confrimActionCommand = new RelayCommand(async () =>
-                {
-                    if (!ShowLoginControl) return;
-                    if (!IsInputDataValid()) return;
-                    ShowLoading = Visibility.Visible;
-                    await Login();
-                });
-            }
-        }
-
-        private bool _showLoginControl;
-        public bool ShowLoginControl
-        {
-            get
-            {
-                return _showLoginControl;
-            }
-            set
-            {
-                if (_showLoginControl != value)
-                {
-                    _showLoginControl = value;
-                    RaisePropertyChanged(() => ShowLoginControl);
-                }
-            }
-        }
-
-
-        private Visibility _showLoading;
-        public Visibility ShowLoading
-        {
-            get
-            {
-                return _showLoading;
-            }
-            set
-            {
-                if (_showLoading != value)
-                {
-                    _showLoading = value;
-                    RaisePropertyChanged(() => ShowLoading);
-                }
-            }
-        }
+        public LoginViewModel LoginVM { get; set; }
 
         #endregion
 
@@ -132,147 +50,70 @@ namespace PlantSitter_Resp.ViewModel
             }
         }
 
+        private PlantSitterUser _currentUser;
+        public PlantSitterUser CurrentUser
+        {
+            get
+            {
+                return _currentUser;
+            }
+            set
+            {
+                if (_currentUser != value)
+                {
+                    _currentUser = value;
+                    RaisePropertyChanged(() => CurrentUser);
+                }
+            }
+        }
+
+        private Visibility _noItemVisibility;
+        public Visibility NoItemVisibility
+        {
+            get
+            {
+                return _noItemVisibility;
+            }
+            set
+            {
+                if (_noItemVisibility != value)
+                {
+                    _noItemVisibility = value;
+                    RaisePropertyChanged(() => NoItemVisibility);
+                }
+            }
+        }
+
         public MainViewModel()
         {
-            ShowLoginControl = false;
-            if(!ConfigHelper.IsLogin)
-            {
-                ShowLoginControl = true;
-            }
+            NoItemVisibility = Visibility.Collapsed;
+            LoginVM = new LoginViewModel() { MainVM = this };
             CurrentPlants = new ObservableCollection<Plant>();
-            ShowLoading = Visibility.Collapsed;
-        }
-
-        private async Task Login()
-        {
-            try
+            if (ConfigHelper.IsLogin)
             {
-                var saltResult = await CloudService.GetSalt(Email, CTSFactory.MakeCTS(100000).Token);
-                saltResult.PraseAPIResult();
-                if (!saltResult.IsSuccessful)
+                CurrentUser = new PlantSitterUser()
                 {
-                    throw new ArgumentException("User does not exist.");
-                }
-                var saltObj = JsonObject.Parse(saltResult.JsonSrc);
-                var salt = JsonParser.GetStringFromJsonObj(saltObj, "Salt");
-                if(string.IsNullOrEmpty(salt))
-                {
-                    throw new ArgumentException("User does not exist.");
-                }
-                var newPwd = MD5.GetMd5String(Password);
-                var newPwdInSalt = MD5.GetMd5String(newPwd + salt);
-                var loginResult = await CloudService.Login(Email, newPwdInSalt, CTSFactory.MakeCTS(100000).Token);
-                loginResult.PraseAPIResult();
-                if(!loginResult.IsSuccessful)
-                {
-                    throw new ArgumentException();
-                }
-                var loginObj = JsonObject.Parse(loginResult.JsonSrc);
-                var userObj = loginObj["UserInfo"];
-                var uid = JsonParser.GetStringFromJsonObj(userObj, "uid");
-                var accessToken = JsonParser.GetStringFromJsonObj(userObj, "access_token");
-                if(uid.IsNotNullOrEmpty() && accessToken.IsNotNullOrEmpty())
-                {
-                    LocalSettingHelper.AddValue("uid", uid);
-                    LocalSettingHelper.AddValue("access_token", accessToken);
-                    ShowLoginControl = false;
-                }
+                    Email = LocalSettingHelper.GetValue("email"),
+                };
             }
-            catch (TaskCanceledException)
-            {
-                ToastService.SendToast("Connection time out");
-            }
-            catch(ArgumentException e)
-            {
-                ToastService.SendToast(e.Message.IsNotNullOrEmpty()?e.Message:"Fail to login");
-            }
-            catch(Exception e)
-            {
-                ToastService.SendToast("Fail to login");
-                var task = ExceptionHelper.WriteRecordAsync(e, nameof(MainViewModel), nameof(Login));
-            }
-            finally
-            {
-                ShowLoading = Visibility.Collapsed;
-            }
-        }
-
-        private async Task Register()
-        {
-            try
-            {
-                var isUserExist = await CloudService.CheckUserExist(Email, CTSFactory.MakeCTS(10000).Token);
-                isUserExist.PraseAPIResult();
-                if (!isUserExist.IsSuccessful)
-                {
-                    throw new ArgumentException();
-                }
-                var json = JsonObject.Parse(isUserExist.JsonSrc);
-                var isExist = JsonParser.GetBooleanFromJsonObj(json, "isExist", false);
-                if (isExist)
-                {
-                    throw new ArgumentException("The email has been used.");
-                }
-
-                var registerResult = await CloudService.Register(Email, MD5.GetMd5String(Password), CTSFactory.MakeCTS(100000).Token);
-                registerResult.PraseAPIResult();
-                if(!registerResult.IsSuccessful)
-                {
-                    throw new ArgumentException();
-                }
-                await Login();
-            }
-            catch(ArgumentException e)
-            {
-                ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to register");
-            }
-            catch (TaskCanceledException e)
-            {
-
-            }
-            catch(Exception e)
-            {
-
-            }
-            finally
-            {
-                ShowLoading = Visibility.Collapsed;
-            }
-        }
-
-        private bool IsInputDataValid()
-        {
-            if (string.IsNullOrEmpty(Email))
-            {
-                ToastService.SendToast("请输入邮箱");
-                return false;
-            }
-            if(!Functions.IsValidEmail(Email))
-            {
-                ToastService.SendToast("邮箱格式不对");
-                return false;
-            }
-            if (string.IsNullOrEmpty(Password))
-            {
-                ToastService.SendToast("请输入密码");
-                return false;
-            }
-            return true;
         }
 
         public void Activate(object param)
         {
-            
+
         }
 
         public void Deactivate(object param)
         {
-            
+
         }
 
         public void OnLoaded()
         {
-            
+            if (ConfigHelper.IsLogin)
+            {
+                ToastService.SendToast("欢迎回来:-)", TimeSpan.FromMilliseconds(2000));
+            }
         }
     }
 }

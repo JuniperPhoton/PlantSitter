@@ -44,7 +44,7 @@ namespace PlantSitter_Resp.View
             var b = new Binding()
             {
                 Source = MainVM,
-                Path = new PropertyPath("ShowLoginControl"),
+                Path = new PropertyPath("LoginVM.ShowLoginControl"),
                 Mode = BindingMode.TwoWay
             };
             BindingOperations.SetBinding(this, ShowLoginControlProperty, b);

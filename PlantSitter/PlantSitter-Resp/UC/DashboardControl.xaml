@@ -6,10 +6,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignHeight="720"
+    d:DesignWidth="1280">
 
-    <Grid>
-        
+    <Grid Background="{StaticResource PlantSitterDashboardColor}">
+        <Grid x:Name="NoItemHintGrid" Visibility="{Binding NoItemVisibility,Mode=OneWay}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Opacity="0.5" Width="200" Source="ms-appx:///Assets/Backgrd/Logo500_tran.png"/>
+                <TextBlock FontSize="25" HorizontalAlignment="Center" TextAlignment="Center" >
+                    <Run Text="你好，目前没有植物~"/>
+                    <LineBreak/>
+                     <LineBreak/>
+                    <Run Text="请到 PlantSitter 的 PC/Mobile 端添加吧"/>
+                </TextBlock>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

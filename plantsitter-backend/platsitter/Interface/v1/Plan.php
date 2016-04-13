@@ -5,7 +5,7 @@ do {
     switch ($action) {
         case 'GetAllPlans':
             {
-                $uid = $_POST['uid'];
+                $uid = $_GET['uid'];
                 $queryFind = $pdo->prepare('SELECT * FROM user_plan WHERE uid=:uid');
                 $queryFind->bindParam(':uid', $uid, PDO::PARAM_STR);
                 $result = $queryFind->execute();
@@ -25,9 +25,9 @@ do {
                 }
             }
             break;
-        case 'GetAPlan':
+        case 'GetPlan':
             {
-                $gid = $_POST['gid'];
+                $gid = $_GET['gid'];
                 $queryFind = $pdo->prepare('SELECT * FROM user_plan WHERE gid=:gid');
                 $queryFind->bindParam(':gid', $gid, PDO::PARAM_INT);
                 $result = $queryFind->execute();
