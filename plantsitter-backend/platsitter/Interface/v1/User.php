@@ -61,7 +61,7 @@ do {
             }
             break;
         case 'UpdateUserName':
-            $email = $_GET['email'];
+            $email = $_POST['email'];
             $name=$_POST['username'];
             
             $queryFind = $pdo->prepare('UPDATE user SET name=:name WHERE email=:email');

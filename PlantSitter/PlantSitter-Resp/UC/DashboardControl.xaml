@@ -13,7 +13,7 @@
         <Grid x:Name="NoItemHintGrid" Visibility="{Binding NoItemVisibility,Mode=OneWay}">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Opacity="0.5" Width="200" Source="ms-appx:///Assets/Backgrd/Logo500_tran.png"/>
-                <TextBlock FontSize="25" HorizontalAlignment="Center" TextAlignment="Center" >
+                <TextBlock FontSize="25" HorizontalAlignment="Center" TextAlignment="Center" Foreground="White" >
                     <Run Text="你好，目前没有植物~"/>
                     <LineBreak/>
                      <LineBreak/>

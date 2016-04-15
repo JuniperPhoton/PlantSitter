@@ -49,7 +49,7 @@ do {
             break;
             case 'DeleteAPlan':
             {
-                $gid = $_POST['gid'];
+                $gid = $_GET['gid'];
                 $queryFind = $pdo->prepare('DELETE FROM user_plan WHERE gid=:gid');
                 $queryFind->bindParam(':gid', $gid, PDO::PARAM_INT);
                 $result = $queryFind->execute();

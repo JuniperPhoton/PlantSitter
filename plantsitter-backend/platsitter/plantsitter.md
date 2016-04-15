@@ -1,7 +1,6 @@
 #API design
 
 ##User
------
 
 ###CheckUserExist (GET)
 
@@ -45,7 +44,6 @@ PARAM
 - password(md5(md5(pwdInRaw)+salt))
 
 ##Plant
------
 
 ###GetPlanInfo (GET)
 
@@ -90,7 +88,7 @@ RETURN
 - Plant
 
 ##Plan
-------
+
 ###GetAllPlns (GET)
 
 PARAM

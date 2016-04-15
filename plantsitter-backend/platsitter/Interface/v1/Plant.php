@@ -5,7 +5,7 @@ do {
     switch ($action) {
         case 'GetPlantInfo':
             {
-                $pid = $_POST['pid'];
+                $pid = $_GET['pid'];
 
                 $queryFind = $pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
                 $queryFind->bindParam(':pid', $pid, PDO::PARAM_INT);
@@ -83,9 +83,9 @@ do {
                 //Search by pid or name_c or name_e, those params are in post date
                 //the priority is pid->name_e->name_c
                 //which means that if post data contains pid, name_c or name_e will be ignored.
-                $pid = $_POST['pid'];
-                $name_c = $_POST['name_c'];
-                $name_e = $_POST['name_e'];
+                $pid = $_GET['pid'];
+                $name_c = $_GET['name_c'];
+                $name_e = $_GET['name_e'];
 
                 $querySearch;
                 if ($pid) {

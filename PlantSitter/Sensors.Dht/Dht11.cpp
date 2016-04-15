@@ -30,6 +30,7 @@ using namespace Sensors::Dht;
 
 _Use_decl_annotations_
 
+//Initial GPIO and input mode
 Dht11::Dht11(Windows::Devices::Gpio::GpioPin^ pin, Windows::Devices::Gpio::GpioPinDriveMode inputReadMode)
 {
 	// ***
@@ -129,6 +130,7 @@ DhtReadingResult Dht11::InternalGetReading()
 	// ***
 	// *** catch the first rising edge
 	// ***
+    // GetTickCount64()：Retrieves the number of milliseconds that have elapsed since the system was started.
 	const ULONG initialRisingEdgeTimeoutMillis = 1;
 	ULONGLONG endTickCount = GetTickCount64() + initialRisingEdgeTimeoutMillis;
 	for (;;)
