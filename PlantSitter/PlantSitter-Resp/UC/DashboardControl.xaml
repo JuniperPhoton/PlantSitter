@@ -6,19 +6,147 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:model="using:PlantSitterShardModel.Model"
     d:DesignHeight="720"
     d:DesignWidth="1280">
-
+    <UserControl.Resources>
+        <Style x:Key="GridViewItemStyle1" TargetType="GridViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,4,4"/>
+            <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewItem">
+                        <ListViewItemPresenter 
+                            CheckBrush="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" 
+                            ContentMargin="{TemplateBinding Padding}" 
+                            CheckMode="Overlay" 
+                            ContentTransitions="{TemplateBinding ContentTransitions}" 
+                            CheckBoxBrush="{ThemeResource SystemControlBackgroundChromeMediumBrush}" 
+                            DragForeground="{ThemeResource ListViewItemDragForegroundThemeBrush}" 
+                            DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" 
+                            DragBackground="{ThemeResource ListViewItemDragBackgroundThemeBrush}" 
+                            DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" 
+                            FocusBorderBrush="{ThemeResource SystemControlForegroundAltHighBrush}" 
+                            FocusSecondaryBorderBrush="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                            PointerOverForeground="{ThemeResource SystemControlForegroundBaseHighBrush}" 
+                            PressedBackground="{StaticResource PlantSitterThemeColor}" 
+                            PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" 
+                            PointerOverBackground="{ThemeResource SystemControlHighlightListLowBrush}" 
+                            ReorderHintOffset="{ThemeResource GridViewItemReorderHintThemeOffset}" 
+                            SelectionCheckMarkVisualEnabled="True" 
+                            SelectedPointerOverBackground="{StaticResource PlantSitterThemeColor}" 
+                            SelectedBackground="{StaticResource PlantSitterThemeColor}" 
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" 
+                            SelectedPressedBackground="{StaticResource PlantSitterThemeColor}" 
+                            SelectedPointerOverBorderBrush="{StaticResource PlantSitterThemeColor}">
+                            <ListViewItemPresenter.SelectedForeground>
+                                <SolidColorBrush Color="White"/>
+                            </ListViewItemPresenter.SelectedForeground>
+                        </ListViewItemPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
     <Grid Background="{StaticResource PlantSitterDashboardColor}">
-        <Grid x:Name="NoItemHintGrid" Visibility="{Binding NoItemVisibility,Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="250"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <GridView Margin="10" SelectionMode="Single" HorizontalAlignment="Center" ItemsSource="{Binding CurrentUserPlans,Mode=OneWay}" ItemContainerStyle="{StaticResource GridViewItemStyle1}">
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="model:UserPlan">
+                    <StackPanel Margin="5" Width="180" Height="200" Background="{x:Null}">
+                        <Ellipse Width="130" Height="130" Fill="{StaticResource PlantSitterThemeColor}"/>
+                        <TextBlock FontSize="20" Text="{x:Bind CurrentPlant.NameInChinese,Mode=OneWay}" Foreground="White" Margin="5" HorizontalAlignment="Center"/>
+                        <TextBlock FontSize="15" Opacity="0.6" Text="{x:Bind CreateTime,Mode=OneWay}" Margin="5" Foreground="White" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+        <Grid Grid.Row="1" Background="{StaticResource PlantSitterDashboardColor}">
+            <Border Height="2" Background="White" Margin="10,0" VerticalAlignment="Top"/>
+            <Grid Margin="50" MaxWidth="700">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <TextBlock Text="{Binding CurrentDate,Mode=OneWay,FallbackValue=今天}" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"/>
+                    <Grid Width="300" HorizontalAlignment="Right">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="数据上传频率" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        <ComboBox Margin="5 0 0 0" SelectedIndex="0" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" >
+                            <ComboBox.Items>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="30 分钟一次"/>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="1 小时一次"/>
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </Grid>
+                </Grid>
+                <Border Grid.Row="1" BorderThickness="1" BorderBrush="White">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="室内温度" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+                        <TextBlock Text="空气湿度" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2"/>
+                        <TextBlock Text="土壤湿度" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3"/>
+                        <TextBlock Text="环境光照" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4"/>
+                        <TextBlock Text="实时" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <TextBlock Text="30分钟前" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="2"/>
+                        <TextBlock Text="1小时前" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
+                        <TextBlock Text="1.5小时前" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="4"/>
+                        <TextBlock Text="2小时前" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="5"/>
+                        
+                        <TextBlock Text="室内温度" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="空气湿度" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock Text="土壤湿度" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock Text="环境光照" Foreground="White" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
+
+                    </Grid>
+                </Border>
+               
+            </Grid>
+        </Grid>
+        <Grid x:Name="NoItemHintGrid" d:IsHidden="True"  Grid.RowSpan="2" Visibility="{Binding NoItemVisibility,Mode=OneWay}" Margin="0,0,0,100">
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Image Opacity="0.5" Width="200" Source="ms-appx:///Assets/Backgrd/Logo500_tran.png"/>
-                <TextBlock FontSize="25" HorizontalAlignment="Center" TextAlignment="Center" Foreground="White" >
-                    <Run Text="你好，目前没有植物~"/>
-                    <LineBreak/>
-                     <LineBreak/>
-                    <Run Text="请到 PlantSitter 的 PC/Mobile 端添加吧"/>
-                </TextBlock>
+                <TextBlock Text="你好，目前没有植物~" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center" Foreground="White" />
+                <TextBlock Text="请到 PlantSitter 的 PC/Mobile 端添加吧" Margin="0 5 0 0" FontSize="25" Foreground="White" />
+                <Button Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Border Width="200" Height="50" Background="{StaticResource PlantSitterDashboardLightColor}">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <SymbolIcon Symbol="Refresh" Foreground="White"/>
+                            <TextBlock Text="刷新一下" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>

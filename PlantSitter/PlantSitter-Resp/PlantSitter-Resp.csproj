@@ -240,6 +240,14 @@
       <Project>{03507278-ec38-485a-bea3-366035ce93c3}</Project>
       <Name>PlantSitterShared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensor.Light\Sensor.Light.csproj">
+      <Project>{b3ce01f2-98a9-470c-9e11-3e2a531c5f41}</Project>
+      <Name>Sensor.Light</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sensor.Soil\Sensor.Soil.csproj">
+      <Project>{77778fa3-e0bf-4a8f-8c6e-e12442c49011}</Project>
+      <Name>Sensor.Soil</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Sensors.Dht\Sensors.Dht.vcxproj">
       <Project>{2cd70a4f-9eed-4cda-9e07-1a2bd33b4976}</Project>
       <Name>Sensors.Dht</Name>

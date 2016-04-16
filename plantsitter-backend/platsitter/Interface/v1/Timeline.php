@@ -116,7 +116,7 @@ do {
                 } else if ($filter_kind == 'betweenDates') {
 
                     $dateRange = $filter_value;
-                    $dates = explode('~',$dateRange);
+                    $dates = explode('~', $dateRange);
                     $startDate = $dates[0];
                     $endingDate = $dates[1];
 

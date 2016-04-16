@@ -47,7 +47,7 @@ do {
                 }
             }
             break;
-        case 'DeleteAPlan':
+        case 'DeletePlan':
             {
                 $gid = $_GET['gid'];
                 $queryFind = $pdo->prepare('DELETE FROM user_plan WHERE gid=:gid');
@@ -74,10 +74,12 @@ do {
                 $pid = $_POST['pid'];
                 $uid = $_POST['uid'];
                 $name = $_POST['name'];
-
-                $queryAdd = $pdo->prepare('INSERT INTO user_plan(uid,pid,name) VALUES(uid=:uid,pid=:pid,name=:name)');
+                $time=$_POST['time'];
+                
+                $queryAdd = $pdo->prepare('INSERT INTO user_plan(uid,pid,name,time) VALUES(uid=:uid,pid=:pid,name=:name,time=:time)');
                 $queryAdd->bindParam(':uid', $uid, PDO::PARAM_INT);
                 $queryAdd->bindParam(':name', $name, PDO::PARAM_STR);
+                $queryAdd->bindParam(':time', $time, PDO::PARAM_STR);
 
                 $result = $queryAdd->execute();
                 if ($result) {
@@ -85,7 +87,7 @@ do {
                     $ApiResult['isSuccessed'] = true;
                     $ApiResult['error_code'] = 0;
                     $ApiResult['error_message'] = '';
-                    $ApiResult['Plan'] = array('gid' => $newid, 'name' => $name, 'pid' => $pid, 'uid' => $uid);
+                    $ApiResult['Plan'] = array('gid' => $newid, 'name' => $name, 'pid' => $pid, 'uid' => $uid,'time'=>$time);
                     break;
                 } else {
                     $ApiResult['isSuccessed'] = false;

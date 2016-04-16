@@ -36,6 +36,6 @@
             </Button>
         </Grid>
         <uc:DashboardControl x:Name="DashboardControl" Grid.Row="1"/>
-        <uc:LoginControl x:Name="LoginControl" DataContext="{x:Bind MainVM.LoginVM,Mode=OneWay}" Grid.Row="1"/>
+        <uc:LoginControl x:Name="LoginControl" Visibility="Collapsed" DataContext="{x:Bind MainVM.LoginVM,Mode=OneWay}" Grid.Row="1"/>
     </Grid>
 </common:BasePage>

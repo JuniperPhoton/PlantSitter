@@ -12,6 +12,20 @@
                 <ResourceDictionary Source="/ResourceDictionary/StyleDictionary.xaml"/>
                 <ResourceDictionary Source="/ResourceDictionary/TemplateDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource PlantSitterColor}" />
+                    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{StaticResource PlantSitterColor}"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource PlantSitterColor}" />
+                    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{StaticResource PlantSitterColor}"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="SystemControlHighlightAccentBrush" Color="{StaticResource PlantSitterColor}" />
+                    <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{StaticResource PlantSitterColor}"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
             <vm:ViewModelLocator x:Key="Locator" />
         </ResourceDictionary>
     </Application.Resources>

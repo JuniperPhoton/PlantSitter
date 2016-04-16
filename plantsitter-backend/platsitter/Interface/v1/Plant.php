@@ -45,12 +45,12 @@ do {
                 }
                 $searchResult = $querySearch->execute();
                 if ($searchResult) {
-                    if($querySearch->fetch()){
+                    if ($querySearch->fetch()) {
                         $ApiResult['isSuccessed'] = false;
                         $ApiResult['error_code'] = 0;
                         $ApiResult['error_message'] = 'The plant with this name has existed.';
                         break;
-                    }   
+                    }
                 }
 
                 $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,name_e,soil_moisture,envi_moisture,envi_temp,light) VALUES(:name_c,:name_e,:soil_moisture,:envi_moisture,:envi_temp,:light)');
@@ -98,6 +98,12 @@ do {
                     $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_c LIKE %:name_c%');
                     $querySearch->bindParam(':name_c', $name_c, PDO::PARAM_STR);
                 }
+                if ($pid == '' && $name_c == '' && $name_e == '') {
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = 0;
+                    $ApiResult['error_message'] = 'No id or name defined';
+                    break;
+                }
 
                 $result = $querySearch->execute();
                 if ($result) {
@@ -111,6 +117,7 @@ do {
                         $ApiResult['isSuccessed'] = false;
                         $ApiResult['error_code'] = 0;
                         $ApiResult['error_message'] = 'No plant found';
+                        break;
                     }
 
                     break;

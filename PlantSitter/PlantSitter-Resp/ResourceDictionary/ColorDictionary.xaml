@@ -12,4 +12,5 @@
     <SolidColorBrush x:Key="PlantSitterDarkDarkColor" Color="#FF232323"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkLightColor" Color="#FF5E5E5E"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterLightGreyColor" Color="#FFB3B3B3"></SolidColorBrush>
+    <Color x:Key="PlantSitterColor" >#FF34c978</Color>
 </ResourceDictionary>

@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -77,9 +78,43 @@ namespace PlantSitterShardModel.Model
             }
         }
 
+        private ObservableCollection<PlantTimeline> _recordData;
+        public ObservableCollection<PlantTimeline> RecordData
+        {
+            get
+            {
+                return _recordData;
+            }
+            set
+            {
+                if (_recordData != value)
+                {
+                    _recordData = value;
+                    RaisePropertyChanged(() => RecordData);
+                }
+            }
+        }
+
+        private DateTime _createTime;
+        public DateTime CreateTime
+        {
+            get
+            {
+                return _createTime;
+            }
+            set
+            {
+                if (_createTime != value)
+                {
+                    _createTime = value;
+                    RaisePropertyChanged(() => CreateTime);
+                }
+            }
+        }
+
         public UserPlan()
         {
-
+            RecordData = new ObservableCollection<PlantTimeline>();
         }
     }
 }

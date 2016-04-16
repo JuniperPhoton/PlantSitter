@@ -10,22 +10,30 @@ using PlantSitter_Resp.Common;
 using PlantSitterCusomControl;
 using PlantSitterShardModel.Model;
 using PlantSitterShared.API;
+using Sensor.Soil;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.Devices.Sensors;
 using Windows.UI.Xaml;
+using Sensor.Light;
+using System.Diagnostics;
+using System.Linq;
 
 namespace PlantSitter_Resp.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
+        private const int SOIL_SENSOR_GPIO_PIN = 17;
+        private const int TEMP_MOISTURE_SENSOR_GPIO_PIN = 18;
+
+        private DispatcherTimer _dateTimer;
+        private DispatcherTimer _uploadTimer;
+
         public bool IsInView { get; set; }
 
         public bool IsFirstActived { get; set; } = true;
-
-        private const string TEST_EMAIL = "TEST@TEST.com";
-        private const string TEST_PWD = "TESTPWD";
 
         #region Login
 
@@ -67,6 +75,61 @@ namespace PlantSitter_Resp.ViewModel
             }
         }
 
+        private ObservableCollection<UserPlan> _currentUserPlans;
+        public ObservableCollection<UserPlan> CurrentUserPlans
+        {
+            get
+            {
+                return _currentUserPlans;
+            }
+            set
+            {
+                if (_currentUserPlans != value)
+                {
+                    _currentUserPlans = value;
+                    RaisePropertyChanged(() => CurrentUserPlans);
+                }
+            }
+        }
+
+        private int _selectedIndex;
+        public int SelectedIndex
+        {
+            get
+            {
+                return _selectedIndex;
+            }
+            set
+            {
+                if (_selectedIndex != value)
+                {
+                    _selectedIndex = value;
+                    RaisePropertyChanged(() => SelectedIndex);
+                    if (value > 0 && CurrentUserPlans.Count > value)
+                    {
+                        SelectedPlan = CurrentUserPlans.ElementAt(value);
+                    }
+                }
+            }
+        }
+
+        private UserPlan _selectedPlan;
+        public UserPlan SelectedPlan
+        {
+            get
+            {
+                return _selectedPlan;
+            }
+            set
+            {
+                if (_selectedPlan != value)
+                {
+                    _selectedPlan = value;
+                    RaisePropertyChanged(() => SelectedPlan);
+                }
+            }
+        }
+
         private Visibility _noItemVisibility;
         public Visibility NoItemVisibility
         {
@@ -84,9 +147,35 @@ namespace PlantSitter_Resp.ViewModel
             }
         }
 
+        private string _currentDate;
+        public string CurrentDate
+        {
+            get
+            {
+                return _currentDate;
+            }
+            set
+            {
+                if (_currentDate != value)
+                {
+                    _currentDate = value;
+                    RaisePropertyChanged(() => CurrentDate);
+                }
+            }
+        }
+
         public MainViewModel()
         {
+            SelectedIndex = -1;
             NoItemVisibility = Visibility.Collapsed;
+            _dateTimer = new DispatcherTimer();
+            _dateTimer.Interval = TimeSpan.FromMilliseconds(1000);
+            _dateTimer.Tick += (sender, e) =>
+              {
+                  CurrentDate = "今天：" + DateTime.Now.ToString();
+              };
+            _dateTimer.Start();
+
             LoginVM = new LoginViewModel() { MainVM = this };
             CurrentPlants = new ObservableCollection<Plant>();
             if (ConfigHelper.IsLogin)
@@ -95,7 +184,54 @@ namespace PlantSitter_Resp.ViewModel
                 {
                     Email = LocalSettingHelper.GetValue("email"),
                 };
+                var task1 = GetUserPlan();
+                var task2 = RefreshAllSensor();
             }
+        }
+
+        public async Task RefreshAllSensor()
+        {
+            var task1 = InitialLightSensor();
+            var task2 = InitialDhtSensor();
+            var task3 = InitialSoilSensor();
+
+            await task1;
+            await task2;
+            await task3;
+        }
+
+        public async Task InitialLightSensor()
+        {
+            var sensor = new GY30LightSensor();
+            await sensor.InitLightSensorAsync();
+            sensor.Reading += (sender, e) =>
+            {
+                Debug.WriteLine($"Light={e.Lux}");
+            };
+        }
+
+        public async Task InitialDhtSensor()
+        {
+
+        }
+
+        public async Task InitialSoilSensor()
+        {
+            SoilSensor soilSensor = new SoilSensor();
+            await soilSensor.InitGpioPin(SOIL_SENSOR_GPIO_PIN);
+        }
+
+        public async Task GetUserPlan()
+        {
+            CurrentUserPlans = new ObservableCollection<UserPlan>();
+            
+            SelectedIndex = 0;
+
+            if (CurrentUserPlans.Count == 0)
+            {
+                NoItemVisibility = Visibility.Visible;
+            }
+            else NoItemVisibility = Visibility.Collapsed;
         }
 
         public void Activate(object param)

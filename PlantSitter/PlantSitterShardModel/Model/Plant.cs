@@ -90,7 +90,7 @@ namespace PlantSitterShardModel.Model
                 if (_enviTempRange != value)
                 {
                     _enviTempRange = value;
-                    RaisePropertyChanged(() => EnviTemp);
+                    RaisePropertyChanged(() => EnviTempRange);
                 }
             }
         }
@@ -125,57 +125,6 @@ namespace PlantSitterShardModel.Model
                 {
                     _lightRange = value;
                     RaisePropertyChanged(() => LightRange);
-                }
-            }
-        }
-
-        private float _soliMoisture;
-        public float SoliMoisture
-        {
-            get
-            {
-                return _soliMoisture;
-            }
-            set
-            {
-                if (_soliMoisture != value)
-                {
-                    _soliMoisture = value;
-                    RaisePropertyChanged(() => SoliMoisture);
-                }
-            }
-        }
-
-        private float _enviMoisture;
-        public float EnviMoisture
-        {
-            get
-            {
-                return _enviMoisture;
-            }
-            set
-            {
-                if (_enviMoisture != value)
-                {
-                    _enviMoisture = value;
-                    RaisePropertyChanged(() => EnviMoisture);
-                }
-            }
-        }
-
-        private float _enviTemp;
-        public float EnviTemp
-        {
-            get
-            {
-                return _enviTemp;
-            }
-            set
-            {
-                if (_enviTemp != value)
-                {
-                    _enviTemp = value;
-                    RaisePropertyChanged(() => EnviTemp);
                 }
             }
         }

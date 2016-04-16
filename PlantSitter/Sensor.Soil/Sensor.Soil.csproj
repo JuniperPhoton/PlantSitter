@@ -4,15 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{03507278-EC38-485A-BEA3-366035CE93C3}</ProjectGuid>
+    <ProjectGuid>{77778FA3-E0BF-4A8F-8C6E-E12442C49011}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PlantSitterShared</RootNamespace>
-    <AssemblyName>PlantSitterShared</AssemblyName>
+    <RootNamespace>Sensor.Soil</RootNamespace>
+    <AssemblyName>Sensor.Soil</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -107,21 +107,15 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="API\APIException.cs" />
-    <Compile Include="API\CloudService.cs" />
-    <Compile Include="API\CTSFactory.cs" />
-    <Compile Include="API\UrlHelper.cs" />
-    <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\PlantSitterShared.rd.xml" />
+    <Compile Include="SoilSensor.cs" />
+    <EmbeddedResource Include="Properties\Sensor.Soil.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\JP.Utils.UWP\JP.Utils.UWP\JP.Utils.UWP.csproj">
-      <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
-      <Name>JP.Utils.UWP</Name>
-    </ProjectReference>
+    <SDKReference Include="WindowsIoT, Version=10.0.10586.0">
+      <Name>Windows IoT Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

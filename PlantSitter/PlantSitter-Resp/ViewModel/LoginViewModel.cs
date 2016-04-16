@@ -16,7 +16,7 @@ using Windows.UI.Xaml;
 
 namespace PlantSitter_Resp.ViewModel
 {
-    public class LoginViewModel:ViewModelBase
+    public class LoginViewModel : ViewModelBase
     {
         public MainViewModel MainVM { get; set; }
 
@@ -134,24 +134,24 @@ namespace PlantSitter_Resp.ViewModel
             try
             {
                 var saltResult = await CloudService.GetSalt(Email, CTSFactory.MakeCTS(100000).Token);
-                saltResult.PraseAPIResult();
+                saltResult.ParseAPIResult();
                 if (!saltResult.IsSuccessful)
                 {
-                    throw new ArgumentException("User does not exist.");
+                    throw new APIException(saltResult.ErrorMsg);
                 }
                 var saltObj = JsonObject.Parse(saltResult.JsonSrc);
                 var salt = JsonParser.GetStringFromJsonObj(saltObj, "Salt");
                 if (string.IsNullOrEmpty(salt))
                 {
-                    throw new ArgumentException("User does not exist.");
+                    throw new APIException();
                 }
                 var newPwd = MD5.GetMd5String(Password);
                 var newPwdInSalt = MD5.GetMd5String(newPwd + salt);
                 var loginResult = await CloudService.Login(Email, newPwdInSalt, CTSFactory.MakeCTS(100000).Token);
-                loginResult.PraseAPIResult();
+                loginResult.ParseAPIResult();
                 if (!loginResult.IsSuccessful)
                 {
-                    throw new ArgumentException();
+                    throw new APIException(loginResult.ErrorMsg);
                 }
                 var loginObj = JsonObject.Parse(loginResult.JsonSrc);
                 var userObj = loginObj["UserInfo"];
@@ -164,15 +164,17 @@ namespace PlantSitter_Resp.ViewModel
                     LocalSettingHelper.AddValue("email", Email);
                     ShowLoginControl = false;
                     MainVM.CurrentUser = new PlantSitterUser() { Email = Email };
+                    await MainVM.GetUserPlan();
+                    await MainVM.RefreshAllSensor();
                 }
             }
             catch (TaskCanceledException)
             {
                 ToastService.SendToast("Connection time out");
             }
-            catch (ArgumentException e)
+            catch (APIException e)
             {
-                ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to login");
+                ToastService.SendToast(e.ErrorMessage.IsNotNullOrEmpty() ? e.ErrorMessage : "Fail to login");
             }
             catch (Exception e)
             {
@@ -190,10 +192,10 @@ namespace PlantSitter_Resp.ViewModel
             try
             {
                 var isUserExist = await CloudService.CheckUserExist(Email, CTSFactory.MakeCTS(10000).Token);
-                isUserExist.PraseAPIResult();
+                isUserExist.ParseAPIResult();
                 if (!isUserExist.IsSuccessful)
                 {
-                    throw new ArgumentException();
+                    throw new APIException(isUserExist.ErrorMsg);
                 }
                 var json = JsonObject.Parse(isUserExist.JsonSrc);
                 var isExist = JsonParser.GetBooleanFromJsonObj(json, "isExist", false);
@@ -203,16 +205,16 @@ namespace PlantSitter_Resp.ViewModel
                 }
 
                 var registerResult = await CloudService.Register(Email, MD5.GetMd5String(Password), CTSFactory.MakeCTS(100000).Token);
-                registerResult.PraseAPIResult();
+                registerResult.ParseAPIResult();
                 if (!registerResult.IsSuccessful)
                 {
-                    throw new ArgumentException();
+                    throw new APIException(registerResult.ErrorMsg);
                 }
                 await Login();
             }
-            catch (ArgumentException e)
+            catch (APIException e)
             {
-                ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to register");
+                ToastService.SendToast(e.ErrorMessage.IsNotNullOrEmpty() ? e.Message : "Fail to register");
             }
             catch (TaskCanceledException e)
             {
