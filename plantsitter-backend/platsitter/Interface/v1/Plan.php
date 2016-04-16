@@ -47,11 +47,12 @@ do {
                 }
             }
             break;
-            case 'DeleteAPlan':
+        case 'DeleteAPlan':
             {
                 $gid = $_GET['gid'];
                 $queryFind = $pdo->prepare('DELETE FROM user_plan WHERE gid=:gid');
                 $queryFind->bindParam(':gid', $gid, PDO::PARAM_INT);
+                
                 $result = $queryFind->execute();
                 if ($result) {
                     $plan = $queryFind->fetch();
@@ -75,6 +76,9 @@ do {
                 $name = $_POST['name'];
 
                 $queryAdd = $pdo->prepare('INSERT INTO user_plan(uid,pid,name) VALUES(uid=:uid,pid=:pid,name=:name)');
+                $queryAdd->bindParam(':uid', $uid, PDO::PARAM_INT);
+                $queryAdd->bindParam(':name', $name, PDO::PARAM_STR);
+
                 $result = $queryAdd->execute();
                 if ($result) {
                     $newid = $pdo->lastInsertId();

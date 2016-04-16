@@ -18,10 +18,12 @@ $QQ_MAP_KEY = 'VD6BZ-K7ZHQ-QHF5P-G7D5G-JSMI5-Q7FLN';
 
 $ApiVersions = array('v1');
 
-$ApiInterfaces = array('User', 'Plant', 'Plan');
+$ApiInterfaces = array('User', 'Plant', 'Plan','Timeline');
 
 //no access_Token and uid need
 $ApiUnauthorizedActions = array('User/Register/v1', 'User/Login/v1', 'User/GetSalt/v1', 'User/CheckUserExist/v1');
+
+$filterKinds = array('byNumber', 'byMonths', 'byYears', 'byDays', 'fromTime');
 
 function GetRandStr($len) {
     $chars = array("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9");
