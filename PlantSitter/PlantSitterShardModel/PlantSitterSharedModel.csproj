@@ -107,10 +107,6 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Plant.cs" />
-    <Compile Include="Model\PlantSitterUser.cs" />
-    <Compile Include="Model\PlantTimeline.cs" />
-    <Compile Include="Model\UserPlan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\PlantSitterShardModel.rd.xml" />
   </ItemGroup>
@@ -119,6 +115,9 @@
       <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
       <Name>JP.Utils.UWP</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

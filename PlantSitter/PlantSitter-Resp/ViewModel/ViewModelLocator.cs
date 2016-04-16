@@ -1,9 +1,8 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
-using PlantSitter_Resp.ViewModel;
 
-namespace PlantSitter_Resp.ViewModel
+namespace PlantSitterResp.ViewModel
 {
     /// <summary>
     /// This class contains static references to all the view models in the

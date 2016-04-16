@@ -1,10 +1,10 @@
 ﻿<Application
-    x:Class="PlantSitter_Resp.App"
+    x:Class="PlantSitterResp.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:PlantSitter_Resp"
-    xmlns:vm="using:PlantSitter_Resp.ViewModel"
-    xmlns:common="using:PlantSitter_Resp.Common"
+    xmlns:local="using:PlantSitterResp"
+    xmlns:vm="using:PlantSitterResp.ViewModel"
+    xmlns:common="using:PlantSitterResp.Common"
     RequestedTheme="Light">
     <Application.Resources>
         <ResourceDictionary>

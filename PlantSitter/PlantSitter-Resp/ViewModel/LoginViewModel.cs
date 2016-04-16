@@ -5,16 +5,16 @@ using JP.Utils.Data.Json;
 using JP.Utils.Debug;
 using JP.Utils.Functions;
 using JP.Utils.Network;
-using PlantSitter_Resp.Common;
 using PlantSitterCusomControl;
-using PlantSitterShardModel.Model;
+using PlantSitterResp.Common;
+using PlantSitterShard.Model;
 using PlantSitterShared.API;
 using System;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
 
-namespace PlantSitter_Resp.ViewModel
+namespace PlantSitterResp.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {

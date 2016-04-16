@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantSitter_Resp.Common
+namespace PlantSitterResp.Common
 {
     public static class ConfigHelper
     {

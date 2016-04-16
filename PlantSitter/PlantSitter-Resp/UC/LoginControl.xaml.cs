@@ -1,4 +1,4 @@
-﻿using PlantSitter_Resp.ViewModel;
+﻿using PlantSitterResp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
-namespace PlantSitter_Resp.UC
+namespace PlantSitterResp.UC
 {
     public sealed partial class LoginControl : UserControl
     {

@@ -1,12 +1,12 @@
 ﻿<UserControl
-    x:Class="PlantSitter_Resp.UC.DashboardControl"
+    x:Class="PlantSitterResp.UC.DashboardControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:PlantSitter_Resp.UC"
+    xmlns:local="using:PlantSitterResp.UC"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:model="using:PlantSitterShardModel.Model"
+    xmlns:model="using:PlantSitterShard.Model"
     d:DesignHeight="720"
     d:DesignWidth="1280">
     <UserControl.Resources>

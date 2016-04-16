@@ -1,27 +1,20 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
 using JP.Utils.Data;
-using JP.Utils.Data.Json;
-using JP.Utils.Debug;
 using JP.Utils.Framework;
-using JP.Utils.Functions;
-using JP.Utils.Network;
-using PlantSitter_Resp.Common;
 using PlantSitterCusomControl;
-using PlantSitterShardModel.Model;
 using PlantSitterShared.API;
 using Sensor.Soil;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using Windows.Data.Json;
-using Windows.Devices.Sensors;
 using Windows.UI.Xaml;
 using Sensor.Light;
 using System.Diagnostics;
 using System.Linq;
+using PlantSitterShard.Model;
+using PlantSitterResp.Common;
 
-namespace PlantSitter_Resp.ViewModel
+namespace PlantSitterResp.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {

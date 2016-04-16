@@ -6,7 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantSitterShardModel.Model
+namespace PlantSitterShard.Model
 {
     public class Plant:ViewModelBase
     {

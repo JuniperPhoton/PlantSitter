@@ -7,7 +7,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Media;
 
-namespace PlantSitter_Resp.Common
+namespace PlantSitterResp.Common
 {
     public static class TitleBarHelper
     {

@@ -1,5 +1,6 @@
-﻿using PlantSitter_Resp.Common;
-using PlantSitter_Resp.View;
+﻿using PlantSitterResp.Common;
+using PlantSitterResp.View;
+using PlantSitterResp.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,7 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-namespace PlantSitter_Resp
+namespace PlantSitterResp
 {
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantSitter_Resp.ViewModel
+namespace PlantSitterResp.ViewModel
 {
     class UserPlanViewModel
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantSitterShardModel.Model
+namespace PlantSitterShard.Model
 {
     public class PlantSitterUser:ViewModelBase
     {

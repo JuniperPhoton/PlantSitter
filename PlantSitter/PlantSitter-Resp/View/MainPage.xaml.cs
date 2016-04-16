@@ -1,13 +1,14 @@
-﻿using PlantSitter_Resp.Common;
-using PlantSitter_Resp.ViewModel;
+﻿
 using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 using System.Numerics;
 using Windows.UI.Xaml.Data;
+using PlantSitterResp.Common;
+using PlantSitterResp.ViewModel;
 
-namespace PlantSitter_Resp.View
+namespace PlantSitterResp.View
 {
     public sealed partial class MainPage : BasePage
     {
