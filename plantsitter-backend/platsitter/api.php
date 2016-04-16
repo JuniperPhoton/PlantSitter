@@ -22,14 +22,13 @@ do {
         PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES UTF8", ));
         
         do {
-            
             //this action requires uid && accesstoken
-            if ($_POST['uid'] && $_POST['access_token'] && !in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
+            if ($_GET['uid'] && $_GET['access_token'] && !in_array("$_GET[interface]/$_GET[action]/$_GET[version]", $ApiUnauthorizedActions)) {
                 
                 //verfiy uid and accesstoken
                 $query = $pdo->prepare("SELECT access_token FROM access_token WHERE access_token=:access_token && uid=:uid");
-                $query->bindParam(':access_token', $_POST['access_token'], PDO::PARAM_STR);
-                $query->bindParam(':uid', $_POST['uid'], PDO::PARAM_INT);
+                $query->bindParam(':access_token', $_GET['access_token'], PDO::PARAM_STR);
+                $query->bindParam(':uid', $_GET['uid'], PDO::PARAM_INT);
 
                 if (!$query->execute()) {
                     $ApiResult['isSuccessed'] = false;

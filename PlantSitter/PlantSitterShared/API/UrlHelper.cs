@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JP.Utils.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,14 +25,29 @@ namespace PlantSitterShared.API
         public static string AddPlant => $"http://{HOST}/plantsitter/Plant/AddPlant/v1?";
         public static string SearchPlant => $"http://{HOST}/plantsitter/Plant/SearchPlant/v1?";
 
-        public static string MakeFullUrlForGetReq(string baseUrl, List<KeyValuePair<string, string>> paramList)
+        public static string MakeFullUrlForGetReq(string baseUrl, List<KeyValuePair<string, string>> paramList,bool withAuth)
         {
             StringBuilder sb = new StringBuilder(baseUrl);
             foreach (var item in paramList)
             {
                 sb.Append(item.Key + "=" + item.Value + "&");
             }
-            sb.Append("a=" + new Random().Next().ToString());
+            if(withAuth)
+            {
+                sb.Append("&uid=" + LocalSettingHelper.GetValue("uid"));
+                sb.Append("&access_token=" + LocalSettingHelper.GetValue("access_token"));
+            }
+            return sb.ToString();
+        }
+
+        public static string MakeFullUrlForPostReq(string baseUrl,bool withAuth)
+        {
+            StringBuilder sb = new StringBuilder(baseUrl);
+            if (withAuth)
+            {
+                sb.Append("&uid=" + LocalSettingHelper.GetValue("uid"));
+                sb.Append("&access_token=" + LocalSettingHelper.GetValue("access_token"));
+            }
             return sb.ToString();
         }
     }

@@ -7,7 +7,7 @@ do {
             {
                 $uid = $_GET['uid'];
                 $queryFind = $pdo->prepare('SELECT * FROM user_plan WHERE uid=:uid');
-                $queryFind->bindParam(':uid', $uid, PDO::PARAM_STR);
+                $queryFind->bindParam(':uid', $uid, PDO::PARAM_INT);
                 $result = $queryFind->execute();
                 if ($result) {
                     $plans = $queryFind->fetchAll();

@@ -11,7 +11,7 @@ namespace PlantSitterShared.API
     {
         public static CancellationTokenSource MakeCTS(int? timeout)
         {
-            return new CancellationTokenSource(timeout==null?10000,timeout.Value);
+            return new CancellationTokenSource(timeout==null?10000:timeout.Value);
         }
 
         public static CancellationTokenSource MakeCTS()

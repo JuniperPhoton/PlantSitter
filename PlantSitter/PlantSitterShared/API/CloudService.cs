@@ -50,7 +50,7 @@ namespace PlantSitterShared.API
             var param = GetDefaultParam();
             param.Add(new KeyValuePair<string, string>("email", email));
             return await APIHelper.SendGetRequestAsync(
-                UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetSalt, param), token);
+                UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetSalt, param, false), token);
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace PlantSitterShared.API
             var param = GetDefaultParam();
             param.Add(new KeyValuePair<string, string>("email", email));
             return await APIHelper.SendGetRequestAsync(
-                UrlHelper.MakeFullUrlForGetReq(UrlHelper.CheckUserExist, param), token);
+                UrlHelper.MakeFullUrlForGetReq(UrlHelper.CheckUserExist, param, false), token);
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace PlantSitterShared.API
             param.Add(new KeyValuePair<string, string>("email", email));
             param.Add(new KeyValuePair<string, string>("password", passwordInMd5));
 
-            return await APIHelper.SendPostRequestAsync(UrlHelper.Register, param, token);
+            return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.Register, false), param, token);
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace PlantSitterShared.API
             param.Add(new KeyValuePair<string, string>("email", email));
             param.Add(new KeyValuePair<string, string>("password", passwordSaltInMd5));
 
-            return await APIHelper.SendPostRequestAsync(UrlHelper.Login, param, token);
+            return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.Login, false), param, token);
         }
 
         #endregion
@@ -114,7 +114,7 @@ namespace PlantSitterShared.API
         /// <param name="time">记录的时间</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<CommonRespMsg> UploadData(int pid,int gid, 
+        public static async Task<CommonRespMsg> UploadData(int pid, int gid,
                     double soil_moisture, double envi_temp, double envi_moisture, double light, string time, CancellationToken token)
         {
             var param = GetDefaultParamWithAuthParam();
@@ -144,7 +144,7 @@ namespace PlantSitterShared.API
             param.Add(new KeyValuePair<string, string>("filter_kind", filterKind));
             param.Add(new KeyValuePair<string, string>("filter_value", filterValue));
 
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetTimelineData, param);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetTimelineData, param, true);
             return await APIHelper.SendGetRequestAsync(url, token);
         }
         #endregion
@@ -158,7 +158,7 @@ namespace PlantSitterShared.API
         public static async Task<CommonRespMsg> GetAllPlans(CancellationToken token)
         {
             var param = GetDefaultParamWithAuthParam();
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetAllPlans, param);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetAllPlans, param, true);
 
             return await APIHelper.SendGetRequestAsync(url, token);
         }
@@ -173,7 +173,7 @@ namespace PlantSitterShared.API
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("gid", gid.ToString()));
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlan, param);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlan, param, true);
 
             return await APIHelper.SendGetRequestAsync(url, token);
         }
@@ -188,7 +188,7 @@ namespace PlantSitterShared.API
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("gid", gid.ToString()));
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.DeletePlan, param);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.DeletePlan, param, true);
 
             return await APIHelper.SendGetRequestAsync(url, token);
         }
@@ -208,7 +208,7 @@ namespace PlantSitterShared.API
             param.Add(new KeyValuePair<string, string>("name", name));
             param.Add(new KeyValuePair<string, string>("time", time));
 
-            return await APIHelper.SendPostRequestAsync(UrlHelper.AddPlan, param, token);
+            return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.AddPlan, true), param, token);
         }
         #endregion
 
@@ -223,7 +223,7 @@ namespace PlantSitterShared.API
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("pid", pid.ToString()));
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlantInfo, param);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlantInfo, param, true);
 
             return await APIHelper.SendGetRequestAsync(url, token);
         }
@@ -255,7 +255,7 @@ namespace PlantSitterShared.API
             {
                 param.Add(new KeyValuePair<string, string>("name_c", nameC));
             }
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlantInfo, param);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlantInfo, param, true);
 
             return await APIHelper.SendGetRequestAsync(url, token);
         }
