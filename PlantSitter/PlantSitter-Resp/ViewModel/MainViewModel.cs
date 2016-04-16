@@ -191,6 +191,8 @@ namespace PlantSitter_Resp.ViewModel
 
         public async Task RefreshAllSensor()
         {
+            _uploadTimer = new DispatcherTimer();
+            
             var task1 = InitialLightSensor();
             var task2 = InitialDhtSensor();
             var task3 = InitialSoilSensor();
@@ -224,7 +226,17 @@ namespace PlantSitter_Resp.ViewModel
         public async Task GetUserPlan()
         {
             CurrentUserPlans = new ObservableCollection<UserPlan>();
-            
+
+            var getResult = await CloudService.GetAllPlans(CTSFactory.MakeCTS().Token);
+            getResult.ParseAPIResult();
+            if(!getResult.IsSuccessful)
+            {
+                ToastService.SendToast("获得培养计划失败");
+                return;
+            }
+            var json = getResult.JsonSrc;
+
+
             SelectedIndex = 0;
 
             if (CurrentUserPlans.Count == 0)

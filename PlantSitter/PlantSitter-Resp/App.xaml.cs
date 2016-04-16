@@ -1,4 +1,5 @@
-﻿using PlantSitter_Resp.View;
+﻿using PlantSitter_Resp.Common;
+using PlantSitter_Resp.View;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,6 +30,14 @@ namespace PlantSitter_Resp
             get
             {
                 return Window.Current.Content as Frame;
+            }
+        }
+
+        public static RespSettings AppSettings
+        {
+            get
+            {
+                return App.Current.Resources["AppSettings"] as RespSettings;
             }
         }
 

@@ -89,7 +89,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="数据上传频率" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-                        <ComboBox Margin="5 0 0 0" SelectedIndex="0" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" >
+                        <ComboBox SelectedIndex="{Binding Source={StaticResource AppSettings},Path=UploadFequency,Mode=TwoWay}" Margin="5 0 0 0" SelectedIndex="0" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" >
                             <ComboBox.Items>
                                 <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="30 分钟一次"/>
                                 <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="1 小时一次"/>

@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace PlantSitter_Resp.Common
 {
-    public class RespSettings:AppSettings
+    public class RespSettings : AppSettings
     {
         /// <summary>
-        /// 上传的频率，单位是毫秒
+        /// 上传的频率，分几个档：
+        /// 每15，30，60分钟，1.5小时，2小时
         /// </summary>
-        public double UploadFequency
+        public int UploadFequency
         {
             get
             {
-                return ReadSettings(nameof(UploadFequency), TimeSpan.FromMinutes(5).TotalMilliseconds);
+                return ReadSettings(nameof(UploadFequency), 0);
             }
             set
             {

@@ -26,6 +26,7 @@
                     <SolidColorBrush x:Key="SystemControlBackgroundAccentBrush" Color="{StaticResource PlantSitterColor}"/>
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
+            <common:AppSettings x:Key="AppSettings" xmlns="common:PlantSitter_Resp.Common"/>
             <vm:ViewModelLocator x:Key="Locator" />
         </ResourceDictionary>
     </Application.Resources>
