@@ -137,7 +137,7 @@ namespace PlantSitterResp.ViewModel
                 saltResult.ParseAPIResult();
                 if (!saltResult.IsSuccessful)
                 {
-                    throw new APIException(saltResult.ErrorMsg);
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(saltResult.ErrorCode));
                 }
                 var saltObj = JsonObject.Parse(saltResult.JsonSrc);
                 var salt = JsonParser.GetStringFromJsonObj(saltObj, "Salt");
@@ -151,7 +151,7 @@ namespace PlantSitterResp.ViewModel
                 loginResult.ParseAPIResult();
                 if (!loginResult.IsSuccessful)
                 {
-                    throw new APIException(loginResult.ErrorMsg);
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(loginResult.ErrorCode));
                 }
                 var loginObj = JsonObject.Parse(loginResult.JsonSrc);
                 var userObj = loginObj["UserInfo"];
@@ -164,7 +164,7 @@ namespace PlantSitterResp.ViewModel
                     LocalSettingHelper.AddValue("email", Email);
                     ShowLoginControl = false;
                     MainVM.CurrentUser = new PlantSitterUser() { Email = Email };
-                    await MainVM.GetUserPlan();
+                    await MainVM.UserPlanVM.GetAllUserPlans();
                     await MainVM.RefreshAllSensor();
                 }
             }
@@ -201,20 +201,20 @@ namespace PlantSitterResp.ViewModel
                 var isExist = JsonParser.GetBooleanFromJsonObj(json, "isExist", false);
                 if (isExist)
                 {
-                    throw new ArgumentException("The email has been used.");
+                    throw new ArgumentException("邮件已经被注册.");
                 }
 
                 var registerResult = await CloudService.Register(Email, MD5.GetMd5String(Password), CTSFactory.MakeCTS(100000).Token);
                 registerResult.ParseAPIResult();
                 if (!registerResult.IsSuccessful)
                 {
-                    throw new APIException(registerResult.ErrorMsg);
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(registerResult.ErrorCode));
                 }
                 await Login();
             }
             catch (APIException e)
             {
-                ToastService.SendToast(e.ErrorMessage.IsNotNullOrEmpty() ? e.Message : "Fail to register");
+                ToastService.SendToast(e.ErrorMessage.IsNotNullOrEmpty() ? e.ErrorMessage : "Fail to register");
             }
             catch (TaskCanceledException e)
             {

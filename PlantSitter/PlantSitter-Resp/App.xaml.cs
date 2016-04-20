@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using PlantSitterResp.ViewModel;
 
 namespace PlantSitterResp
 {
@@ -39,6 +40,14 @@ namespace PlantSitterResp
             get
             {
                 return App.Current.Resources["AppSettings"] as RespSettings;
+            }
+        }
+
+        public static MainViewModel MainVM
+        {
+            get
+            {
+                return (App.Current.Resources["Locator"] as ViewModelLocator).MainVM;
             }
         }
 

@@ -36,11 +36,12 @@ namespace PlantSitterResp.Common
             titleBar.InactiveForegroundColor = Colors.White;
             titleBar.ButtonBackgroundColor = (App.Current.Resources["PlantSitterDashboardDarkColor"] as SolidColorBrush).Color;
             titleBar.ButtonForegroundColor = Colors.White;
+            titleBar.ButtonPressedForegroundColor = Colors.White;
             titleBar.ButtonInactiveBackgroundColor = titleBar.BackgroundColor;
             titleBar.ButtonInactiveForegroundColor = Colors.White;
             titleBar.ButtonHoverBackgroundColor = (App.Current.Resources["PlantSitterDashboardLightColor"] as SolidColorBrush).Color;
             titleBar.ButtonHoverForegroundColor = Colors.White;
-            titleBar.ButtonPressedBackgroundColor = (App.Current.Resources["PlantSitterDashboardDarkColor"] as SolidColorBrush).Color;
+            titleBar.ButtonPressedBackgroundColor = (App.Current.Resources["PlantSitterDashboardColor"] as SolidColorBrush).Color;
         }
     }
 }

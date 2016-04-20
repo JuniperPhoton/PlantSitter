@@ -110,6 +110,7 @@
     <Compile Include="API\APIException.cs" />
     <Compile Include="API\CloudService.cs" />
     <Compile Include="API\CTSFactory.cs" />
+    <Compile Include="API\ErrorTable.cs" />
     <Compile Include="API\UrlHelper.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Model\Plant.cs" />

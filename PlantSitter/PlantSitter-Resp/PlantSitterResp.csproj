@@ -102,6 +102,7 @@
     <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Common\RespSettings.cs" />
     <Compile Include="Common\TitleBarHelper.cs" />
+    <Compile Include="Service\UploadService.cs" />
     <Compile Include="UC\DashboardControl.xaml.cs">
       <DependentUpon>DashboardControl.xaml</DependentUpon>
     </Compile>
@@ -249,9 +250,7 @@
       <Name>Sensors.Dht</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

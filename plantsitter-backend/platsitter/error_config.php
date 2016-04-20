@@ -6,13 +6,21 @@ define('API_ERROR_ACTION_NOTEXIST', 101);
 define('API_ERROR_ACCESS_TOKEN_INVAID', 102);
 
 //user
-define('API_ERROR_USER_NOTEXIST', 200);
-define('API_ERROR_PARM_LACK', 202);
-define('API_ERROR_USER_ALEADY_EXIST', 203);
-define('API_ERROR_USER_NOT_EXIST', 204);
+define('USER_NOT_EXIST', 200);
+define('USER_ALEADY_EXIST', 201);
+define('EMAIL_OR_PWD_WRONG',202);
 
-//schedule
-define('API_ERROR_LACK_PARAM', 300);
-define('API_ERROR_SCHEDULE_NOT_EXIST', 301);
+//Plan
+define('PLAN_NOT_EXIST', 300);
+define('LACK_SOME_PARAMS', 301);
+
+//Timeline
+define('LACK_PLANT_PARAM',400);
+define('LACK_FILTER_VALUE',401);
+define('LACK_FILTER_KIND',402);
+define('TIME_FORMAT_WRONG',403);
+
+//Plant
+define('PLANT_NOT_EXIST',500);
 
 ?>

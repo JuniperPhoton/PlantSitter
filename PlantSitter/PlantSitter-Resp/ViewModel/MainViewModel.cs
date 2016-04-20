@@ -13,6 +13,9 @@ using System.Diagnostics;
 using System.Linq;
 using PlantSitterShard.Model;
 using PlantSitterResp.Common;
+using JP.Utils.Data.Json;
+using Windows.Data.Json;
+using GalaSoft.MvvmLight.Command;
 
 namespace PlantSitterResp.ViewModel
 {
@@ -33,6 +36,8 @@ namespace PlantSitterResp.ViewModel
         public LoginViewModel LoginVM { get; set; }
 
         #endregion
+
+        public UserPlanViewModel UserPlanVM { get; set; }
 
         private ObservableCollection<Plant> _currentPlants;
         public ObservableCollection<Plant> CurrentPlants
@@ -68,78 +73,6 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
-        private ObservableCollection<UserPlan> _currentUserPlans;
-        public ObservableCollection<UserPlan> CurrentUserPlans
-        {
-            get
-            {
-                return _currentUserPlans;
-            }
-            set
-            {
-                if (_currentUserPlans != value)
-                {
-                    _currentUserPlans = value;
-                    RaisePropertyChanged(() => CurrentUserPlans);
-                }
-            }
-        }
-
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get
-            {
-                return _selectedIndex;
-            }
-            set
-            {
-                if (_selectedIndex != value)
-                {
-                    _selectedIndex = value;
-                    RaisePropertyChanged(() => SelectedIndex);
-                    if (value > 0 && CurrentUserPlans.Count > value)
-                    {
-                        SelectedPlan = CurrentUserPlans.ElementAt(value);
-                    }
-                }
-            }
-        }
-
-        private UserPlan _selectedPlan;
-        public UserPlan SelectedPlan
-        {
-            get
-            {
-                return _selectedPlan;
-            }
-            set
-            {
-                if (_selectedPlan != value)
-                {
-                    _selectedPlan = value;
-                    RaisePropertyChanged(() => SelectedPlan);
-                }
-            }
-        }
-
-        private Visibility _noItemVisibility;
-        public Visibility NoItemVisibility
-        {
-            get
-            {
-                return _noItemVisibility;
-            }
-            set
-            {
-                if (_noItemVisibility != value)
-                {
-                    _noItemVisibility = value;
-                    RaisePropertyChanged(() => NoItemVisibility);
-                }
-            }
-        }
-
         private string _currentDate;
         public string CurrentDate
         {
@@ -157,10 +90,44 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
+        private Visibility _loadingVisibility;
+        public Visibility LoadingVisibility
+        {
+            get
+            {
+                return _loadingVisibility;
+            }
+            set
+            {
+                if (_loadingVisibility != value)
+                {
+                    _loadingVisibility = value;
+                    RaisePropertyChanged(() => LoadingVisibility);
+                }
+            }
+        }
+
+        private RelayCommand _refreshCommand;
+        public RelayCommand RefreshCommand
+        {
+            get
+            {
+                if (_refreshCommand != null) return _refreshCommand;
+                return _refreshCommand = new RelayCommand(async() =>
+                  {
+                      LoadingVisibility = Visibility.Visible;
+                      await UserPlanVM.GetAllUserPlans();
+                      LoadingVisibility = Visibility.Collapsed;
+                  });
+            }
+        }
+
         public MainViewModel()
         {
-            SelectedIndex = -1;
-            NoItemVisibility = Visibility.Collapsed;
+            UserPlanVM = new UserPlanViewModel();
+
+            LoadingVisibility = Visibility.Collapsed;
+
             _dateTimer = new DispatcherTimer();
             _dateTimer.Interval = TimeSpan.FromMilliseconds(1000);
             _dateTimer.Tick += (sender, e) =>
@@ -170,15 +137,23 @@ namespace PlantSitterResp.ViewModel
             _dateTimer.Start();
 
             LoginVM = new LoginViewModel() { MainVM = this };
-            CurrentPlants = new ObservableCollection<Plant>();
+
+            var task = Init();
+        }
+
+        private async Task Init()
+        {
             if (ConfigHelper.IsLogin)
             {
                 CurrentUser = new PlantSitterUser()
                 {
                     Email = LocalSettingHelper.GetValue("email"),
                 };
-                var task1 = GetUserPlan();
-                var task2 = RefreshAllSensor();
+
+                LoadingVisibility = Visibility.Visible;
+                await UserPlanVM.GetAllUserPlans();
+                await RefreshAllSensor();
+                LoadingVisibility = Visibility.Collapsed;
             }
         }
 
@@ -214,29 +189,6 @@ namespace PlantSitterResp.ViewModel
         {
             SoilSensor soilSensor = new SoilSensor();
             await soilSensor.InitGpioPin(SOIL_SENSOR_GPIO_PIN);
-        }
-
-        public async Task GetUserPlan()
-        {
-            CurrentUserPlans = new ObservableCollection<UserPlan>();
-
-            var getResult = await CloudService.GetAllPlans(CTSFactory.MakeCTS().Token);
-            getResult.ParseAPIResult();
-            if(!getResult.IsSuccessful)
-            {
-                ToastService.SendToast("获得培养计划失败");
-                return;
-            }
-            var json = getResult.JsonSrc;
-
-
-            SelectedIndex = 0;
-
-            if (CurrentUserPlans.Count == 0)
-            {
-                NoItemVisibility = Visibility.Visible;
-            }
-            else NoItemVisibility = Visibility.Collapsed;
         }
 
         public void Activate(object param)

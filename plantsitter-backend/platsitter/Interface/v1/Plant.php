@@ -12,12 +12,18 @@ do {
                 $result = $queryFind->execute();
                 if ($result) {
                     $plant = $queryFind->fetch();
-
-                    $ApiResult['isSuccessed'] = true;
-                    $ApiResult['error_code'] = 0;
-                    $ApiResult['error_message'] = '';
-                    $ApiResult['Plant'] = $plant;
-                    break;
+                    if ($plant) {
+                        $ApiResult['isSuccessed'] = true;
+                        $ApiResult['error_code'] = 0;
+                        $ApiResult['error_message'] = '';
+                        $ApiResult['Plant'] = $plant;
+                        break;
+                    } else {
+                        $ApiResult['isSuccessed'] = false;
+                        $ApiResult['error_code'] = PLANT_NOT_EXIST;
+                        $ApiResult['error_message'] = 'Plant not exist.';
+                        break;
+                    }
                 } else {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;

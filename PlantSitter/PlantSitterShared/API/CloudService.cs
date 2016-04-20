@@ -106,27 +106,27 @@ namespace PlantSitterShared.API
         /// 上传记录的数据
         /// </summary>
         /// <param name="pid">植物ID</param>
-        /// <param name="gid">计划ID</param>
-        /// <param name="soil_moisture">土壤湿度，0/1 表示</param>
-        /// <param name="envi_temp">环境温度，单位为摄氏度</param>
-        /// <param name="envi_moisture">环境湿度</param>
-        /// <param name="light">光照强度，单位为流明</param>
+        /// <param name="gid">培养计划ID</param>
+        /// <param name="soilMoisture">土壤湿度，0/1 表示偏向干燥/湿润</param>
+        /// <param name="enviTemp">环境温度，单位为摄氏度 ℃</param>
+        /// <param name="enviMoisture">环境湿度，单位为 RH</param>
+        /// <param name="light">光照强度，单位为流明 Lux</param>
         /// <param name="time">记录的时间</param>
         /// <param name="token"></param>
         /// <returns></returns>
         public static async Task<CommonRespMsg> UploadData(int pid, int gid,
-                    double soil_moisture, double envi_temp, double envi_moisture, double light, string time, CancellationToken token)
+                    double soilMoisture, double enviTemp, double enviMoisture, double light, string time, CancellationToken token)
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("pid", pid.ToString()));
             param.Add(new KeyValuePair<string, string>("gid", gid.ToString()));
-            param.Add(new KeyValuePair<string, string>("soil_moisture", soil_moisture.ToString()));
-            param.Add(new KeyValuePair<string, string>("envi_temp", envi_temp.ToString()));
-            param.Add(new KeyValuePair<string, string>("envi_moisture", envi_moisture.ToString()));
+            param.Add(new KeyValuePair<string, string>("soil_moisture", soilMoisture.ToString()));
+            param.Add(new KeyValuePair<string, string>("envi_temp", enviTemp.ToString()));
+            param.Add(new KeyValuePair<string, string>("envi_moisture", enviMoisture.ToString()));
             param.Add(new KeyValuePair<string, string>("light", light.ToString()));
             param.Add(new KeyValuePair<string, string>("time", time));
 
-            return await APIHelper.SendPostRequestAsync(UrlHelper.UploadData, param, token);
+            return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.UploadData, true), param, token);
         }
 
         /// <summary>

@@ -1,10 +1,13 @@
 ﻿using GalaSoft.MvvmLight;
+using JP.Utils.Data.Json;
+using PlantSitterShared.API;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace PlantSitterShard.Model
 {
@@ -115,6 +118,30 @@ namespace PlantSitterShard.Model
         public UserPlan()
         {
             RecordData = new ObservableCollection<PlantTimeline>();
+        }
+
+        public static UserPlan ParseFromJson(string json)
+        {
+            var plan = new UserPlan();
+            var obj = JsonObject.Parse(json);
+            var id = JsonParser.GetStringFromJsonObj(obj, "gid");
+            var pid = JsonParser.GetStringFromJsonObj(obj, "pid");
+            var name = JsonParser.GetStringFromJsonObj(obj, "name");
+            var time = JsonParser.GetStringFromJsonObj(obj, "time");
+            plan.Gid = int.Parse(id);
+            plan.CurrentPlant = new Plant() { Pid =int.Parse(pid) };
+            plan.Name = name;
+            plan.CreateTime = DateTime.Parse(time);
+            return plan;
+        }
+
+        public async Task UpdatePlantInfo()
+        {
+            var plant = await Plant.GetPlantByIdAsync(CurrentPlant.Pid);
+            if(plant!= null)
+            {
+                this.CurrentPlant = plant;
+            }
         }
     }
 }

@@ -23,17 +23,33 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid x:Name="TitleGrid" Background="{StaticResource PlantSitterDashboardDarkColor}">
-            <TextBlock FontSize="20" Margin="10" Text="PlantSitter | 你的植物保姆" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <Button HorizontalAlignment="Right" Margin="0,10,20,10" Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Stretch">
-                <Button.Flyout>
-                    <MenuFlyout>
-                        <MenuFlyoutItem Text="登出" Command="{x:Bind MainVM.LoginVM.LogoutCommand,Mode=OneWay}" />
-                    </MenuFlyout>
-                </Button.Flyout>
-                <Border Background="{StaticResource PlantSitterDashboardDarkColor}">
-                    <TextBlock Text="{x:Bind MainVM.CurrentUser.Email,Mode=OneWay,FallbackValue=email}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </Border>
-            </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock FontSize="20" Margin="10" Text="PlantSitter | 你的植物保姆" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                <ProgressRing Visibility="{x:Bind MainVM.LoadingVisibility,Mode=OneWay}" IsActive="True" Foreground="White"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,10,20,10" HorizontalAlignment="Right"  VerticalAlignment="Stretch">
+                <Button Width="50" Margin="10 0 10 0" VerticalAlignment="Stretch" Command="{x:Bind MainVM.RefreshCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle}" Background="{StaticResource PlantSitterDashboardDarkColor}" BorderBrush="{x:Null}">
+                    <Border Background="{StaticResource PlantSitterDashboardDarkColor}">
+                        <SymbolIcon Foreground="White" Symbol="Refresh"/>
+                    </Border>
+                </Button>
+                <Button Style="{StaticResource ButtonCommonStyle}" Background="{x:Null}" BorderBrush="{x:Null}" VerticalAlignment="Stretch">
+                    <Border Background="{StaticResource PlantSitterDashboardDarkColor}">
+                        <TextBlock Text="{x:Bind MainVM.CurrentUser.Email,Mode=OneWay,FallbackValue=email}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Border>
+                </Button>
+                <Button Style="{StaticResource ButtonCommonStyle}">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="登出" Command="{x:Bind MainVM.LoginVM.LogoutCommand,Mode=OneWay}" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+                    <Border Margin="5">
+                        <SymbolIcon Symbol="More" Foreground="White"/>
+                    </Border>
+                </Button>
+            </StackPanel>
         </Grid>
         <uc:DashboardControl x:Name="DashboardControl" Grid.Row="1"/>
         <uc:LoginControl x:Name="LoginControl" Visibility="Collapsed" DataContext="{x:Bind MainVM.LoginVM,Mode=OneWay}" Grid.Row="1"/>

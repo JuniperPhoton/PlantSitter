@@ -16,8 +16,53 @@ do {
 
                 if ($pid == '' || $uid == '' || gid == '' || $soil_moisture == '' || $envi_temp == '' || $envi_moisture == '' || $light == '' || $time == '') {
                     $ApiResult['isSuccessed'] = false;
-                    $ApiResult['error_code'] = 0;
+                    $ApiResult['error_code'] = LACK_PLANT_PARAM;
                     $ApiResult['error_message'] = 'Lack necessary params of the uploading data.';
+                    break;
+                }
+                
+                $queryFind=$pdo->prepare('SELECT * FROM user WHERE uid=:uid');
+                $queryFind->bindParam(':uid',$uid,PDO::PARAM_INT);
+                if(!$queryFind->execute()){
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_message'] = $pdo->errorInfo();
+                    break;
+                }
+                if(!$queryFind->fetch()){
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = USER_NOT_EXIST;
+                    $ApiResult['error_message'] = "User does not exist.";
+                    break;
+                }
+                
+                $queryFind2=$pdo->prepare('SELECT * FROM user_plan WHERE gid=:gid');
+                $queryFind2->bindParam(':gid',$gid,PDO::PARAM_INT);
+                if(!$queryFind2->execute()){
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_message'] = $pdo->errorInfo();
+                    break;
+                }
+                if(!$queryFind2->fetch()){
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = PLAN_NOT_EXIST;
+                    $ApiResult['error_message'] = "Plan does not exist.";
+                    break;
+                }
+                
+                $queryFind3=$pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
+                $queryFind3->bindParam(':pid',$pid,PDO::PARAM_INT);
+                if(!$queryFind3->execute()){
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_message'] = $pdo->errorInfo();
+                    break;
+                }
+                if(!$queryFind3->fetch()){
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = PLANT_NOT_EXIST;
+                    $ApiResult['error_message'] = "Plant does not exist.";
                     break;
                 }
 
@@ -59,14 +104,14 @@ do {
 
                 if ($filter_kind != '' && $filter_value == '') {
                     $ApiResult['isSuccessed'] = false;
-                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_code'] = LACK_FILTER_VALUE;
                     $ApiResult['error_message'] = 'Must define filter_value'.$filter_kind;
                     break;
                 }
 
                 if ($filter_kind != '' && !in_array($filter_kind, $filterKinds)) {
                     $ApiResult['isSuccessed'] = false;
-                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_code'] = LACK_FILTER_KIND;
                     $ApiResult['error_message'] = 'Invalid filter kind of '.$filter_kind;
                     break;
                 }
@@ -82,13 +127,13 @@ do {
                 $findResult = $findQuery->fetch();
                 if (!$findResult) {
                     $ApiResult['isSuccessed'] = false;
-                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_code'] = NO_PLAN_EXIST;
                     $ApiResult['error_message'] = "No such plan";
                     break;
                 }
                 if ($filter_kind == '' && $filter_value == '') {
                     $filter_kind = 'byNumber';
-                    $filter_value = 2;
+                    $filter_value = 50;
                 }
                 $getQuery;
                 if ($filter_kind == 'byNumber') {
@@ -122,7 +167,7 @@ do {
 
                     if ($startDate == '' || $endingDate == '') {
                         $ApiResult['isSuccessed'] = false;
-                        $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                        $ApiResult['error_code'] = TIME_FORMAT_WRONG;
                         $ApiResult['error_message'] = 'Between dates value is invalid.'.' '.$startDate.$endingDate;
                         break;
                     }
