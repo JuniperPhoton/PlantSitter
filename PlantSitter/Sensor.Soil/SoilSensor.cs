@@ -13,33 +13,41 @@ namespace Sensor.Soil
     {
         public GpioPin MoistureSensorOutputPin { get; set; }
 
-        public DispatcherTimer DispatcherTimer { get; set; }
+        public event Action<double> OnReadingValue;
 
-        public async Task InitGpioPin(int pinNumber)
+        private DispatcherTimer _dispatcherTimer { get; set; }
+        private int? _pinNumber;
+
+        public async Task InitAsync()
         {
+            if (_pinNumber == null) throw new ArgumentNullException("Must specify a Pin Number.");
+
             var ctl = await GpioController.GetDefaultAsync();
-            MoistureSensorOutputPin = ctl?.OpenPin(pinNumber);
+            MoistureSensorOutputPin = ctl?.OpenPin(_pinNumber.Value);
             if (MoistureSensorOutputPin != null)
             {
                 MoistureSensorOutputPin.SetDriveMode(GpioPinDriveMode.Input);
-                DispatcherTimer = new DispatcherTimer()
-                {
-                    Interval = TimeSpan.FromSeconds(1)
-                };
-                DispatcherTimer.Tick += (sender, e) =>
+                _dispatcherTimer = new DispatcherTimer();
+                _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000);
+                _dispatcherTimer.Tick += (sender, e) =>
                 {
                     var pinValue = MoistureSensorOutputPin.Read();
                     if (pinValue == GpioPinValue.High)
                     {
-                        Debug.WriteLine("Dry");
+                        OnReadingValue?.Invoke(0);
                     }
                     else
                     {
-                        Debug.WriteLine("Water Detected!");
+                        OnReadingValue?.Invoke(1);
                     }
                 };
-                DispatcherTimer.Start();
+                _dispatcherTimer.Start();
             }
+        }
+
+        public SoilSensor(int pinNumber)
+        {
+            _pinNumber = pinNumber;
         }
     }
 }

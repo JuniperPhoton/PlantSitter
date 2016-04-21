@@ -2,30 +2,26 @@
 using JP.Utils.Data;
 using JP.Utils.Framework;
 using PlantSitterCusomControl;
-using PlantSitterShared.API;
 using Sensor.Soil;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Sensor.Light;
-using System.Diagnostics;
-using System.Linq;
 using PlantSitterShard.Model;
 using PlantSitterResp.Common;
-using JP.Utils.Data.Json;
-using Windows.Data.Json;
 using GalaSoft.MvvmLight.Command;
+using PlantSitter_Resp.Service;
 
 namespace PlantSitterResp.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
-        private const int SOIL_SENSOR_GPIO_PIN = 17;
+        private const int SOIL_SENSOR_GPIO_PIN = 18;
         private const int TEMP_MOISTURE_SENSOR_GPIO_PIN = 18;
 
-        private DispatcherTimer _dateTimer;
-        private DispatcherTimer _uploadTimer;
+        private DisplayService _displayService;
+        private UploadService _uploadService;
+        private DateTimeService _dateTimeService;
 
         public bool IsInView { get; set; }
 
@@ -38,23 +34,6 @@ namespace PlantSitterResp.ViewModel
         #endregion
 
         public UserPlanViewModel UserPlanVM { get; set; }
-
-        private ObservableCollection<Plant> _currentPlants;
-        public ObservableCollection<Plant> CurrentPlants
-        {
-            get
-            {
-                return _currentPlants;
-            }
-            set
-            {
-                if (_currentPlants != value)
-                {
-                    _currentPlants = value;
-                    RaisePropertyChanged(() => CurrentPlants);
-                }
-            }
-        }
 
         private PlantSitterUser _currentUser;
         public PlantSitterUser CurrentUser
@@ -107,6 +86,23 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
+        private Visibility _OperationAfterLoginVisibility;
+        public Visibility OperationAfterLoginVisibility
+        {
+            get
+            {
+                return _OperationAfterLoginVisibility;
+            }
+            set
+            {
+                if (_OperationAfterLoginVisibility != value)
+                {
+                    _OperationAfterLoginVisibility = value;
+                    RaisePropertyChanged(() => OperationAfterLoginVisibility);
+                }
+            }
+        }
+
         private RelayCommand _refreshCommand;
         public RelayCommand RefreshCommand
         {
@@ -122,29 +118,44 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
+        private RelayCommand _repairSensorCommand;
+        public RelayCommand RepairSensorCommand
+        {
+            get
+            {
+                if (_repairSensorCommand != null) return _repairSensorCommand;
+                return _repairSensorCommand = new RelayCommand(async() =>
+                  {
+                      LoadingVisibility = Visibility.Visible;
+                      await RefreshAllSensor();
+                      LoadingVisibility = Visibility.Collapsed;
+                  });
+            }
+        }
+
+        private double[] TempData { get; set; } = new double[4];
+
         public MainViewModel()
         {
             UserPlanVM = new UserPlanViewModel();
 
             LoadingVisibility = Visibility.Collapsed;
+            OperationAfterLoginVisibility = Visibility.Collapsed;
 
-            _dateTimer = new DispatcherTimer();
-            _dateTimer.Interval = TimeSpan.FromMilliseconds(1000);
-            _dateTimer.Tick += (sender, e) =>
-              {
-                  CurrentDate = "今天：" + DateTime.Now.ToString();
-              };
-            _dateTimer.Start();
+            _dateTimeService = new DateTimeService();
+            _displayService = new DisplayService();
 
-            LoginVM = new LoginViewModel() { MainVM = this };
-
-            var task = Init();
+            LoginVM = new LoginViewModel();
         }
 
-        private async Task Init()
+        public async Task Init()
         {
             if (ConfigHelper.IsLogin)
             {
+                OperationAfterLoginVisibility = Visibility.Visible;
+
+                _uploadService = new UploadService();
+
                 CurrentUser = new PlantSitterUser()
                 {
                     Email = LocalSettingHelper.GetValue("email"),
@@ -157,10 +168,8 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
-        public async Task RefreshAllSensor()
-        {
-            _uploadTimer = new DispatcherTimer();
-            
+        private async Task RefreshAllSensor()
+        {            
             var task1 = InitialLightSensor();
             var task2 = InitialDhtSensor();
             var task3 = InitialSoilSensor();
@@ -170,30 +179,55 @@ namespace PlantSitterResp.ViewModel
             await task3;
         }
 
-        public async Task InitialLightSensor()
+        private async Task InitialLightSensor()
         {
-            var sensor = new GY30LightSensor();
-            await sensor.InitLightSensorAsync();
-            sensor.Reading += (sender, e) =>
+            try
             {
-                Debug.WriteLine($"Light={e.Lux}");
-            };
+                var sensor = new GY30LightSensor();
+                await sensor.InitLightSensorAsync();
+                sensor.Reading += (sender, e) =>
+                {
+                    TempData[3] = e.Lux.Value;
+                };
+            }
+            catch(Exception)
+            {
+                ToastService.SendToast("初始化光线传感器失败 :-(");
+            }
         }
 
-        public async Task InitialDhtSensor()
+        private async Task InitialDhtSensor()
         {
+            try
+            {
 
+            }
+            catch(Exception)
+            {
+                ToastService.SendToast("初始化温湿度传感器失败 :-(");
+            }
         }
 
-        public async Task InitialSoilSensor()
+        private async Task InitialSoilSensor()
         {
-            SoilSensor soilSensor = new SoilSensor();
-            await soilSensor.InitGpioPin(SOIL_SENSOR_GPIO_PIN);
+            try
+            {
+                SoilSensor soilSensor = new SoilSensor(SOIL_SENSOR_GPIO_PIN);
+                await soilSensor.InitAsync();
+                soilSensor.OnReadingValue += ((value) =>
+                {
+                    TempData[1] = value;
+                });
+            }
+            catch(Exception)
+            {
+                ToastService.SendToast("初始化土壤湿度传感器失败 :-(");
+            }
         }
 
-        public void Activate(object param)
+        public async void Activate(object param)
         {
-
+            await Init();
         }
 
         public void Deactivate(object param)

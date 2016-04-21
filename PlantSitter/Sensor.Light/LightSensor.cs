@@ -53,42 +53,29 @@ namespace Sensor.Light
                 throw new FileNotFoundException("No I2C controllers were found on the system");
             }
 
-            var foundAddress = false;
-            var count = 0;
-            var address = 0;
-            do
+            var settings = new I2cConnectionSettings(Bh1750Address)
             {
-                var settings = new I2cConnectionSettings(address)
-                {
-                    BusSpeed = I2cBusSpeed.FastMode
-                };
+                BusSpeed = I2cBusSpeed.FastMode
+            };
 
-                I2CLightSensor = await I2cDevice.FromIdAsync(dis[0].Id, settings);
-                /* Create an I2cDevice with our selected bus controller and I2C settings */
-                if (I2CLightSensor == null)
-                {
-                    throw new UnauthorizedAccessException(string.Format("Slave address {0} on I2C Controller {1} is currently in use by " +
-                                     "another application. Please ensure that no other applications are using I2C.", settings.SlaveAddress, dis[0].Id));
-                }
+            I2CLightSensor = await I2cDevice.FromIdAsync(dis[0].Id, settings);
+            /* Create an I2cDevice with our selected bus controller and I2C settings */
+            if (I2CLightSensor == null)
+            {
+                throw new UnauthorizedAccessException(string.Format("Slave address {0} on I2C Controller {1} is currently in use by " +
+                                 "another application. Please ensure that no other applications are using I2C.", settings.SlaveAddress, dis[0].Id));
+            }
 
-                /* Write the register settings */
-                try
-                {
-                    I2CLightSensor.Write(new byte[] { 0x10 }); // 1 [lux] aufloesung
-                }
-                /* If the write fails display the error and stop running */
-                catch (Exception ex)
-                {
-                    ++address;
-                    ++count;
-
-                    Debug.WriteLine("Failed to communicate with device: " + ex.Message);
-                    continue;
-                }
-
-                Debug.WriteLine("【ADDRESS】"+address);
-                foundAddress = true;
-            } while (!foundAddress && count<78);
+            /* Write the register settings */
+            try
+            {
+                I2CLightSensor.Write(new byte[] { 0x10 }); // 1 [lux] aufloesung
+            }
+            /* If the write fails display the error and stop running */
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Failed to communicate with device: " + ex.Message);
+            }
 
             PeriodicTimer = new Timer(this.TimerCallback, null, 0, TimerIntervalMs);
         }

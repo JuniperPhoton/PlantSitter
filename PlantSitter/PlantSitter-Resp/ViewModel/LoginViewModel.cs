@@ -18,7 +18,13 @@ namespace PlantSitterResp.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        public MainViewModel MainVM { get; set; }
+        public MainViewModel MainVM
+        {
+            get
+            {
+                return App.MainVM;
+            }
+        }
 
         private string _email;
         public string Email
@@ -115,6 +121,7 @@ namespace PlantSitterResp.ViewModel
                     LocalSettingHelper.CleanUpAll();
                     ShowLoginControl = true;
                     MainVM.CurrentUser = null;
+                    MainVM.OperationAfterLoginVisibility = Visibility.Collapsed;
                 });
             }
         }
@@ -164,8 +171,8 @@ namespace PlantSitterResp.ViewModel
                     LocalSettingHelper.AddValue("email", Email);
                     ShowLoginControl = false;
                     MainVM.CurrentUser = new PlantSitterUser() { Email = Email };
-                    await MainVM.UserPlanVM.GetAllUserPlans();
-                    await MainVM.RefreshAllSensor();
+
+                    await MainVM.Init();
                 }
             }
             catch (TaskCanceledException)

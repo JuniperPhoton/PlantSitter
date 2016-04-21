@@ -27,7 +27,7 @@ namespace PlantSitterResp.ViewModel
                 {
                     _selectedIndex = value;
                     RaisePropertyChanged(() => SelectedIndex);
-                    if (value > 0 && CurrentUserPlans.Count > value)
+                    if (value >= 0 && CurrentUserPlans.Count > value)
                     {
                         SelectedPlan = CurrentUserPlans.ElementAt(value);
                     }

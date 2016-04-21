@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using PlantSitterResp.ViewModel;
+using PlantSitterCusomControl;
 
 namespace PlantSitterResp
 {
@@ -62,7 +63,13 @@ namespace PlantSitterResp
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
+        }
 
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            ToastService.SendToast(e.Exception.Message,TimeSpan.FromMilliseconds(5000));
         }
 
         /// <summary>

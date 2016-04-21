@@ -113,6 +113,7 @@
     <Compile Include="API\ErrorTable.cs" />
     <Compile Include="API\UrlHelper.cs" />
     <Compile Include="Common\AppSettings.cs" />
+    <Compile Include="Converter\SoilMoistureConverter.cs" />
     <Compile Include="Model\Plant.cs" />
     <Compile Include="Model\PlantSitterUser.cs" />
     <Compile Include="Model\PlantTimeline.cs" />

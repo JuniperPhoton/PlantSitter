@@ -27,10 +27,9 @@
                 <TextBlock FontSize="20" Margin="10" Text="PlantSitter | 你的植物保姆" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <ProgressRing Visibility="{x:Bind MainVM.LoadingVisibility,Mode=OneWay}" IsActive="True" Foreground="White"/>
             </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Margin="0,10,20,10" HorizontalAlignment="Right"  VerticalAlignment="Stretch">
-                <Button Width="50" Margin="10 0 10 0" VerticalAlignment="Stretch" Command="{x:Bind MainVM.RefreshCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle}" Background="{StaticResource PlantSitterDashboardDarkColor}" BorderBrush="{x:Null}">
-                    <Border Background="{StaticResource PlantSitterDashboardDarkColor}">
+            <StackPanel x:Name="TopAppBar" Visibility="{x:Bind MainVM.OperationAfterLoginVisibility,Mode=OneWay}" Orientation="Horizontal" Margin="0,0,20,0" HorizontalAlignment="Right"  VerticalAlignment="Stretch">
+                <Button Style="{StaticResource ButtonStyleWithBackgrd}" Width="80" Margin="10 0 10 0" VerticalAlignment="Stretch" BorderThickness="0" Command="{x:Bind MainVM.RefreshCommand,Mode=OneWay}" Background="{StaticResource PlantSitterDashboardDarkColor}" BorderBrush="{x:Null}">
+                    <Border>
                         <SymbolIcon Foreground="White" Symbol="Refresh"/>
                     </Border>
                 </Button>
@@ -52,6 +51,9 @@
             </StackPanel>
         </Grid>
         <uc:DashboardControl x:Name="DashboardControl" Grid.Row="1"/>
+        <CommandBar Visibility="{x:Bind MainVM.OperationAfterLoginVisibility,Mode=OneWay}" Background="{StaticResource PlantSitterDashboardColor}" Foreground="White" VerticalAlignment="Bottom" Grid.Row="5" HorizontalAlignment="Right">
+            <AppBarButton Command="{x:Bind MainVM.RepairSensorCommand,Mode=OneWay}" Icon="Repair" Label="重新设置传感器" Foreground="White" Background="{x:Null}"/>
+        </CommandBar>
         <uc:LoginControl x:Name="LoginControl" Visibility="Collapsed" DataContext="{x:Bind MainVM.LoginVM,Mode=OneWay}" Grid.Row="1"/>
     </Grid>
 </common:BasePage>

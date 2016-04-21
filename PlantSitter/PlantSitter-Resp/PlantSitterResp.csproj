@@ -102,6 +102,8 @@
     <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Common\RespSettings.cs" />
     <Compile Include="Common\TitleBarHelper.cs" />
+    <Compile Include="Service\DateTimeService.cs" />
+    <Compile Include="Service\DisplayService.cs" />
     <Compile Include="Service\UploadService.cs" />
     <Compile Include="UC\DashboardControl.xaml.cs">
       <DependentUpon>DashboardControl.xaml</DependentUpon>

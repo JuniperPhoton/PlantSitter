@@ -12,7 +12,13 @@ namespace PlantSitterResp.View
 {
     public sealed partial class MainPage : BasePage
     {
-        public MainViewModel MainVM { get; set; }
+        public MainViewModel MainVM
+        {
+            get
+            {
+                return App.MainVM;
+            }
+        }
 
         private Compositor _compositor;
         private Visual _loginVisual;
@@ -35,7 +41,7 @@ namespace PlantSitterResp.View
         public MainPage()
         {
             this.InitializeComponent();
-            this.DataContext = MainVM = new MainViewModel();
+            this.DataContext = MainVM;
             InitialCompositor();
             InitialBinding();
         }

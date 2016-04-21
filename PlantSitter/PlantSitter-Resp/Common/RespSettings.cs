@@ -11,7 +11,7 @@ namespace PlantSitterResp.Common
     {
         /// <summary>
         /// 上传的频率，分几个档：
-        /// 每15，30，60分钟，1.5小时，2小时
+        /// 每5，15，30，1小时，1.5小时，2小时，3小时
         /// </summary>
         public int UploadFequency
         {

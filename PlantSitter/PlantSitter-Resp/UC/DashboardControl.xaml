@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PlantSitterResp.UC"
+    xmlns:converter="using:PlantSitterShared.Converter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -10,6 +11,7 @@
     d:DesignHeight="720"
     d:DesignWidth="1280">
     <UserControl.Resources>
+        <converter:SoilMoistureConverter x:Key="SoilMoistureConverter"/>
         <Style x:Key="GridViewItemStyle1" TargetType="GridViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
@@ -83,7 +85,7 @@
                         <Grid>
                             <Ellipse Width="130" Height="130">
                                 <Ellipse.Fill>
-                                    <ImageBrush ImageSource="ms-appx:///Assets/Square44x44Logo.scale-256.png"/>
+                                    <ImageBrush ImageSource="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
                                 </Ellipse.Fill>
                             </Ellipse>
                             <Ellipse x:Name="ImageEllipse" Width="130" Height="130">
@@ -100,13 +102,13 @@
         </GridView>
         <Grid Grid.Row="1" Background="{StaticResource PlantSitterDashboardColor}">
             <Border Height="1" Background="#C5FFFFFF" Margin="10,0" VerticalAlignment="Top"/>
-            <Grid Margin="50" MaxWidth="700">
+            <Grid Margin="50,50,50,10" MaxWidth="700">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="50"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Grid>
-                    <TextBlock Text="{Binding CurrentDate,Mode=OneWay,FallbackValue=今天}" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding CurrentDate,Mode=OneWay}" HorizontalAlignment="Left" Foreground="White" VerticalAlignment="Center"/>
                     <Grid Width="300" HorizontalAlignment="Right">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -115,8 +117,13 @@
                         <TextBlock Text="数据上传频率" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         <ComboBox SelectedIndex="{Binding Source={StaticResource AppSettings},Path=UploadFequency,Mode=TwoWay}" Margin="5 0 0 0" Foreground="White" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="1" >
                             <ComboBox.Items>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="5 分钟一次"/>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="15 分钟一次"/>
                                 <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="30 分钟一次"/>
-                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="1 小时一次"/>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="1  小时一次"/>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="1.5 小时一次"/>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="2 小时一次"/>
+                                <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="3 小时一次"/>
                             </ComboBox.Items>
                         </ComboBox>
                     </Grid>
@@ -147,12 +154,11 @@
                         <TextBlock Text="1小时前" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
                         <TextBlock Text="1.5小时前" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="4"/>
                         <TextBlock Text="2小时前" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="5"/>
-
-                        <TextBlock Text="室内温度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
-                        <TextBlock Text="空气湿度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
-                        <TextBlock Text="土壤湿度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
-                        <TextBlock Text="环境光照" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
-
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].EnviMoisture,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].EnviTemp,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].Light,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
+                   
                     </Grid>
                 </Border>
             </Grid>
