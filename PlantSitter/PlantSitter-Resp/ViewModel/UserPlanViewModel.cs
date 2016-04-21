@@ -133,6 +133,5 @@ namespace PlantSitterResp.ViewModel
                 var task = plan.CurrentPlant.DownloadImage();
             }
         }
-
     }
 }

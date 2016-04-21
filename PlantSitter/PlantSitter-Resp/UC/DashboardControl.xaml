@@ -11,7 +11,10 @@
     d:DesignHeight="720"
     d:DesignWidth="1280">
     <UserControl.Resources>
-        <converter:SoilMoistureConverter x:Key="SoilMoistureConverter"/>
+        <converter:SoilMoistureValueConverter x:Key="SoilMoistureValueConverter"/>
+        <converter:EnviMoistureValueConverter x:Key="EnviMoistureValueConverter"/>
+        <converter:EnviTempValueConverter x:Key="EnviTempValueConverter"/>
+        <converter:LightValueConverter x:Key="LightValueConverter"/>
         <Style x:Key="GridViewItemStyle1" TargetType="GridViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
@@ -154,11 +157,31 @@
                         <TextBlock Text="1小时前" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="3"/>
                         <TextBlock Text="1.5小时前" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="4"/>
                         <TextBlock Text="2小时前" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="5"/>
-                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].EnviMoisture,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
-                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].EnviTemp,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
-                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
-                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.RecordData[0].Light,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
-                   
+                        
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[0].EnviMoisture,Mode=OneWay,Converter={StaticResource EnviMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[0].EnviTemp,Mode=OneWay,Converter={StaticResource EnviTempValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="1"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[0].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[0].Light,Mode=OneWay,Converter={StaticResource LightValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="1"/>
+                        
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[1].EnviMoisture,Mode=OneWay,Converter={StaticResource EnviMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="2"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[1].EnviTemp,Mode=OneWay,Converter={StaticResource EnviTempValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="2"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[1].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="2"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[1].Light,Mode=OneWay,Converter={StaticResource LightValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="2"/>
+
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[2].EnviMoisture,Mode=OneWay,Converter={StaticResource EnviMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="3"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[2].EnviTemp,Mode=OneWay,Converter={StaticResource EnviTempValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="3"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[2].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="3"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[2].Light,Mode=OneWay,Converter={StaticResource LightValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="3"/>
+
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[3].EnviMoisture,Mode=OneWay,Converter={StaticResource EnviMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="4"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[3].EnviTemp,Mode=OneWay,Converter={StaticResource EnviTempValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="4"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[3].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="4"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[3].Light,Mode=OneWay,Converter={StaticResource LightValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="4"/>
+
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[4].EnviMoisture,Mode=OneWay,Converter={StaticResource EnviMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="5"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[4].EnviTemp,Mode=OneWay,Converter={StaticResource EnviTempValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2" Grid.Column="5"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[4].SoilMoisture,Mode=OneWay,Converter={StaticResource SoilMoistureValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="5"/>
+                        <TextBlock Text="{Binding UserPlanVM.SelectedPlan.TimelineDataToDisplay[4].Light,Mode=OneWay,Converter={StaticResource LightValueConverter}}" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4" Grid.Column="5"/>
                     </Grid>
                 </Border>
             </Grid>

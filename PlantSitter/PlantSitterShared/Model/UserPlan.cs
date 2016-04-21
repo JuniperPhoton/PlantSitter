@@ -98,6 +98,23 @@ namespace PlantSitterShard.Model
             }
         }
 
+        private PlantTimeline[] _timelineDataToDisplay;
+        public PlantTimeline[] TimelineDataToDisplay
+        {
+            get
+            {
+                return _timelineDataToDisplay;
+            }
+            set
+            {
+                if (_timelineDataToDisplay != value)
+                {
+                    _timelineDataToDisplay = value;
+                    RaisePropertyChanged(() => TimelineDataToDisplay);
+                }
+            }
+        }
+
         private DateTime _createTime;
         public DateTime CreateTime
         {
@@ -118,6 +135,7 @@ namespace PlantSitterShard.Model
         public UserPlan()
         {
             RecordData = new ObservableCollection<PlantTimeline>();
+            TimelineDataToDisplay = new PlantTimeline[5];
         }
 
         public static UserPlan ParseFromJson(string json)

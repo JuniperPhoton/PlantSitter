@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Data;
 
 namespace PlantSitterShared.Converter
 {
-    public class SoilMoistureConverter : IValueConverter
+    public class SoilMoistureValueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
