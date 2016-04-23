@@ -33,7 +33,7 @@ namespace PlantSitter_Resp.Service
 
         private TimeSpan GetTimeInMillisecondFromSettings()
         {
-            switch(App.AppSettings.UploadFequency)
+            switch (App.AppSettings.UploadFequency)
             {
                 case 0:
                     {

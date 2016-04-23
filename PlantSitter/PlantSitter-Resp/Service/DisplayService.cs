@@ -13,8 +13,6 @@ namespace PlantSitter_Resp.Service
     {
         private DispatcherTimer _timer;
 
-        private PlantTimeline TempTimeline { get; set; }
-
         public DisplayService()
         {
             _timer = new DispatcherTimer();
@@ -25,10 +23,11 @@ namespace PlantSitter_Resp.Service
 
         private void _timer_Tick(object sender, object e)
         {
-            if (App.MainVM.UserPlanVM.SelectedPlan != null)
+            if (App.MainVM.UserPlanVM.SelectedPlan != null && App.MainVM.TempTimelineData != null)
             {
-                App.MainVM.UserPlanVM.SelectedPlan.RecordData.Insert(0, TempTimeline);
-                App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[0] = TempTimeline;
+                App.MainVM.UserPlanVM.SelectedPlan.RecordData.Insert(0, App.MainVM.TempTimelineData);
+                App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[0] = App.MainVM.TempTimelineData;
+
                 var timeline30MinAgo = App.MainVM.UserPlanVM.SelectedPlan.RecordData.ToList().Find((timeline) =>
                   {
                       if (timeline.RecordTime.ToString("YYYY/MM/DD HH::MM") == DateTime.Now.AddMinutes(-30).ToString("YYYY/MM/DD HH::MM"))
@@ -61,7 +60,7 @@ namespace PlantSitter_Resp.Service
                     }
                     else return false;
                 });
-                App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[0] = TempTimeline;
+                App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[0] = App.MainVM.TempTimelineData;
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[1] = timeline30MinAgo;
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[2] = timeline1HourAgo;
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[3] = timeline1HalfHourAgo;

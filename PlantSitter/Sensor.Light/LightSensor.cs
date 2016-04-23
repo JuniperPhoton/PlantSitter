@@ -8,16 +8,6 @@ using Windows.Devices.I2c;
 
 namespace Sensor.Light
 {
-    public class GY30LightSensorEventArgs : EventArgs
-    {
-        public int? Lux { get; set; }
-
-        public GY30LightSensorEventArgs(int? lux)
-        {
-            Lux = lux;
-        }
-    }
-
     public class GY30LightSensor
     {
         public int Bh1750Address => 0x23;
@@ -28,13 +18,11 @@ namespace Sensor.Light
 
         public int TimerIntervalMs { get; set; }
 
-        public event ReadingEventHandler Reading;
-
-        public delegate void ReadingEventHandler(object sender, GY30LightSensorEventArgs e);
+        public event Action<int?> Reading;
 
         private void OnReading(int lux)
         {
-            Reading?.Invoke(lux, new GY30LightSensorEventArgs(lux));
+            Reading?.Invoke(lux);
         }
 
         public GY30LightSensor(int timerIntervalMs = 100)
@@ -42,7 +30,7 @@ namespace Sensor.Light
             TimerIntervalMs = timerIntervalMs;
         }
 
-        public async Task InitLightSensorAsync()
+        public async Task InitAsync()
         {
             string aqs = I2cDevice.GetDeviceSelector();
             /* Get a selector string that will return all I2C controllers on the system */

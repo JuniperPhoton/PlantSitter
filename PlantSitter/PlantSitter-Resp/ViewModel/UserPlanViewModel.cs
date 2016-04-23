@@ -12,7 +12,7 @@ using Windows.UI.Xaml;
 
 namespace PlantSitterResp.ViewModel
 {
-    public class UserPlanViewModel:ViewModelBase
+    public class UserPlanViewModel : ViewModelBase
     {
         private int _selectedIndex;
         public int SelectedIndex
@@ -93,7 +93,7 @@ namespace PlantSitterResp.ViewModel
             SelectedIndex = -1;
         }
 
-        public async Task GetAllUserPlans()
+        public async Task GetAllUserPlansAsync()
         {
             CurrentUserPlans = new ObservableCollection<UserPlan>();
 
@@ -113,7 +113,7 @@ namespace PlantSitterResp.ViewModel
             {
                 var plan = UserPlan.ParseFromJson(item.ToString());
                 plan.CurrentUser = App.MainVM.CurrentUser;
-                var task= plan.UpdatePlantInfo();
+                var task = plan.UpdatePlantInfo();
                 tasks.Add(task);
                 CurrentUserPlans.Add(plan);
             }

@@ -38,7 +38,7 @@ namespace PlantSitterResp.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
         public static void Cleanup()
         {
 

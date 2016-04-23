@@ -2,15 +2,14 @@
 using JP.Utils.Data;
 using JP.Utils.Framework;
 using PlantSitterCusomControl;
-using Sensor.Soil;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Sensor.Light;
 using PlantSitterShard.Model;
 using PlantSitterResp.Common;
 using GalaSoft.MvvmLight.Command;
 using PlantSitter_Resp.Service;
+using PlantSitterResp.Service.SensorService;
 
 namespace PlantSitterResp.ViewModel
 {
@@ -22,6 +21,10 @@ namespace PlantSitterResp.ViewModel
         private DisplayService _displayService;
         private UploadService _uploadService;
         private DateTimeService _dateTimeService;
+
+        private EnviSensorService _enviSensorService;
+        private LightSensorService _lightSensorService;
+        private SoilSensorService _soilMoistureSensorService;
 
         public bool IsInView { get; set; }
 
@@ -109,10 +112,10 @@ namespace PlantSitterResp.ViewModel
             get
             {
                 if (_refreshCommand != null) return _refreshCommand;
-                return _refreshCommand = new RelayCommand(async() =>
+                return _refreshCommand = new RelayCommand(async () =>
                   {
                       LoadingVisibility = Visibility.Visible;
-                      await UserPlanVM.GetAllUserPlans();
+                      await UserPlanVM.GetAllUserPlansAsync();
                       LoadingVisibility = Visibility.Collapsed;
                   });
             }
@@ -124,16 +127,50 @@ namespace PlantSitterResp.ViewModel
             get
             {
                 if (_repairSensorCommand != null) return _repairSensorCommand;
-                return _repairSensorCommand = new RelayCommand(async() =>
+                return _repairSensorCommand = new RelayCommand(async () =>
                   {
                       LoadingVisibility = Visibility.Visible;
-                      await RefreshAllSensor();
+                      await ResetSensorSettingsAsync();
                       LoadingVisibility = Visibility.Collapsed;
                   });
             }
         }
 
-        private double[] TempData { get; set; } = new double[4];
+        private int _enviGPIOPIN;
+        public int EnviGPIOPIN
+        {
+            get
+            {
+                return _enviGPIOPIN;
+            }
+            set
+            {
+                if (_enviGPIOPIN != value)
+                {
+                    _enviGPIOPIN = value;
+                    RaisePropertyChanged(() => EnviGPIOPIN);
+                }
+            }
+        }
+
+        private int _soilGPIOPIN;
+        public int SoilGPIOPIN
+        {
+            get
+            {
+                return _soilGPIOPIN;
+            }
+            set
+            {
+                if (_soilGPIOPIN != value)
+                {
+                    _soilGPIOPIN = value;
+                    RaisePropertyChanged(() => SoilGPIOPIN);
+                }
+            }
+        }
+
+        public PlantTimeline TempTimelineData { get; set; } = new PlantTimeline();
 
         public MainViewModel()
         {
@@ -162,67 +199,31 @@ namespace PlantSitterResp.ViewModel
                 };
 
                 LoadingVisibility = Visibility.Visible;
-                await UserPlanVM.GetAllUserPlans();
-                await RefreshAllSensor();
+                await UserPlanVM.GetAllUserPlansAsync();
+                await RefreshAllSensorsAsync();
                 LoadingVisibility = Visibility.Collapsed;
+
+                EnviGPIOPIN = 0;
+                SoilGPIOPIN = 0;
             }
         }
 
-        private async Task RefreshAllSensor()
-        {            
-            var task1 = InitialLightSensor();
-            var task2 = InitialDhtSensor();
-            var task3 = InitialSoilSensor();
-
-            await task1;
-            await task2;
-            await task3;
-        }
-
-        private async Task InitialLightSensor()
+        private async Task RefreshAllSensorsAsync()
         {
-            try
-            {
-                var sensor = new GY30LightSensor();
-                await sensor.InitLightSensorAsync();
-                sensor.Reading += (sender, e) =>
-                {
-                    TempData[3] = e.Lux.Value;
-                };
-            }
-            catch(Exception)
-            {
-                ToastService.SendToast("初始化光线传感器失败 :-(");
-            }
+            _lightSensorService = new LightSensorService();
+            _soilMoistureSensorService = new SoilSensorService(16);
+            _enviSensorService = new EnviSensorService(4);
+
+            await _lightSensorService.Init();
+            await _soilMoistureSensorService.Init();
+            await _enviSensorService.Init();
         }
 
-        private async Task InitialDhtSensor()
+        private async Task ResetSensorSettingsAsync()
         {
-            try
-            {
-
-            }
-            catch(Exception)
-            {
-                ToastService.SendToast("初始化温湿度传感器失败 :-(");
-            }
-        }
-
-        private async Task InitialSoilSensor()
-        {
-            try
-            {
-                SoilSensor soilSensor = new SoilSensor(SOIL_SENSOR_GPIO_PIN);
-                await soilSensor.InitAsync();
-                soilSensor.OnReadingValue += ((value) =>
-                {
-                    TempData[1] = value;
-                });
-            }
-            catch(Exception)
-            {
-                ToastService.SendToast("初始化土壤湿度传感器失败 :-(");
-            }
+            await _lightSensorService.Init();
+            await _soilMoistureSensorService.InitWithNewPin((uint)SoilGPIOPIN);
+            await _enviSensorService.InitWithNewPin((uint)EnviGPIOPIN);
         }
 
         public async void Activate(object param)

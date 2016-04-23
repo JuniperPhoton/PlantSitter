@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GPIOSensor.Common;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,45 +10,49 @@ using Windows.UI.Xaml;
 
 namespace Sensor.Soil
 {
-    public class SoilSensor
+    public class SoilSensor : IGPIOSensor
     {
-        public GpioPin MoistureSensorOutputPin { get; set; }
-
-        public event Action<double> OnReadingValue;
-
         private DispatcherTimer _dispatcherTimer { get; set; }
-        private int? _pinNumber;
+        private GpioPin _pin { get; set; }
+
+        public int GpioPinNumber { get; set; }
+
+        public event Action<double> OnRead;
+
+        public SoilSensor(int gpioPin)
+        {
+            GpioPinNumber = gpioPin;
+        }
 
         public async Task InitAsync()
         {
-            if (_pinNumber == null) throw new ArgumentNullException("Must specify a Pin Number.");
-
-            var ctl = await GpioController.GetDefaultAsync();
-            MoistureSensorOutputPin = ctl?.OpenPin(_pinNumber.Value);
-            if (MoistureSensorOutputPin != null)
+            var controller = await GpioController.GetDefaultAsync();
+            _pin = controller?.OpenPin(GpioPinNumber);
+            if (_pin != null)
             {
-                MoistureSensorOutputPin.SetDriveMode(GpioPinDriveMode.Input);
+                _pin.SetDriveMode(GpioPinDriveMode.Input);
                 _dispatcherTimer = new DispatcherTimer();
                 _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(1000);
                 _dispatcherTimer.Tick += (sender, e) =>
                 {
-                    var pinValue = MoistureSensorOutputPin.Read();
+                    var pinValue = _pin.Read();
                     if (pinValue == GpioPinValue.High)
                     {
-                        OnReadingValue?.Invoke(0);
+                        OnRead?.Invoke(0);
                     }
                     else
                     {
-                        OnReadingValue?.Invoke(1);
+                        OnRead?.Invoke(1);
                     }
                 };
                 _dispatcherTimer.Start();
             }
         }
 
-        public SoilSensor(int pinNumber)
+        public void Dispose()
         {
-            _pinNumber = pinNumber;
+            _pin.Dispose();
+            _pin = null;
         }
     }
 }

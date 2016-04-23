@@ -31,10 +31,10 @@ namespace PlantSitterResp.View
 
         public static readonly DependencyProperty ShowLoginControlProperty =
             DependencyProperty.Register("ShowLoginControl", typeof(bool), typeof(MainPage), new PropertyMetadata(false,
-                (sender,e)=>
+                (sender, e) =>
                 {
                     var page = sender as MainPage;
-                    if(e.NewValue!=e.OldValue)
+                    if (e.NewValue != e.OldValue)
                         page.PlayLoginControlAnim((bool)e.NewValue);
                 }));
 
@@ -74,11 +74,11 @@ namespace PlantSitterResp.View
             _loginVisual.Opacity = show ? 0f : 1f;
 
             var fadeAnim = _compositor.CreateScalarKeyFrameAnimation();
-            fadeAnim.InsertKeyFrame(1f, show? 1f:0f);
+            fadeAnim.InsertKeyFrame(1f, show ? 1f : 0f);
             fadeAnim.Duration = TimeSpan.FromMilliseconds(1250);
 
             var offsetAnim = _compositor.CreateVector3KeyFrameAnimation();
-            offsetAnim.InsertKeyFrame(1f, show? new Vector3(0, 0, 0):new Vector3(150,0,0));
+            offsetAnim.InsertKeyFrame(1f, show ? new Vector3(0, 0, 0) : new Vector3(150, 0, 0));
             offsetAnim.Duration = TimeSpan.FromMilliseconds(1250);
 
             var batch = _compositor.CreateScopedBatch(CompositionBatchTypes.Animation);
@@ -87,7 +87,7 @@ namespace PlantSitterResp.View
             batch.End();
             batch.Completed += ((sender, e) =>
               {
-                  if(!show)
+                  if (!show)
                   {
                       LoginControl.Visibility = Visibility.Collapsed;
                   }

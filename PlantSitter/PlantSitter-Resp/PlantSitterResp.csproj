@@ -104,6 +104,11 @@
     <Compile Include="Common\TitleBarHelper.cs" />
     <Compile Include="Service\DateTimeService.cs" />
     <Compile Include="Service\DisplayService.cs" />
+    <Compile Include="Service\SensorService\EnviSensorService.cs" />
+    <Compile Include="Service\SensorService\IGPIOSensorService.cs" />
+    <Compile Include="Service\SensorService\ISensorService.cs" />
+    <Compile Include="Service\SensorService\LightSensorService.cs" />
+    <Compile Include="Service\SensorService\SoilSensorService.cs" />
     <Compile Include="Service\UploadService.cs" />
     <Compile Include="UC\AboutControl.xaml.cs">
       <DependentUpon>AboutControl.xaml</DependentUpon>
@@ -238,6 +243,10 @@
     <ProjectReference Include="..\PlantSitterShared\PlantSitterShared.csproj">
       <Project>{03507278-ec38-485a-bea3-366035ce93c3}</Project>
       <Name>PlantSitterShared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sensor.Env\Sensor.Envi.csproj">
+      <Project>{4e132cee-91b8-4869-b213-02d950499aba}</Project>
+      <Name>Sensor.Envi</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sensor.Light\Sensor.Light.csproj">
       <Project>{b3ce01f2-98a9-470c-9e11-3e2a531c5f41}</Project>

@@ -113,7 +113,7 @@ DhtReadingResult Dht11::InternalGetReading()
 	// ***
 	// *** catch the first rising edge
 	// ***
-    // GetTickCount64()：Retrieves the number of milliseconds that have elapsed since the system was started.
+	// GetTickCount64()：Retrieves the number of milliseconds that have elapsed since the system was started.
 	const ULONG initialRisingEdgeTimeoutMillis = 1;
 	ULONGLONG endTickCount = GetTickCount64() + initialRisingEdgeTimeoutMillis;
 	for (;;)

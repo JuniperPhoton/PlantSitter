@@ -41,14 +41,14 @@ namespace Sensors
 
 		public ref class Dht11 sealed : IDht
 		{
-			public:
+		public:
 			Dht11(Windows::Devices::Gpio::GpioPin^ pin, Windows::Devices::Gpio::GpioPinDriveMode inputReadMode);
 			virtual ~Dht11();
 
 			virtual Windows::Foundation::IAsyncOperation<DhtReadingResult>^ GetReadingAsync();
 			virtual Windows::Foundation::IAsyncOperation<DhtReadingResult>^ GetReadingAsync(int maxRetries);
 
-			private:
+		private:
 			Windows::Devices::Gpio::GpioPinDriveMode _inputReadMode;
 			Windows::Devices::Gpio::GpioPin^ _pin;
 

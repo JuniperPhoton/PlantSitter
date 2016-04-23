@@ -12,6 +12,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <common:BasePage.Resources>
+    </common:BasePage.Resources>
     <Interactivity:Interaction.Behaviors>
         <Core:EventTriggerBehavior EventName="GlobalPageKeyDown">
             <attach:InvokeCommandByKeyDown Command="{x:Bind MainVM.LoginVM.ConfirmActionCommand}" PressedKey="Enter" />
@@ -52,7 +54,36 @@
         </Grid>
         <uc:DashboardControl x:Name="DashboardControl" Grid.Row="1"/>
         <CommandBar Visibility="{x:Bind MainVM.OperationAfterLoginVisibility,Mode=OneWay}" Background="{StaticResource PlantSitterDashboardColor}" Foreground="White" VerticalAlignment="Bottom" Grid.Row="5" HorizontalAlignment="Right">
-            <AppBarButton Command="{x:Bind MainVM.RepairSensorCommand,Mode=OneWay}" Icon="Repair" Label="重新设置传感器" Foreground="White" Background="{x:Null}"/>
+            <AppBarButton Icon="Repair" Label="重新设置传感器" Foreground="White" Background="{x:Null}">
+                <AppBarButton.Flyout>
+                    <Flyout>
+                        <StackPanel Margin="5" Width="250">
+                            <TextBlock Text="设置传感器 GPIO 阵脚"/>
+                            <Grid Height="40" Margin="0,20,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="环境湿温度传感器" VerticalAlignment="Center"/>
+                                <TextBox Text="{x:Bind MainVM.EnviGPIOPIN,Mode=OneWay}" Grid.Column="1" Style="{StaticResource TextBoxAlignWithCenterStyle}" VerticalContentAlignment="Center" InputScope="Number" BorderThickness="1"/>
+                            </Grid>
+                            <Grid Height="40" Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="土壤湿度传感器" VerticalAlignment="Center"/>
+                                <TextBox Text="{x:Bind MainVM.SoilGPIOPIN,Mode=OneWay}" Grid.Column="1" VerticalContentAlignment="Center" BorderThickness="1" InputScope="Number" Style="{StaticResource TextBoxAlignWithCenterStyle}"/>
+                            </Grid>
+                            <Button Command="{x:Bind MainVM.RepairSensorCommand,Mode=OneWay}" Padding="0" Margin="0,20,0,0" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Border Background="{StaticResource PlantSitterDashboardColor}">
+                                    <TextBlock Margin="5" Text="重启传感器设置" Foreground="White" HorizontalAlignment="Center"/>
+                                </Border>
+                            </Button>
+                        </StackPanel>
+                    </Flyout>
+                </AppBarButton.Flyout>
+            </AppBarButton>
         </CommandBar>
         <uc:LoginControl x:Name="LoginControl" Visibility="Collapsed" DataContext="{x:Bind MainVM.LoginVM,Mode=OneWay}" Grid.Row="1"/>
     </Grid>

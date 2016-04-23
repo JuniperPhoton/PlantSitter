@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{77778FA3-E0BF-4A8F-8C6E-E12442C49011}</ProjectGuid>
+    <ProjectGuid>{4E132CEE-91B8-4869-B213-02D950499ABA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sensor.Soil</RootNamespace>
-    <AssemblyName>Sensor.Soil</AssemblyName>
+    <RootNamespace>Sensor.Env</RootNamespace>
+    <AssemblyName>Sensor.Env</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10586.0</TargetPlatformVersion>
@@ -107,20 +107,24 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DhtSensor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SoilSensor.cs" />
-    <EmbeddedResource Include="Properties\Sensor.Soil.rd.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsIoT, Version=10.0.10586.0">
-      <Name>Windows IoT Extensions for the UWP</Name>
-    </SDKReference>
+    <EmbeddedResource Include="Properties\Sensor.Env.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GPIOSensor.Common\GPIOSensor.Shared.csproj">
       <Project>{a9404b76-a7a7-430c-9121-2ba7e03b0c24}</Project>
       <Name>GPIOSensor.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Sensors.Dht\Sensors.Dht.vcxproj">
+      <Project>{2cd70a4f-9eed-4cda-9e07-1a2bd33b4976}</Project>
+      <Name>Sensors.Dht</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsIoT, Version=10.0.10586.0">
+      <Name>Windows IoT Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
