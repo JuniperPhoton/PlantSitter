@@ -1,11 +1,8 @@
 ﻿using PlantSitterResp;
-using PlantSitterShard.Model;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using JP.Utils.Functions;
 
 namespace PlantSitter_Resp.Service
 {
@@ -25,12 +22,15 @@ namespace PlantSitter_Resp.Service
         {
             if (App.MainVM.UserPlanVM.SelectedPlan != null && App.MainVM.TempTimelineData != null)
             {
+                App.MainVM.TempTimelineData.RecordTime = DateTime.Now;
                 App.MainVM.UserPlanVM.SelectedPlan.RecordData.Insert(0, App.MainVM.TempTimelineData);
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[0] = App.MainVM.TempTimelineData;
 
                 var timeline30MinAgo = App.MainVM.UserPlanVM.SelectedPlan.RecordData.ToList().Find((timeline) =>
                   {
-                      if (timeline.RecordTime.ToString("YYYY/MM/DD HH::MM") == DateTime.Now.AddMinutes(-30).ToString("YYYY/MM/DD HH::MM"))
+                      var lastTime = timeline.RecordTime.GetDateTimeIn24Format();
+                      var currentTime = DateTime.Now.AddMinutes(-1).GetDateTimeIn24Format();
+                      if ( lastTime== currentTime)
                       {
                           return true;
                       }
@@ -38,7 +38,7 @@ namespace PlantSitter_Resp.Service
                   });
                 var timeline1HourAgo = App.MainVM.UserPlanVM.SelectedPlan.RecordData.ToList().Find((timeline) =>
                 {
-                    if (timeline.RecordTime.ToString("YYYY/MM/DD HH::MM") == DateTime.Now.AddHours(-1).ToString("YYYY/MM/DD HH::MM"))
+                    if (timeline.RecordTime.GetDateTimeIn24Format() == DateTime.Now.AddMinutes(-2).GetDateTimeIn24Format())
                     {
                         return true;
                     }
@@ -46,7 +46,7 @@ namespace PlantSitter_Resp.Service
                 });
                 var timeline1HalfHourAgo = App.MainVM.UserPlanVM.SelectedPlan.RecordData.ToList().Find((timeline) =>
                 {
-                    if (timeline.RecordTime.ToString("YYYY/MM/DD HH::MM") == DateTime.Now.AddHours(-1.5).ToString("YYYY/MM/DD HH::MM"))
+                    if (timeline.RecordTime.GetDateTimeIn24Format() == DateTime.Now.AddMinutes(-3).GetDateTimeIn24Format())
                     {
                         return true;
                     }
@@ -54,17 +54,19 @@ namespace PlantSitter_Resp.Service
                 });
                 var timeline2HalfHourAgo = App.MainVM.UserPlanVM.SelectedPlan.RecordData.ToList().Find((timeline) =>
                 {
-                    if (timeline.RecordTime.ToString("YYYY/MM/DD HH::MM") == DateTime.Now.AddHours(-2).ToString("YYYY/MM/DD HH::MM"))
+                    if (timeline.RecordTime.GetDateTimeIn24Format() == DateTime.Now.AddMinutes(-4).GetDateTimeIn24Format())
                     {
                         return true;
                     }
                     else return false;
                 });
-                App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[0] = App.MainVM.TempTimelineData;
+
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[1] = timeline30MinAgo;
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[2] = timeline1HourAgo;
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[3] = timeline1HalfHourAgo;
                 App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[4] = timeline2HalfHourAgo;
+
+                App.MainVM.UserPlanVM.SelectedPlan.RaiseTimelineChanged();
             }
         }
     }

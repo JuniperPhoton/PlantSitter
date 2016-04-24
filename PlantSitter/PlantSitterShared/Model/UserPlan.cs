@@ -138,6 +138,11 @@ namespace PlantSitterShard.Model
             TimelineDataToDisplay = new PlantTimeline[5];
         }
 
+        public void RaiseTimelineChanged()
+        {
+            RaisePropertyChanged(() => TimelineDataToDisplay);
+        }
+
         public static UserPlan ParseFromJson(string json)
         {
             var plan = new UserPlan();

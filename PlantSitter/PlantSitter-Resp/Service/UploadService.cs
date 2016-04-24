@@ -28,7 +28,7 @@ namespace PlantSitter_Resp.Service
         private async void _timer_Tick(object sender, object e)
         {
             var result = await CloudService.UploadData(TempTimeline.CurrentPlant.Pid, TempTimeline.Gid, TempTimeline.SoilMoisture,
-                TempTimeline.EnviTemp, TempTimeline.EnviMoisture, TempTimeline.Light, DateTime.Now.ToString("YYYY/MM/DD hh:mm:ss"), CTSFactory.MakeCTS().Token);
+                TempTimeline.EnviTemp, TempTimeline.EnviMoisture, TempTimeline.Light, DateTime.Now.ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS().Token);
         }
 
         private TimeSpan GetTimeInMillisecondFromSettings()

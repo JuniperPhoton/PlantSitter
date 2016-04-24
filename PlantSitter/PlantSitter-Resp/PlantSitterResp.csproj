@@ -258,7 +258,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Sensors.Dht\Sensors.Dht.vcxproj">
       <Project>{2cd70a4f-9eed-4cda-9e07-1a2bd33b4976}</Project>
-      <Name>Sensors.Dht</Name>
+      <Name>Sensor.Dht</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

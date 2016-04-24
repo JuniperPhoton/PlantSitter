@@ -29,7 +29,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2cd70a4f-9eed-4cda-9e07-1a2bd33b4976}</ProjectGuid>
     <Keyword>WindowsRuntimeComponent</Keyword>
-    <ProjectName>Sensors.Dht</ProjectName>
+    <ProjectName>Sensor.Dht</ProjectName>
     <RootNamespace>Sensors.Dht</RootNamespace>
     <DefaultLanguage>en-US</DefaultLanguage>
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>

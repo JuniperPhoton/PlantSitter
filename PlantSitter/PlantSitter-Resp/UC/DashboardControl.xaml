@@ -148,8 +148,8 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Text="室内温度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
-                        <TextBlock Text="空气湿度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2"/>
+                        <TextBlock Text="空气湿度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="1"/>
+                        <TextBlock Text="环境温度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="2"/>
                         <TextBlock Text="土壤湿度" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3"/>
                         <TextBlock Text="环境光照" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="4"/>
                         <TextBlock Text="实时" Foreground="White" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1"/>
@@ -201,5 +201,13 @@
                 </Button>
             </StackPanel>
         </Grid>
+        <!--<Grid x:Name="PreparingGrid" Grid.RowSpan="2" Background="{StaticResource PlantSitterDashboardColor}">
+            <Ellipse x:Name="LogoEll" Loaded="LogoEll_Loaded" Width="100" Height="100">
+                <Ellipse.Fill>
+                    <ImageBrush ImageSource="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock FontSize="30" Text="准备数据中" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,200,0,0"/>
+        </Grid>-->
     </Grid>
 </UserControl>

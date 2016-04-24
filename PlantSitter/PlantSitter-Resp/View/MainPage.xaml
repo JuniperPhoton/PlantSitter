@@ -53,9 +53,9 @@
             </StackPanel>
         </Grid>
         <uc:DashboardControl x:Name="DashboardControl" Grid.Row="1"/>
-        <CommandBar Visibility="{x:Bind MainVM.OperationAfterLoginVisibility,Mode=OneWay}" Background="{StaticResource PlantSitterDashboardColor}" Foreground="White" VerticalAlignment="Bottom" Grid.Row="5" HorizontalAlignment="Right">
-            <AppBarButton Icon="Repair" Label="重新设置传感器" Foreground="White" Background="{x:Null}">
-                <AppBarButton.Flyout>
+        <Grid Visibility="{x:Bind MainVM.OperationAfterLoginVisibility,Mode=OneWay}" Background="{StaticResource PlantSitterDashboardColor}" VerticalAlignment="Bottom" Grid.Row="5" HorizontalAlignment="Right">
+            <Button Margin="20" Style="{StaticResource ButtonCommonStyle}" Foreground="White" Background="{x:Null}">
+                <Button.Flyout>
                     <Flyout>
                         <StackPanel Margin="5" Width="250">
                             <TextBlock Text="设置传感器 GPIO 阵脚"/>
@@ -82,9 +82,13 @@
                             </Button>
                         </StackPanel>
                     </Flyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-        </CommandBar>
+                </Button.Flyout>
+                <Grid Width="50" Height="50">
+                    <Ellipse Width="50" Height="50" Fill="{StaticResource PlantSitterDashboardDarkColor}"/>
+                    <SymbolIcon Symbol="Repair" Foreground="White"/>
+                </Grid>
+            </Button>
+        </Grid>
         <uc:LoginControl x:Name="LoginControl" Visibility="Collapsed" DataContext="{x:Bind MainVM.LoginVM,Mode=OneWay}" Grid.Row="1"/>
     </Grid>
 </common:BasePage>
