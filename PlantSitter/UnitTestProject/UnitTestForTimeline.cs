@@ -15,7 +15,7 @@ namespace UnitTestProject
         public async Task TestUploadTimelineDataCase0()
         {
             Helper.AddAuthInfo();
-            var result = await CloudService.UploadData(1, 15, 1, 25, 30, 200, DateTime.Now.ToString("yyyy/MM/dd hh:mm::ss"), CTSFactory.MakeCTS().Token);
+            var result = await CloudService.UploadData(1, 15, 1, 25, 30, 200, DateTime.Now.ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS().Token);
             result.ParseAPIResult();
             Assert.IsTrue(result.IsSuccessful);
         }

@@ -28,7 +28,7 @@ namespace PlantSitterResp.Service.SensorService
                 {
                     await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                      {
-                         App.MainVM.TempTimelineData.Light = value.Value;
+                         App.MainVM.TempTimelineData[3] = value.Value;
                      });
                 };
             }

@@ -26,8 +26,8 @@ namespace PlantSitterResp.Service.SensorService
               {
                   await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                    {
-                       App.MainVM.TempTimelineData.EnviTemp = value.Temperature;
-                       App.MainVM.TempTimelineData.EnviMoisture = value.Humidity;
+                       App.MainVM.TempTimelineData[0] = value.Humidity;
+                       App.MainVM.TempTimelineData[1] = value.Temperature;
                    });
               };
         }

@@ -15,9 +15,6 @@ namespace PlantSitterResp.ViewModel
 {
     public class MainViewModel : ViewModelBase, INavigable
     {
-        private const int SOIL_SENSOR_GPIO_PIN = 18;
-        private const int TEMP_MOISTURE_SENSOR_GPIO_PIN = 18;
-
         private DisplayService _displayService;
         private UploadService _uploadService;
         private DateTimeService _dateTimeService;
@@ -170,7 +167,7 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
-        public PlantTimeline TempTimelineData { get; set; } = new PlantTimeline();
+        public double[] TempTimelineData { get; set; } = new double[4];
 
         public MainViewModel()
         {
@@ -211,8 +208,8 @@ namespace PlantSitterResp.ViewModel
         private async Task RefreshAllSensorsAsync()
         {
             _lightSensorService = new LightSensorService();
-            _soilMoistureSensorService = new SoilSensorService(16);
-            _enviSensorService = new EnviSensorService(4);
+            _soilMoistureSensorService = new SoilSensorService(26);
+            _enviSensorService = new EnviSensorService(17);
 
             await _lightSensorService.Init();
             await _soilMoistureSensorService.Init();

@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using JP.Utils.Functions;
+using System.Diagnostics;
 
 namespace PlantSitter_Resp.Service
 {
@@ -15,20 +17,28 @@ namespace PlantSitter_Resp.Service
     {
         private DispatcherTimer _timer;
 
-        private PlantTimeline TempTimeline { get; set; }
-
         public UploadService()
         {
             _timer = new DispatcherTimer();
-            _timer.Interval = GetTimeInMillisecondFromSettings();
+            _timer.Interval = TimeSpan.FromMinutes(1);
             _timer.Tick += _timer_Tick;
             _timer.Start();
         }
 
         private async void _timer_Tick(object sender, object e)
         {
-            var result = await CloudService.UploadData(TempTimeline.CurrentPlant.Pid, TempTimeline.Gid, TempTimeline.SoilMoisture,
-                TempTimeline.EnviTemp, TempTimeline.EnviMoisture, TempTimeline.Light, DateTime.Now.ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS().Token);
+            if (App.MainVM.UserPlanVM.SelectedPlan != null)
+            {
+                var tempdata = App.MainVM.UserPlanVM.SelectedPlan.RecordData[0];
+                if (tempdata != null)
+                {
+                    var result = await CloudService.UploadData(tempdata.CurrentPlant.Pid, tempdata.Gid, tempdata.SoilMoisture,
+                            tempdata.EnviTemp, tempdata.EnviMoisture, tempdata.Light, tempdata.RecordTime.GetDateTimeIn24Format(), CTSFactory.MakeCTS().Token);
+                    result.ParseAPIResult();
+
+                    Debug.WriteLine(result.ToString());
+                }
+            }
         }
 
         private TimeSpan GetTimeInMillisecondFromSettings()
