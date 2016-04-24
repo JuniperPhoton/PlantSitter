@@ -2865,7 +2865,7 @@
         <Setter Property="TabNavigation" Value="Local"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="Foreground" Value="{StaticResource PlantSitterDashboardColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource PlantSitterThemeColor}"/>
         <Setter Property="UseSystemFocusVisuals" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -2910,7 +2910,7 @@
                                 <VisualState x:Name="Selected">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PlantSitterDashboardColor}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PlantSitterThemeColor}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
@@ -2938,7 +2938,7 @@
                                 <VisualState x:Name="SelectedPointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PlantSitterDashboardColor}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PlantSitterThemeColor}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
@@ -2949,7 +2949,7 @@
                                 <VisualState x:Name="SelectedPressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background" Storyboard.TargetName="LayoutRoot">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PlantSitterDashboardColor}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PlantSitterThemeColor}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>

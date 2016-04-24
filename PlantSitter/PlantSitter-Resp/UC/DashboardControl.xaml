@@ -63,7 +63,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <Grid Background="{StaticResource PlantSitterDashboardColor}">
+    <Grid Background="{StaticResource PlantSitterThemeColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="250"/>
             <RowDefinition/>
@@ -103,7 +103,7 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-        <Grid Grid.Row="1" Background="{StaticResource PlantSitterDashboardColor}">
+        <Grid Grid.Row="1">
             <Border Height="1" Background="#C5FFFFFF" Margin="10,0" VerticalAlignment="Top"/>
             <Grid Margin="50,50,50,10" MaxWidth="700">
                 <Grid.RowDefinitions>
@@ -192,7 +192,7 @@
                 <TextBlock Text="你好，目前没有植物~" FontSize="25" HorizontalAlignment="Center" TextAlignment="Center" Foreground="White" />
                 <TextBlock Text="请到 PlantSitter 的 PC/Mobile 端添加吧" Margin="0 5 0 0" FontSize="25" Foreground="White" />
                 <Button Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <Border Width="200" Height="50" Background="{StaticResource PlantSitterDashboardLightColor}">
+                    <Border Width="200" Height="50" Background="{StaticResource PlantSitterThemeLightColor}">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <SymbolIcon Symbol="Refresh" Foreground="White"/>
                             <TextBlock Text="刷新一下" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="15,0,0,0"/>
@@ -201,13 +201,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <!--<Grid x:Name="PreparingGrid" Grid.RowSpan="2" Background="{StaticResource PlantSitterDashboardColor}">
-            <Ellipse x:Name="LogoEll" Loaded="LogoEll_Loaded" Width="100" Height="100">
-                <Ellipse.Fill>
-                    <ImageBrush ImageSource="ms-appx:///Assets/Square44x44Logo.targetsize-256.png"/>
-                </Ellipse.Fill>
-            </Ellipse>
-            <TextBlock FontSize="30" Text="准备数据中" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,200,0,0"/>
-        </Grid>-->
     </Grid>
 </UserControl>

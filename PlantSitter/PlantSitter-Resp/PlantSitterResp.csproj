@@ -110,9 +110,6 @@
     <Compile Include="Service\SensorService\LightSensorService.cs" />
     <Compile Include="Service\SensorService\SoilSensorService.cs" />
     <Compile Include="Service\UploadService.cs" />
-    <Compile Include="UC\AboutControl.xaml.cs">
-      <DependentUpon>AboutControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UC\DashboardControl.xaml.cs">
       <DependentUpon>DashboardControl.xaml</DependentUpon>
     </Compile>
@@ -208,10 +205,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Page>
-    <Page Include="UC\AboutControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UC\DashboardControl.xaml">
       <SubType>Designer</SubType>

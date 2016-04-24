@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterCustomControl", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterShared", "PlantSitterShared\PlantSitterShared.csproj", "{03507278-EC38-485A-BEA3-366035CE93C3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sensors.Dht", "Sensors.Dht\Sensors.Dht.vcxproj", "{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sensor.Dht", "Sensors.Dht\Sensors.Dht.vcxproj", "{2CD70A4F-9EED-4CDA-9E07-1A2BD33B4976}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sensor.Soil", "Sensor.Soil\Sensor.Soil.csproj", "{77778FA3-E0BF-4A8F-8C6E-E12442C49011}"
 EndProject

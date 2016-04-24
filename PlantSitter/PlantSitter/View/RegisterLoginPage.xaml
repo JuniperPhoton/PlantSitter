@@ -42,14 +42,14 @@
                         <PasswordBox Password="{x:Bind LoginVM.PasswordToBeConfirmed,Mode=TwoWay}" BorderThickness="0" PlaceholderText="请再次输入密码" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black"/>
                     </Border>
                     <Button Command="{x:Bind LoginVM.ConfirmActionCommand,Mode=OneWay}" Margin="0 20 0 0" Background="{x:Null}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch">
-                        <Border Background="#02000000" BorderThickness="1" BorderBrush="{StaticResource PlantSitterThemeColor}">
-                            <TextBlock Foreground="Black" Margin="10" Text="{x:Bind LoginVM.ActionText,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Border Background="{StaticResource PlantSitterThemeColor}" BorderThickness="1">
+                            <TextBlock Foreground="White" Margin="10" Text="{x:Bind LoginVM.ActionText,Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
                     </Button>
                 </StackPanel>
             </Grid>
         </Grid>
-        <Grid Grid.RowSpan="5" Visibility="{x:Bind LoginVM.ShowLoading,Mode=OneWay}">
+        <Grid d:IsHidden="True"  Grid.RowSpan="5" Visibility="{x:Bind LoginVM.ShowLoading,Mode=OneWay}">
             <Border Background="#AB000000"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="40" Height="40" Margin="10" Foreground="White"/>

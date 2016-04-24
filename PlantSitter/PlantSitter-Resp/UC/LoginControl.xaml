@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="1280">
-    <Grid Background="{StaticResource PlantSitterDashboardColor}">
+    <Grid Background="{StaticResource PlantSitterThemeColor}">
         <StackPanel MaxWidth="400" VerticalAlignment="Center" Margin="0 0 0 100">
             <Image Width="150" Source="ms-appx:///Assets/Backgrd/Logo500.png"/>
             <TextBlock Text="您好，请登录" FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,0"/>

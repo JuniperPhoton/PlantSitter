@@ -13,12 +13,16 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
+// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace PlantSitterResp.UC
+namespace PlantSitter.View
 {
-    public sealed partial class AboutControl : UserControl
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class PlantInPlanPage : Page
     {
-        public AboutControl()
+        public PlantInPlanPage()
         {
             this.InitializeComponent();
         }
