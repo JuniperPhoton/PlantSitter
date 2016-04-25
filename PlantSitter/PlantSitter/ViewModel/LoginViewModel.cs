@@ -247,7 +247,7 @@ namespace PlantSitter.ViewModel
                     LocalSettingHelper.AddValue("uid", uid);
                     LocalSettingHelper.AddValue("access_token", accessToken);
                     LocalSettingHelper.AddValue("email", Email);
-                    NavigationService.NavigateViaRootFrame(typeof(MainPage));
+                    NavigationService.NavigateViaRootFrame(typeof(ShellPage));
                 }
             }
             catch (TaskCanceledException)

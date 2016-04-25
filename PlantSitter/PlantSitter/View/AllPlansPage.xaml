@@ -1,0 +1,28 @@
+﻿<common:BasePage
+    x:Class="PlantSitter.View.AllPlansPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PlantSitter.View"
+    xmlns:common="using:PlantSitter.Common"
+    xmlns:uc="using:PlantSitter.UC"
+    xmlns:cc="using:JP.UWP.CustomControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="White">
+        <uc:UserPlansControl DataContext="{Binding}"/>
+        <cc:Shadow Depth="5" Color="#4F000000" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button x:Name="RefreshBtn" Command="{x:Bind UserPlansVM.RefreshCommand,Mode=OneWay}" Margin="20" Style="{StaticResource ButtonCommonStyle}" Foreground="White" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <Grid Width="50" Height="50">
+                    <Ellipse Width="50" Height="50" Fill="{StaticResource GoodDarkColor}"/>
+                    <SymbolIcon Symbol="Refresh" Foreground="White"/>
+                </Grid>
+            </Button>
+        </cc:Shadow>
+        <Grid x:Name="LoadingGrid" HorizontalAlignment="Center" VerticalAlignment="Top" >
+            <Ellipse Width="50" Height="50" Fill="#FFE5E5E5"/>
+            <SymbolIcon x:Name="RefreshSymbol" RenderTransformOrigin="0.5 0.5" Symbol="Refresh" Foreground="{StaticResource PlantSitterThemeColor}"/>
+        </Grid>
+    </Grid>
+</common:BasePage>

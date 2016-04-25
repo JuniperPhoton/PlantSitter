@@ -3,13 +3,34 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PlantSitter.UC"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-
+    <Grid Background="White">
+        <canvas:CanvasControl x:Name="CanvasControl" Draw="CanvasControl_Draw"/>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0.3*"/>
+            </Grid.RowDefinitions>
+            <Grid Background="#FFCACACA">
+                <Image Source="{Binding CurrentPlan.CurrentPlant.ImgBitmap,Mode=OneWay}" Stretch="UniformToFill"/>
+                <Border Background="#31000000"/>
+                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                    <TextBlock FontSize="30" Margin="10 0 0 10" Text="{Binding CurrentPlan.CurrentPlant.NameInChinese,Mode=OneWay,FallbackValue=仙人掌}" Foreground="White"/>
+                    <TextBlock FontSize="15" Margin="10 0 0 10" Text="{Binding CreateTimeString,Mode=OneWay,FallbackValue=照看了第 28 天}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White"/>
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Background="White">
+                <Border Background="{Binding ColorByScore,Mode=OneWay,FallbackValue=#FFFC6666}"/>
+                <Border Width="5" Background="{Binding SecondColorByScore,Mode=OneWay,FallbackValue=#FFAB2121}" HorizontalAlignment="Left"/>
+                <TextBlock FontSize="20" Text="{Binding ScoreSumUp,Mode=OneWay,FallbackValue=非常糟糕}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"/>
+                <TextBlock FontSize="15" Text="{Binding ScoreToDisplay,Mode=OneWay,FallbackValue=环境 40 分}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

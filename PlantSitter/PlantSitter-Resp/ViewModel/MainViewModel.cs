@@ -5,7 +5,7 @@ using PlantSitterCusomControl;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using PlantSitterShard.Model;
+using PlantSitterShared.Model;
 using PlantSitterResp.Common;
 using GalaSoft.MvvmLight.Command;
 using PlantSitter_Resp.Service;

@@ -7,7 +7,7 @@ using JP.Utils.Functions;
 using JP.Utils.Network;
 using PlantSitterCusomControl;
 using PlantSitterResp.Common;
-using PlantSitterShard.Model;
+using PlantSitterShared.Model;
 using PlantSitterShared.API;
 using System;
 using System.Threading.Tasks;

@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using Windows.UI.Xaml;
 using JP.Utils.Functions;
-using PlantSitterShard.Model;
+using PlantSitterShared.Model;
 using System.Diagnostics;
 
 namespace PlantSitter_Resp.Service

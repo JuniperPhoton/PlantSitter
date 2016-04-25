@@ -1,6 +1,6 @@
 ﻿using PlantSitterResp;
 using PlantSitterResp.Common;
-using PlantSitterShard.Model;
+using PlantSitterShared.Model;
 using PlantSitterShared.API;
 using System;
 using System.Collections.Generic;

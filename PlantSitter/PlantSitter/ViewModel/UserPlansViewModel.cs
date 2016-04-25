@@ -1,23 +1,23 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.Data.Json;
 using PlantSitterCusomControl;
-using PlantSitterShard.Model;
+using PlantSitterShared.Model;
 using PlantSitterShared.API;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
+using JP.Utils.Framework;
+using System;
+using GalaSoft.MvvmLight.Command;
 
 namespace PlantSitter.ViewModel
 {
-    public class UserPlansViewModel:ViewModelBase
+    public class UserPlansViewModel:ViewModelBase,INavigable
     {
-        private ObservableCollection<UserPlan> _currentUserPlans;
-        public ObservableCollection<UserPlan> CurrentUserPlans
+        private ObservableCollection<UserPlanToDisplay> _currentUserPlans;
+        public ObservableCollection<UserPlanToDisplay> CurrentUserPlans
         {
             get
             {
@@ -67,17 +67,51 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        private RelayCommand _refreshCommand;
+        public RelayCommand RefreshCommand
+        {
+            get
+            {
+                if (_refreshCommand != null) return _refreshCommand;
+                return _refreshCommand = new RelayCommand(async () =>
+                {
+                    await Refresh();
+                });
+            }
+        }
+
+
+        private bool _isLoading;
+        public bool IsLoading
+        {
+            get
+            {
+                return _isLoading;
+            }
+            set
+            {
+                if (_isLoading != value)
+                {
+                    _isLoading = value;
+                    RaisePropertyChanged(() => IsLoading);
+                }
+            }
+        }
+
+        public bool IsInView { get; set; }
+
+        public bool IsFirstActived { get; set; } = true;
 
         public UserPlansViewModel(PlantSitterUser user)
         {
             this.CurrentUser = user;
         }
 
-        public async Task GetAllUserPlansAsync()
+        private async Task GetAllUserPlansAsync()
         {
-            CurrentUserPlans = new ObservableCollection<UserPlan>();
+            var plans = new ObservableCollection<UserPlanToDisplay>();
 
-            var getResult = await CloudService.GetAllPlans(CTSFactory.MakeCTS().Token);
+            var getResult = await CloudService.GetAllPlans(CTSFactory.MakeCTS(5000).Token);
             getResult.ParseAPIResult();
             if (!getResult.IsSuccessful)
             {
@@ -95,8 +129,10 @@ namespace PlantSitter.ViewModel
                 plan.CurrentUser = this.CurrentUser;
                 var task = plan.UpdatePlantInfo();
                 tasks.Add(task);
-                CurrentUserPlans.Add(plan);
+                plans.Add(new UserPlanToDisplay(plan));
             }
+
+            this.CurrentUserPlans = plans;
 
             if (CurrentUserPlans.Count == 0)
             {
@@ -108,7 +144,44 @@ namespace PlantSitter.ViewModel
 
             foreach (var plan in CurrentUserPlans)
             {
-                var task = plan.CurrentPlant.DownloadImage();
+                var task = plan.CurrentPlan.CurrentPlant.DownloadImage();
+                plan.UpdateScore();
+            }
+        }
+
+        private async Task Refresh()
+        {
+            try
+            {
+                IsLoading = true;
+                await GetAllUserPlansAsync();
+            }
+            catch(Exception)
+            {
+                ToastService.SendToast("获取培养计划失败.");
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public void Activate(object param)
+        {
+            
+        }
+
+        public void Deactivate(object param)
+        {
+            
+        }
+
+        public async void OnLoaded()
+        {
+           if(IsFirstActived)
+            {
+                IsFirstActived = false;
+                await Refresh();
             }
         }
     }

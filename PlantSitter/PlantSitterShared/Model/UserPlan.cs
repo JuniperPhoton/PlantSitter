@@ -1,15 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.Data.Json;
-using PlantSitterShared.API;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.UI.Xaml.Media;
 
-namespace PlantSitterShard.Model
+namespace PlantSitterShared.Model
 {
     public class UserPlan:ViewModelBase
     {

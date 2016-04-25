@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml.Media.Imaging;
 
-namespace PlantSitterShard.Model
+namespace PlantSitterShared.Model
 {
     public class Plant : ViewModelBase
     {

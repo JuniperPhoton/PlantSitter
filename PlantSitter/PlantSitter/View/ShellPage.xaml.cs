@@ -11,13 +11,15 @@ using Windows.UI.Xaml.Data;
 
 namespace PlantSitter.View
 {
-    public sealed partial class MainPage : BasePage
+    public sealed partial class ShellPage : BasePage
     {
         public MainViewModel MainVM { get; set; }
 
         private Compositor _compositor;
         private Visual _drawerGridVisual;
         private Visual _maskVisual;
+        private Visual _loadingVisual;
+        private Visual _refreshVisual;
 
         public bool IsDrawerOpen
         {
@@ -26,11 +28,11 @@ namespace PlantSitter.View
         }
 
         public static readonly DependencyProperty IsDrawerOpenProperty =
-            DependencyProperty.Register("IsDrawerOpen", typeof(bool), typeof(MainPage), new PropertyMetadata(false, OnPropertyChanged));
+            DependencyProperty.Register("IsDrawerOpen", typeof(bool), typeof(ShellPage), new PropertyMetadata(false, OnPropertyChanged));
 
-        public static void OnPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
+        public static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var page = d as MainPage;
+            var page = d as ShellPage;
             if (!(bool)e.NewValue)
             {
                 page.SlideOutDrawer();
@@ -38,39 +40,36 @@ namespace PlantSitter.View
             else page.SlideInDrawer();
         }
 
-        public MainPage()
+
+        public ShellPage()
         {
             this.InitializeComponent();
             this.DataContext = MainVM = new MainViewModel();
-            this.Loaded += MainPage_Loaded;
+            PrepareComp();
             this.InitBinding();
+            NavigationService.ContentFrame = this.ContentFrame;
         }
 
         private void InitBinding()
         {
             var b = new Binding()
             {
-                Source=MainVM,
+                Source = MainVM,
                 Path = new PropertyPath("IsDrawerOpen"),
-                Mode=BindingMode.TwoWay,
+                Mode = BindingMode.TwoWay,
             };
             this.SetBinding(IsDrawerOpenProperty, b);
         }
 
-        private void MainPage_Loaded(object sender, RoutedEventArgs e)
+        private void PrepareComp()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _drawerGridVisual = ElementCompositionPreview.GetElementVisual(DrawerGrid);
             _maskVisual = ElementCompositionPreview.GetElementVisual(MaskBorder);
+
             _maskVisual.Opacity = 0;
             MaskBorder.Visibility = Visibility.Collapsed;
             _drawerGridVisual.Offset = new Vector3(-300f, 0f, 0f);
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            NavigationService.RootFrame.BackStack.Clear();
         }
 
         private void HamBtn_OnClick()
@@ -123,10 +122,16 @@ namespace PlantSitter.View
 
         private void MaskBorder_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            if(IsDrawerOpen)
+            if (IsDrawerOpen)
             {
                 IsDrawerOpen = false;
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            NavigationService.RootFrame.BackStack.Clear();
         }
     }
 }

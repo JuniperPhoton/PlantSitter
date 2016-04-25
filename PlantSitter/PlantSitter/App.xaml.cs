@@ -1,9 +1,11 @@
-﻿using PlantSitter.Common;
+﻿using JP.Utils.Helper;
+using PlantSitter.Common;
 using PlantSitter.View;
 using PlantSitter.ViewModel;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Phone.UI.Input;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,6 +32,12 @@ namespace PlantSitter
                 Microsoft.ApplicationInsights.WindowsCollectors.Session);
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
         }
 
         /// <summary>
@@ -74,15 +82,29 @@ namespace PlantSitter
                 // parameter
                 if (ConfigHelper.IsLogin)
                 {
-                    NavigationService.NavigateViaRootFrame(typeof(MainPage), e.Arguments);
+                    NavigationService.NavigateViaRootFrame(typeof(ShellPage), e.Arguments);
                 }
                 else NavigationService.NavigateViaRootFrame(typeof(StartPage));
             }
             SystemNavigationManager.GetForCurrentView().BackRequested -= App_BackRequested;
             SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
 
+            if(ApiInformationHelper.HasHardwareButton)
+            {
+                HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            }
+
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (NavigationService.RootFrame != null)
+            {
+                e.Handled = true;
+                if (NavigationService.RootFrame.CanGoBack) NavigationService.RootFrame.GoBack();
+            }
         }
 
         private void App_BackRequested(object sender, BackRequestedEventArgs e)

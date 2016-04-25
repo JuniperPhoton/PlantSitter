@@ -1,0 +1,39 @@
+﻿<common:BasePage
+    x:Class="PlantSitter.View.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PlantSitter"
+    xmlns:common="using:PlantSitter.Common"
+    xmlns:uc="using:PlantSitter.UC"
+    xmlns:cc="using:JP.UWP.CustomControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Background="{StaticResource PlantSitterThemeColor}">
+    <Grid x:Name="RootGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="ContentGrid" Grid.Row="1">
+            <Frame x:Name="ContentFrame"/>
+        </Grid>
+        <cc:Shadow Depth="5" Height="70" Grid.RowSpan="2" Color="#4F000000" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <Grid x:Name="TopBarGrid" Grid.Column="0" Background="{StaticResource PlantSitterThemeLightColor}">
+                <Image Source="ms-appx:///Assets/Icon/BackgrdMask.png" Stretch="UniformToFill" Opacity="0"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                    <uc:HamburgerButton x:Name="HamBtn" OnClick="HamBtn_OnClick" HorizontalAlignment="Left" Width="70" Margin="0"/>
+                    <TextBlock Text="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
+                <Button Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Right" Background="#02FFFFFF" VerticalAlignment="Stretch" Width="70" Margin="0">
+                    <Border>
+                        <SymbolIcon Margin="10" Symbol="Add" Foreground="White"/>
+                    </Border>
+                </Button>
+            </Grid>
+        </cc:Shadow>
+        <Border x:Name="MaskBorder" d:IsHidden="True"  Tapped="MaskBorder_Tapped" Grid.RowSpan="2" Background="#B2000000"/>
+        <Grid x:Name="DrawerGrid" d:IsHidden="True" Grid.RowSpan="2">
+            <uc:DrawerControl Grid.RowSpan="2" Width="300" HorizontalAlignment="Left" OnClickItem4Command="{x:Bind MainVM.LogoutCommand,Mode=OneWay}"/>
+        </Grid>
+    </Grid>
+</common:BasePage>

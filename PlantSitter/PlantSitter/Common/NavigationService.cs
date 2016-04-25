@@ -22,5 +22,7 @@ namespace PlantSitter.Common
                 return Window.Current.Content as Frame;
             }
         }
+
+        public static Frame ContentFrame { get; set; }
     }
 }

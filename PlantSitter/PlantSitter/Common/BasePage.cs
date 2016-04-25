@@ -16,6 +16,8 @@ namespace PlantSitter.Common
         {
             this.Loaded += BasePage_Loaded;
             SetUpPageAnimation();
+            StatusBarHelper.SetUpStatusBar();
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void BasePage_Loaded(object sender, RoutedEventArgs e)
@@ -41,7 +43,7 @@ namespace PlantSitter.Common
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    Frame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+                   NavigationService.RootFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
             base.OnNavigatedTo(e);
             if (this.DataContext is INavigable)
@@ -58,7 +60,6 @@ namespace PlantSitter.Common
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             }
         }
-
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
