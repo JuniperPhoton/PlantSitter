@@ -9,7 +9,28 @@
     d:DesignHeight="300"
     d:DesignWidth="400">
 
-    <Grid>
-
-    </Grid>
+    <Button x:Name="HamburgerBtn" Click="HamburgerBtn_Click" Style="{StaticResource ButtonCommonStyle2}" Background="Transparent" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid Width="40" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" >
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border  Height="2" Width="20" VerticalAlignment="Bottom" RenderTransformOrigin="0,0.5" Background="White">
+                <Border.RenderTransform>
+                    <CompositeTransform/>
+                </Border.RenderTransform>
+            </Border>
+            <Border Height="2" Width="20" VerticalAlignment="Center" Margin="0" Grid.Row="1" RenderTransformOrigin="0,0.5" Background="White">
+                <Border.RenderTransform>
+                    <CompositeTransform/>
+                </Border.RenderTransform>
+            </Border>
+            <Border Height="2" Width="20" VerticalAlignment="Top" Margin="0" Grid.Row="2" RenderTransformOrigin="0,0.5" Background="White">
+                <Border.RenderTransform>
+                    <CompositeTransform/>
+                </Border.RenderTransform>
+            </Border>
+        </Grid>
+    </Button>
 </UserControl>

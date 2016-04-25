@@ -2,12 +2,18 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     >
-    <SolidColorBrush x:Key="PlantSitterThemeLightColor">#FF36A897</SolidColorBrush>
+    <SolidColorBrush x:Key="PlantSitterThemeLightColor">#FF019385</SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterThemeColor">#FF1a786a</SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterThemeDarkColor">#FF355f58</SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkColor" Color="#FF414141"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkDarkColor" Color="#FF232323"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkLightColor" Color="#FF5E5E5E"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterLightGreyColor" Color="#FFB3B3B3"></SolidColorBrush>
+    <SolidColorBrush x:Key="GoodColor" Color="#71997b"></SolidColorBrush>
+    <SolidColorBrush x:Key="GoodDarkColor" Color="#8db923"></SolidColorBrush>
+    <SolidColorBrush x:Key="NormalColor" Color="#eea466"></SolidColorBrush>
+    <SolidColorBrush x:Key="NormalDarkColor" Color="#f57949"></SolidColorBrush>
+    <SolidColorBrush x:Key="BadColor" Color="#e56060"></SolidColorBrush>
+    <SolidColorBrush x:Key="BadDarkColor" Color="#c00404"></SolidColorBrush>
     <Color x:Key="PlantSitterColor">#FF1a786a</Color>
 </ResourceDictionary>

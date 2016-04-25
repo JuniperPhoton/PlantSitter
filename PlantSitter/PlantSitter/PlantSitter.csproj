@@ -103,8 +103,8 @@
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\RespSettings.cs" />
     <Compile Include="Common\TitleBarHelper.cs" />
-    <Compile Include="UC\AddingPlantControl.xaml.cs">
-      <DependentUpon>AddingPlantControl.xaml</DependentUpon>
+    <Compile Include="UC\AddingPlanControl.xaml.cs">
+      <DependentUpon>AddingPlanControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UC\DrawerControl.xaml.cs">
       <DependentUpon>DrawerControl.xaml</DependentUpon>
@@ -115,9 +115,14 @@
     <Compile Include="UC\MainItemControl.xaml.cs">
       <DependentUpon>MainItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UC\UserPlansControl.xaml.cs">
+      <DependentUpon>UserPlansControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\AddPlanViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\StartViewModel.cs" />
+    <Compile Include="ViewModel\UserPlansViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
@@ -152,11 +157,11 @@
     <None Include="PlantSitter_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Backgrd\backgrd.png" />
-    <Content Include="Assets\Backgrd\Logo.png" />
-    <Content Include="Assets\Backgrd\Logo500.png" />
-    <Content Include="Assets\Backgrd\qq.png" />
-    <Content Include="Assets\Backgrd\weibo.png" />
+    <Content Include="Assets\Backgrd\Background.jpg" />
+    <Content Include="Assets\Icon\Logo.png" />
+    <Content Include="Assets\Icon\Logo500.png" />
+    <Content Include="Assets\Icon\LogoTran.png" />
+    <Content Include="Assets\Icon\BackgrdMask.png" />
     <Content Include="Assets\NewStoreLogo.scale-100.png" />
     <Content Include="Assets\NewStoreLogo.scale-125.png" />
     <Content Include="Assets\NewStoreLogo.scale-150.png" />
@@ -220,7 +225,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UC\AddingPlantControl.xaml">
+    <Page Include="UC\AddingPlanControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -233,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UC\MainItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\UserPlansControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

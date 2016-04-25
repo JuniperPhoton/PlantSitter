@@ -25,6 +25,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid Background="{StaticResource PlantSitterThemeColor}">
+            <Image Source="ms-appx:///Assets/Icon/BackgrdMask.png" Stretch="UniformToFill"/>
             <Grid MaxWidth="{StaticResource MaxWidth}">
                 <TextBlock FontSize="28" Margin="20" Text="{x:Bind LoginVM.Title,Mode=OneWay}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             </Grid>

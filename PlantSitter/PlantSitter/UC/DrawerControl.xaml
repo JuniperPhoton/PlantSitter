@@ -6,10 +6,71 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300"
+    d:DesignHeight="700"
     d:DesignWidth="400">
 
-    <Grid>
-
+    <Grid Background="{StaticResource PlantSitterThemeColor}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Image Source="ms-appx:///Assets/Backgrd/Background.jpg" Stretch="UniformToFill"/>
+            <Grid Height="50" VerticalAlignment="Bottom" Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <SymbolIcon Symbol="Contact" Foreground="White"/>
+                <TextBlock FontSize="17" Text="{Binding Email,Mode=OneWay,FallbackValue=dengweichao@hotmail.com}" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1" Margin="0,10,0,0">
+            <Button Command="{x:Bind OnClickItem1Command}" Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                <Grid Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <SymbolIcon Symbol="Home" Foreground="White"/>
+                    <TextBlock FontSize="17" Text="首页" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            <Button Command="{x:Bind OnClickItem2Command}" Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                <Grid Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <SymbolIcon Symbol="Setting" Foreground="White"/>
+                    <TextBlock FontSize="17" Text="设置" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            <Button Command="{x:Bind OnClickItem3Command}" Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                <Grid Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="&#xE76E;" FontSize="20" FontFamily="Segoe MDL2 Assets" AutomationProperties.Name="Favorite" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock FontSize="17" Text="关于" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+            <Border Height="1" Margin="5" Background="{StaticResource PlantSitterThemeDarkColor}" BorderBrush="{StaticResource PlantSitterThemeDarkColor}"/>
+            <Button Command="{x:Bind OnClickItem4Command}" Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
+                <Grid Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <SymbolIcon Symbol="Upload" Foreground="White" RenderTransformOrigin="0.5,0.5">
+                        <SymbolIcon.RenderTransform>
+                            <CompositeTransform Rotation="90"/>
+                        </SymbolIcon.RenderTransform>
+                    </SymbolIcon>
+                    <TextBlock FontSize="17" Text="退出登录" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
+                </Grid>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
