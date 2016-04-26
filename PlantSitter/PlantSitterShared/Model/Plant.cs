@@ -1,12 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using JP.API;
+using JP.Utils.Data;
 using JP.Utils.Data.Json;
 using PlantSitterShared.API;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Numerics;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml.Media.Imaging;
@@ -28,6 +28,23 @@ namespace PlantSitterShared.Model
                 {
                     _pid = value;
                     RaisePropertyChanged(() => Pid);
+                }
+            }
+        }
+
+        private string _desc;
+        public string Desc
+        {
+            get
+            {
+                return _desc;
+            }
+            set
+            {
+                if (_desc != value)
+                {
+                    _desc = value;
+                    RaisePropertyChanged(() => Desc);
                 }
             }
         }
@@ -153,6 +170,7 @@ namespace PlantSitterShared.Model
 
         public string ImageUrl { get; set; }
 
+
         public Plant()
         {
             ImgBitmap = new BitmapImage();
@@ -204,6 +222,92 @@ namespace PlantSitterShared.Model
                 return newPlant;
             }
             catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public static List<Plant> ParsePlantsToArray(string json)
+        {
+            var plants = new List<Plant>();
+            var jsonObj = JsonObject.Parse(json);
+            var plantsArray = JsonParser.GetJsonArrayFromJsonObj(jsonObj, "Plants");
+            if(plantsArray!=null)
+            {
+                foreach(var item in plantsArray)
+                {
+                    var plant = ParseJsonToObj(item.ToString());
+                    if(plant!= null) plants.Add((plant));
+                }
+            }
+            return plants;
+        }
+
+        /// <summary>
+        /// {
+        //    "pid":"6",
+        //    "name_c":"向日葵",
+        //    "name_e":"Sunflower",
+        //    "soil_moisture":"1~1",
+        //    "envi_temp":"20~30",
+        //    "envi_moisture":"48~84",
+        //    "light":"100~20000",
+        //    "img_url":"http://pic.baike.soso.com/p/20140210/20140210150929-2045729024.jpg",
+        //    "desc":null
+        //}
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        public static Plant ParseJsonToObj(string json)
+        {
+            JsonObject jsonObj;
+            if (!JsonObject.TryParse(json, out jsonObj))
+            {
+                return null;
+            }
+
+            Plant plant = new Plant();
+            var pid = JsonParser.GetStringFromJsonObj(jsonObj, "pid");
+            var name_c = JsonParser.GetStringFromJsonObj(jsonObj, "name_c");
+            var name_e = JsonParser.GetStringFromJsonObj(jsonObj, "name_e");
+            var soil_moisture = JsonParser.GetStringFromJsonObj(jsonObj, "soil_moisture");
+            var envi_temp = JsonParser.GetStringFromJsonObj(jsonObj, "envi_temp");
+            var envi_moisture = JsonParser.GetStringFromJsonObj(jsonObj, "envi_moisture");
+            var light = JsonParser.GetStringFromJsonObj(jsonObj, "light");
+            var img_url = JsonParser.GetStringFromJsonObj(jsonObj, "img_url");
+            var desc = JsonParser.GetStringFromJsonObj(jsonObj, "desc");
+
+            try
+            {
+                if (pid != null) plant.Pid = int.Parse(pid);
+                if (name_c.IsNotNullOrEmpty()) plant.NameInChinese = name_c;
+                if (name_e.IsNotNullOrEmpty()) plant.NameInEnglish = name_e;
+                if (soil_moisture.IsNotNullOrEmpty())
+                {
+                    var sms = soil_moisture.Split('~');
+                    plant.SoilMoistureRange = new Vector2(float.Parse(sms[0]), float.Parse(sms[1]));
+                }
+                if (envi_temp.IsNotNullOrEmpty())
+                {
+                    var ets = envi_temp.Split('~');
+                    plant.EnviTempRange = new Vector2(float.Parse(ets[0]), float.Parse(ets[1]));
+                }
+                if (envi_moisture.IsNotNullOrEmpty())
+                {
+                    var ems = envi_moisture.Split('~');
+                    plant.EnviMoistureRange = new Vector2(float.Parse(ems[0]), float.Parse(ems[1]));
+                }
+                if (light.IsNotNullOrEmpty())
+                {
+                    var ls = light.Split('~');
+                    plant.LightRange = new Vector2(float.Parse(ls[0]), float.Parse(ls[1]));
+                }
+                if (img_url.IsNotNullOrEmpty()) plant.ImageUrl = img_url;
+                if (desc.IsNotNullOrEmpty()) plant.Desc = desc;
+
+                return plant;
+            }
+            catch(Exception)
             {
                 return null;
             }

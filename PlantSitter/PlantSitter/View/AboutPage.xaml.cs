@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlantSitter.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,19 +13,18 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using PlantSitter.ViewModel;
 
 namespace PlantSitter.View
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class AboutPage : Page
+    public sealed partial class AboutPage : BasePage
     {
+        private AboutViewModel AboutVM { get; set; }
+
         public AboutPage()
         {
             this.InitializeComponent();
+            this.DataContext = AboutVM = new AboutViewModel();
         }
     }
 }

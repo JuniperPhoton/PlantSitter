@@ -1,9 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using PlantSitterShared.API;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace UnitTestProject
@@ -27,7 +24,7 @@ namespace UnitTestProject
             var result = await CloudService.UploadData(1000, 15, 1, 25, 30, 200, DateTime.Now.ToString("yyyy/MM/dd hh:mm::ss"), CTSFactory.MakeCTS().Token);
             result.ParseAPIResult();
             Assert.IsTrue(!result.IsSuccessful);
-            Assert.IsTrue(result.ErrorCode==406);
+            Assert.IsTrue(result.ErrorCode==500);
         }
 
         [TestMethod]

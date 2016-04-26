@@ -50,6 +50,12 @@ namespace PlantSitter.Common
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                    NavigationService.RootFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
+            if (NavigationService.ContentFrame != null)
+            {
+                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+                    NavigationService.ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            }
+
             base.OnNavigatedTo(e);
             if (this.DataContext is INavigable)
             {

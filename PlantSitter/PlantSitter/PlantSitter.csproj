@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Common\BasePage.cs" />
     <Compile Include="Common\ConfigHelper.cs" />
+    <Compile Include="Common\ExtentFunctions.cs" />
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\RespSettings.cs" />
     <Compile Include="Common\StatusBarHelper.cs" />
@@ -116,12 +117,17 @@
     <Compile Include="UC\MainItemControl.xaml.cs">
       <DependentUpon>MainItemControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UC\PlantDetailControl.xaml.cs">
+      <DependentUpon>PlantDetailControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UC\UserPlansControl.xaml.cs">
       <DependentUpon>UserPlansControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\AboutViewModel.cs" />
     <Compile Include="ViewModel\AddPlanViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PlantDetailViewModel.cs" />
     <Compile Include="ViewModel\StartViewModel.cs" />
     <Compile Include="ViewModel\UserPlansViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
@@ -138,11 +144,11 @@
       <DependentUpon>ShellPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View\PlantInfoPage.xaml.cs">
-      <DependentUpon>PlantInfoPage.xaml</DependentUpon>
+    <Compile Include="View\PlantDetailPage.xaml.cs">
+      <DependentUpon>PlantDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\PlantInPlanPage.xaml.cs">
-      <DependentUpon>PlantInPlanPage.xaml</DependentUpon>
+    <Compile Include="View\GrowingPlanDetailPage.xaml.cs">
+      <DependentUpon>GrowingPlanDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RegisterLoginPage.xaml.cs">
       <DependentUpon>RegisterLoginPage.xaml</DependentUpon>
@@ -246,6 +252,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UC\PlantDetailControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UC\UserPlansControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -266,11 +276,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\PlantInfoPage.xaml">
+    <Page Include="View\PlantDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\PlantInPlanPage.xaml">
+    <Page Include="View\GrowingPlanDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

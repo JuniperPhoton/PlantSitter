@@ -40,6 +40,8 @@ do {
                 $envi_moisture = $_POST['envi_moisture'];
                 $envi_temp = $_POST['envi_temp'];
                 $light = $_POST['light'];
+                $desc = $_POST['desc'];
+                $img_url = $_POST['img_url'];
 
                 $querySearch;
                 if ($name_e) {
@@ -59,13 +61,15 @@ do {
                     }
                 }
 
-                $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,name_e,soil_moisture,envi_moisture,envi_temp,light) VALUES(:name_c,:name_e,:soil_moisture,:envi_moisture,:envi_temp,:light)');
+                $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,name_e,soil_moisture,envi_moisture,envi_temp,light,desc,img_url) VALUES(:name_c,:name_e,:soil_moisture,:envi_moisture,:envi_temp,:light,:desc,:img_url)');
                 $queryAdd->bindParam(':name_c', $name_c, PDO::PARAM_STR);
                 $queryAdd->bindParam(':name_e', $name_e, PDO::PARAM_STR);
                 $queryAdd->bindParam(':soil_moisture', $soil_moisture, PDO::PARAM_STR);
                 $queryAdd->bindParam(':envi_moisture', $envi_moisture, PDO::PARAM_STR);
                 $queryAdd->bindParam(':envi_temp', $envi_temp, PDO::PARAM_STR);
                 $queryAdd->bindParam(':light', $light, PDO::PARAM_STR);
+                $queryAdd->bindParam(':desc', $desc, PDO::PARAM_STR);
+                $queryAdd->bindParam(':img_url', $img_url, PDO::PARAM_STR);
 
                 $result = $queryAdd->execute();
                 if ($result) {
@@ -93,17 +97,6 @@ do {
                 $name_c = $_GET['name_c'];
                 $name_e = $_GET['name_e'];
 
-                $querySearch;
-                if ($pid) {
-                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
-                    $querySearch->bindParam(':pid', $pid, PDO::PARAM_INT);
-                } else if ($name_e) {
-                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_e LIKE %:name_e%');
-                    $querySearch->bindParam(':name_e', $name_e, PDO::PARAM_STR);
-                } else if ($name_c) {
-                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_c LIKE %:name_c%');
-                    $querySearch->bindParam(':name_c', $name_c, PDO::PARAM_STR);
-                }
                 if ($pid == '' && $name_c == '' && $name_e == '') {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = 0;
@@ -111,18 +104,28 @@ do {
                     break;
                 }
 
+                $querySearch;
+                if ($pid != '') {
+                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
+                    $querySearch->bindParam(':pid', $pid, PDO::PARAM_INT);
+                } else if ($name_c != '') {
+                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_c LIKE "'.'%'.$name_c.'%'.'"');
+                } else if ($name_e != '') {
+                    $querySearch = $pdo->prepare('SELECT * FROM plant WHERE name_e LIKE "'.'%'.$name_e.'%'.'"');
+                }
+
                 $result = $querySearch->execute();
                 if ($result) {
-                    $plant = $querySearch->fetch();
+                    $plant = $querySearch->fetchAll();
                     if ($plant) {
                         $ApiResult['isSuccessed'] = true;
                         $ApiResult['error_code'] = 0;
                         $ApiResult['error_message'] = '';
-                        $ApiResult['Plant'] = $plant;
+                        $ApiResult['Plants'] = $plant;
                     } else {
                         $ApiResult['isSuccessed'] = false;
                         $ApiResult['error_code'] = 0;
-                        $ApiResult['error_message'] = 'No plant found';
+                        $ApiResult['error_message'] = 'No plant found with this name or id'.$name_e;
                         break;
                     }
 
@@ -130,7 +133,7 @@ do {
                 } else {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
-                    $ApiResult['error_message'] = 'database error';
+                    $ApiResult['error_message'] = $pdo->errorInfo();
                     break;
                 }
             }

@@ -100,6 +100,16 @@ namespace PlantSitter
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
+            if (NavigationService.ContentFrame != null)
+            {
+                if (NavigationService.ContentFrame.CanGoBack)
+                {
+                    NavigationService.ContentFrame.GoBack();
+                    e.Handled = true;
+                    return;
+                }
+            }
+
             if (NavigationService.RootFrame != null)
             {
                 if (NavigationService.RootFrame.CanGoBack)
@@ -112,9 +122,31 @@ namespace PlantSitter
 
         private void App_BackRequested(object sender, BackRequestedEventArgs e)
         {
+            if (NavigationService.ContentFrame != null)
+            {
+                if (NavigationService.ContentFrame.CanGoBack)
+                {
+                    e.Handled = true;
+                    NavigationService.ContentFrame.GoBack();
+                    return;
+                }
+                else
+                {
+                    e.Handled = false;
+                }
+            }
+
             if (NavigationService.RootFrame != null)
             {
-                if (NavigationService.RootFrame.CanGoBack) NavigationService.RootFrame.GoBack();
+                if (NavigationService.RootFrame.CanGoBack)
+                {
+                    e.Handled = true;
+                    NavigationService.RootFrame.GoBack();
+                }
+                else
+                {
+                    e.Handled = false;
+                }
             }
         }
 

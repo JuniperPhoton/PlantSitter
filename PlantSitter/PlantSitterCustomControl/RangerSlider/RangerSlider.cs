@@ -78,26 +78,26 @@ namespace PlantSitterCustomControl
         /// <summary>
         /// 当前选择的最小值
         /// </summary>
-        public int CurrentMinValue
+        public double CurrentMinValue
         {
-            get { return (int)GetValue(CurrentMinValueProperty); }
+            get { return (double)GetValue(CurrentMinValueProperty); }
             set { SetValue(CurrentMinValueProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentMinValueProperty =
-            DependencyProperty.Register("CurrentMinValue", typeof(int), typeof(RangerSlider), new PropertyMetadata(30));
+            DependencyProperty.Register("CurrentMinValue", typeof(double), typeof(RangerSlider), new PropertyMetadata(30d));
 
         /// <summary>
         /// 当前选择的最大值
         /// </summary>
-        public int CurrentMaxValue
+        public double CurrentMaxValue
         {
-            get { return (int)GetValue(CurrentMaxValueProperty); }
+            get { return (double)GetValue(CurrentMaxValueProperty); }
             set { SetValue(CurrentMaxValueProperty, value); }
         }
 
         public static readonly DependencyProperty CurrentMaxValueProperty =
-            DependencyProperty.Register("CurrentMaxValue", typeof(int), typeof(RangerSlider), new PropertyMetadata(70));
+            DependencyProperty.Register("CurrentMaxValue", typeof(double), typeof(RangerSlider), new PropertyMetadata(70d));
 
         /// <summary>
         /// 刻度里的刻度数目，默认为5

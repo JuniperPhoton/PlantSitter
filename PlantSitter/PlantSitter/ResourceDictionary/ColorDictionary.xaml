@@ -9,6 +9,9 @@
     <SolidColorBrush x:Key="PlantSitterDarkDarkColor" Color="#FF232323"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterDarkLightColor" Color="#FF5E5E5E"></SolidColorBrush>
     <SolidColorBrush x:Key="PlantSitterLightGreyColor" Color="#FFB3B3B3"></SolidColorBrush>
+    <SolidColorBrush x:Key="PlantSitterLightLightGreyColor" Color="#FFE1E1E1"></SolidColorBrush>
+    <SolidColorBrush x:Key="PlantSitterPurpleColor" Color="#6e67bc"></SolidColorBrush>
+    <SolidColorBrush x:Key="PlantSitterBlueColor" Color="#01bcd4"></SolidColorBrush>
     <SolidColorBrush x:Key="GoodColor" Color="#71997b"></SolidColorBrush>
     <SolidColorBrush x:Key="GoodDarkColor" Color="#8db923"></SolidColorBrush>
     <SolidColorBrush x:Key="NormalColor" Color="#eea466"></SolidColorBrush>

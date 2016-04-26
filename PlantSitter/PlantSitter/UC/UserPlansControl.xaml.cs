@@ -36,18 +36,6 @@ namespace PlantSitter.UC
             }
         }
 
-
-        private void ItemContainer_Unloaded(object sender, RoutedEventArgs e)
-        {
-            var itemsPanel = (ItemsWrapGrid)PlansGridView.ItemsPanelRoot;
-            var itemContainer = (GridViewItem)sender;
-            var itemVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
-            var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(500);
-            fadeAnimation.InsertKeyFrame(1f, 0f);
-            itemVisual.StartAnimation("Opacity", fadeAnimation);
-        }
-
         private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
         {
             var itemsPanel = (ItemsWrapGrid)PlansGridView.ItemsPanelRoot;

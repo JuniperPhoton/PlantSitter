@@ -6,12 +6,10 @@ using JP.Utils.Framework;
 using PlantSitter.View;
 using PlantSitterCustomControl;
 using PlantSitterShared.Model;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using PlantSitter.Common;
 using JP.UWP.CustomControl;
 using PlantSitter.UC;
-using Windows.UI.ViewManagement;
 using JP.Utils.Helper;
 
 namespace PlantSitter.ViewModel
@@ -119,7 +117,6 @@ namespace PlantSitter.ViewModel
                 }
             }
         }
-
 
         private bool _isDrawerOpen;
         public bool IsDrawerOpen

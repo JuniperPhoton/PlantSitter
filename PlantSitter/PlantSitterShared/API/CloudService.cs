@@ -247,15 +247,15 @@ namespace PlantSitterShared.API
             {
                 param.Add(new KeyValuePair<string, string>("pid", pid.ToString()));
             }
-            else if (nameE != null)
+            else if (nameE.IsNotNullOrEmpty())
             {
                 param.Add(new KeyValuePair<string, string>("name_e", nameE));
             }
-            else if (nameC != null)
+            else if (nameC.IsNotNullOrEmpty())
             {
                 param.Add(new KeyValuePair<string, string>("name_c", nameC));
             }
-            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetPlantInfo, param, true);
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.SearchPlant, param, true);
 
             return await APIHelper.SendGetRequestAsync(url, token);
         }
@@ -273,15 +273,17 @@ namespace PlantSitterShared.API
         /// <param name="token"></param>
         /// <returns></returns>
         public static async Task<CommonRespMsg> AddPlant(string nameC, string nameE,
-            string soilMoisture, string enviMoisture, string enviTemp, string light, CancellationToken token)
+            string soilMoisture, string enviMoisture, string enviTemp, string light, string desc,string imgUrl,CancellationToken token)
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("name_c", nameC));
             param.Add(new KeyValuePair<string, string>("name_e", nameE));
+            param.Add(new KeyValuePair<string, string>("desc", desc));
             param.Add(new KeyValuePair<string, string>("soil_moisture", soilMoisture));
             param.Add(new KeyValuePair<string, string>("envi_moisture", enviMoisture));
             param.Add(new KeyValuePair<string, string>("envi_temp", enviTemp));
             param.Add(new KeyValuePair<string, string>("light", light));
+            param.Add(new KeyValuePair<string, string>("img_url", imgUrl));
 
             return await APIHelper.SendPostRequestAsync(UrlHelper.AddPlant, param, token);
         }

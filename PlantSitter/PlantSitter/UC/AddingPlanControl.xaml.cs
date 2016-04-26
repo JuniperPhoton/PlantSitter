@@ -1,4 +1,5 @@
-﻿using PlantSitter.ViewModel;
+﻿using JP.UWP.CustomControl;
+using PlantSitter.ViewModel;
 using System;
 using System.Numerics;
 using Windows.Foundation;
@@ -26,7 +27,7 @@ namespace PlantSitter.UC
         }
 
         public static readonly DependencyProperty ShowAddGridProperty =
-            DependencyProperty.Register("ShowAddGrid", typeof(bool), typeof(AddingPlanControl), new PropertyMetadata(false,OnPropertyChanged));
+            DependencyProperty.Register("ShowAddGrid", typeof(bool), typeof(AddingPlanControl), new PropertyMetadata(false, OnPropertyChanged));
 
         public static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -85,5 +86,60 @@ namespace PlantSitter.UC
 
             _addGridVisual.StartAnimation("offset.x", offsetAnimation);
         }
+
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            PopupService.CurrentShownCPEX?.Hide();
+        }
+
+        private void ListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            int index = args.ItemIndex;
+            var root = args.ItemContainer.ContentTemplateRoot as UserControl;
+            // Don't run an entrance animation if we're in recycling
+            if (!args.InRecycleQueue)
+            {
+                args.ItemContainer.Loaded -= ItemContainer_Loaded;
+                args.ItemContainer.Loaded += ItemContainer_Loaded;
+            }
+        }
+
+        private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
+        {
+            var itemsPanel = (ItemsStackPanel)ResultListView.ItemsPanelRoot;
+            var itemContainer = (ListViewItem)sender;
+            var itemIndex = ResultListView.IndexFromContainer(itemContainer);
+
+            var uc = itemContainer.ContentTemplateRoot as UIElement;
+
+            // Don't animate if we're not in the visible viewport
+            if (itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
+            {
+                var itemVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
+
+                float width = (float)uc.RenderSize.Width;
+                float height = (float)uc.RenderSize.Height;
+                itemVisual.CenterPoint = new Vector3(width / 2, height / 2, 0f);
+                itemVisual.Opacity = 0f;
+                itemVisual.Offset = new Vector3(0, 100, 0);
+
+                // Create KeyFrameAnimations
+                var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+                offsetAnimation.InsertExpressionKeyFrame(1f, "0");
+                offsetAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+                offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 200);
+
+                var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
+                fadeAnimation.InsertExpressionKeyFrame(1f, "1");
+                fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
+                fadeAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 200);
+
+                // Start animations
+                itemVisual.StartAnimation("Offset.y", offsetAnimation);
+                itemVisual.StartAnimation("Opacity", fadeAnimation);
+            }
+            itemContainer.Loaded -= ItemContainer_Loaded;
+        }
+
     }
 }
