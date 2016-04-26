@@ -17,7 +17,7 @@ namespace PlantSitter.Common
             this.Loaded += BasePage_Loaded;
             SetUpPageAnimation();
             StatusBarHelper.SetUpStatusBar();
-            NavigationCacheMode = NavigationCacheMode.Enabled;
+            SetupCacheMode();
         }
 
         private void BasePage_Loaded(object sender, RoutedEventArgs e)
@@ -38,6 +38,11 @@ namespace PlantSitter.Common
             theme.DefaultNavigationTransitionInfo = info;
             collection.Add(theme);
             this.Transitions = collection;
+        }
+
+        protected virtual void SetupCacheMode()
+        {
+            NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

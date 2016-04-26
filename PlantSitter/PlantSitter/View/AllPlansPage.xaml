@@ -10,16 +10,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="White">
+    <Grid Background="White" x:Name="RootGrid" Loaded="RootGrid_Loaded" SizeChanged="RootGrid_SizeChanged">
         <uc:UserPlansControl DataContext="{Binding}"/>
-        <cc:Shadow Depth="5" Color="#4F000000" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Button x:Name="RefreshBtn" Command="{x:Bind UserPlansVM.RefreshCommand,Mode=OneWay}" Margin="20" Style="{StaticResource ButtonCommonStyle}" Foreground="White" Background="{x:Null}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Grid Width="50" Height="50">
-                    <Ellipse Width="50" Height="50" Fill="{StaticResource GoodDarkColor}"/>
-                    <SymbolIcon Symbol="Refresh" Foreground="White"/>
-                </Grid>
-            </Button>
-        </cc:Shadow>
+        <Button x:Name="RefreshBtn" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{x:Bind UserPlansVM.RefreshCommand,Mode=OneWay}" Margin="20" Style="{StaticResource ButtonCommonStyle}" Foreground="White" Background="{x:Null}">
+            <Grid Width="50" Height="50">
+                <Ellipse Width="50" Height="50" Fill="{StaticResource GoodDarkColor}"/>
+                <SymbolIcon Symbol="Refresh" Foreground="White"/>
+            </Grid>
+        </Button>
         <Grid x:Name="LoadingGrid" HorizontalAlignment="Center" VerticalAlignment="Top" >
             <Ellipse Width="50" Height="50" Fill="#FFE5E5E5"/>
             <SymbolIcon x:Name="RefreshSymbol" RenderTransformOrigin="0.5 0.5" Symbol="Refresh" Foreground="{StaticResource PlantSitterThemeColor}"/>

@@ -1,22 +1,13 @@
 ﻿using PlantSitter.Common;
 using PlantSitter.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace PlantSitter.View
 {
@@ -63,9 +54,10 @@ namespace PlantSitter.View
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _loadingVisual = ElementCompositionPreview.GetElementVisual(LoadingGrid);
             _refreshVisual = ElementCompositionPreview.GetElementVisual(RefreshSymbol);
-            _loadingVisual.Offset = new Vector3(0f, -100f, 0f);
+            _loadingVisual.Offset = new Vector3(0f, -50f, 0f);
         }
 
+        
 
         public void ShowLoading()
         {
@@ -89,11 +81,20 @@ namespace PlantSitter.View
         public void HideLoading()
         {
             var showAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            showAnimation.InsertKeyFrame(1, -100f);
+            showAnimation.InsertKeyFrame(1, -50f);
             showAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
             _loadingVisual.StartAnimation("Offset.y", showAnimation);
         }
 
+        private void RootGrid_Loaded(object sender, RoutedEventArgs e)
+        {
+            RootGrid.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, this.ActualWidth, this.ActualHeight) };
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            RootGrid.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, this.ActualWidth, this.ActualHeight) };
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace PlantSitter.ViewModel
                   {
                       if(DeviceHelper.IsDesktop)
                       {
-                          var control = new AddingPlanControl() { DataContext = new AddPlanViewModel(), Width = 500, Height = Window.Current.Bounds.Height * 0.9 };
+                          var control = new AddingPlanControl() { Width = 500, Height = Window.Current.Bounds.Height * 0.9 };
                           ContentPopupEx cpex = new ContentPopupEx(control);
                           await cpex.ShowAsync();
                       }

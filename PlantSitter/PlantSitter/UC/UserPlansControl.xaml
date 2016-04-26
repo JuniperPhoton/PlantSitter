@@ -16,7 +16,7 @@
             <local:MainItemControl/>
         </DataTemplate>
     </UserControl.Resources>
-    <Grid Background="White">
+    <Grid  Background="White">
         <cc:AdaptiveGridView
                      x:Name="PlansGridView"
                      IsItemClickEnabled="True"
@@ -41,7 +41,7 @@
                     <Setter Property="VerticalAlignment"
                             Value="Stretch" />
                     <Setter Property="Margin"
-                            Value="2 10 2 0" />
+                            Value="5" />
                 </Style>
             </cc:AdaptiveGridView.ItemContainerStyle>
         </cc:AdaptiveGridView>

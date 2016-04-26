@@ -1,8 +1,9 @@
 ﻿using JP.Utils.UI;
 using System;
-using System.Diagnostics;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,6 +15,9 @@ namespace PlantSitterCustomControl
     public class RangerSlider : Control
     {
         #region DP
+        /// <summary>
+        /// 最小值
+        /// </summary>
         public int MinValue
         {
             get { return (int)GetValue(MinValueProperty); }
@@ -23,6 +27,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty MinValueProperty =
             DependencyProperty.Register("MinValue", typeof(int), typeof(RangerSlider), new PropertyMetadata(0));
 
+        /// <summary>
+        /// 最大值
+        /// </summary>
         public int MaxValue
         {
             get { return (int)GetValue(MaxValueProperty); }
@@ -32,6 +39,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty MaxValueProperty =
             DependencyProperty.Register("MaxValue", typeof(int), typeof(RangerSlider), new PropertyMetadata(100));
 
+        /// <summary>
+        /// 拖动按钮样式的自定义
+        /// </summary>
         public DataTemplate ThumbTemplate
         {
             get { return (DataTemplate)GetValue(ThumbTemplateProperty); }
@@ -41,7 +51,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty ThumbTemplateProperty =
             DependencyProperty.Register("ThumbTemplate", typeof(DataTemplate), typeof(RangerSlider), new PropertyMetadata(null));
 
-
+        /// <summary>
+        /// 拖动按钮上字体的颜色
+        /// </summary>
         public SolidColorBrush ThemeForeColor
         {
             get { return (SolidColorBrush)GetValue(ThemeForeColorProperty); }
@@ -51,6 +63,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty ThemeForeColorProperty =
             DependencyProperty.Register("ThemeForeColor", typeof(SolidColorBrush), typeof(RangerSlider), new PropertyMetadata(Colors.White));
 
+        /// <summary>
+        /// 主题颜色，用于下方表示选择的范围
+        /// </summary>
         public SolidColorBrush ThemeColor
         {
             get { return (SolidColorBrush)GetValue(ThemeColorProperty); }
@@ -60,6 +75,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty ThemeColorProperty =
             DependencyProperty.Register("ThemeColor", typeof(SolidColorBrush), typeof(RangerSlider), new PropertyMetadata(Colors.Black));
 
+        /// <summary>
+        /// 当前选择的最小值
+        /// </summary>
         public int CurrentMinValue
         {
             get { return (int)GetValue(CurrentMinValueProperty); }
@@ -69,6 +87,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty CurrentMinValueProperty =
             DependencyProperty.Register("CurrentMinValue", typeof(int), typeof(RangerSlider), new PropertyMetadata(30));
 
+        /// <summary>
+        /// 当前选择的最大值
+        /// </summary>
         public int CurrentMaxValue
         {
             get { return (int)GetValue(CurrentMaxValueProperty); }
@@ -78,6 +99,9 @@ namespace PlantSitterCustomControl
         public static readonly DependencyProperty CurrentMaxValueProperty =
             DependencyProperty.Register("CurrentMaxValue", typeof(int), typeof(RangerSlider), new PropertyMetadata(70));
 
+        /// <summary>
+        /// 刻度里的刻度数目，默认为5
+        /// </summary>
         public int DivideCount
         {
             get { return (int)GetValue(DivideCountProperty); }
@@ -94,8 +118,6 @@ namespace PlantSitterCustomControl
 
         private SolidColorBrush _darkColor = new SolidColorBrush(ColorConverter.HexToColor("#CCA0A0A0").Value);
 
-        private TaskCompletionSource<int> _cts;
-
         private TextBlock _minValueTB;
         private TextBlock _maxValueTB;
         private Grid _minManiGrid;
@@ -108,7 +130,6 @@ namespace PlantSitterCustomControl
         public RangerSlider()
         {
             DefaultStyleKey = (typeof(RangerSlider));
-            _cts = new TaskCompletionSource<int>();
         }
 
         protected override void OnApplyTemplate()
@@ -117,6 +138,9 @@ namespace PlantSitterCustomControl
             Init();
         }
 
+        /// <summary>
+        /// 初始化，找到 Template 里的控件
+        /// </summary>
         private void Init()
         {
             _minManiGrid = (Grid)GetTemplateChild("MinThumbMovingGrid");
@@ -130,52 +154,70 @@ namespace PlantSitterCustomControl
             _minValueTB.Text = "0";
             _maxValueTB.Text = "100";
 
-            _cts.TrySetResult(0);
-
             _minManiGrid.ManipulationDelta += _minManiGrid_ManipulationDelta;
             _maxManiGrid.ManipulationDelta += _maxManiGrid_ManipulationDelta;
             _minManiGrid.ManipulationCompleted += _manipulationCompleted;
             _maxManiGrid.ManipulationCompleted += _manipulationCompleted;
 
-            this.Loaded += RangerSlider_Loaded;
-            this.SizeChanged += RangerSlider_SizeChanged;
+            if(!DesignMode.DesignModeEnabled)
+            {
+                this.Loaded += RangerSlider_Loaded;
+                this.SizeChanged += RangerSlider_SizeChanged;
+            }
         }
 
-
+        /// <summary>
+        /// 移动”最大块“的时候
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _maxManiGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var minOffsetX = Canvas.GetLeft(_minManiGrid);
             var maxOffsetX = Canvas.GetLeft(_maxManiGrid);
             var newMaxOffsetX = maxOffsetX + e.Delta.Translation.X;
-            if (newMaxOffsetX-_maxManiGrid.ActualWidth > minOffsetX)
+            if (newMaxOffsetX > minOffsetX && newMaxOffsetX<= _progressCanvas.ActualWidth)
             {
                 Canvas.SetLeft(_maxManiGrid, newMaxOffsetX);
             }
-            DrawRangeBar();
+            DrawRangeBorder();
             UpdateIndicator();
         }
 
+        /// <summary>
+        /// 移动”最小块“的时候
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _minManiGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var minOffsetX = Canvas.GetLeft(_minManiGrid);
             var maxOffsetX = Canvas.GetLeft(_maxManiGrid);
             var newMinOffsetX = minOffsetX + e.Delta.Translation.X;
-            if (newMinOffsetX+_minManiGrid.ActualWidth < maxOffsetX)
+            if (newMinOffsetX < maxOffsetX && newMinOffsetX >= 0)
             {
                 Canvas.SetLeft(_minManiGrid, newMinOffsetX);
             }
-            DrawRangeBar();
+            DrawRangeBorder();
             UpdateIndicator();
         }
 
+        /// <summary>
+        /// 移动完成
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void _manipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             OnValueChanged?.Invoke(new Vector2((float)CurrentMinValue, (float)CurrentMaxValue));
         }
 
-        private void DrawRangeBar()
+        /// <summary>
+        /// 使得最大值与最小值之间高亮
+        /// </summary>
+        private void DrawRangeBorder()
         {
-            if(_rangeBorder==null)
+            if (_rangeBorder == null)
             {
                 _rangeBorder = new Border();
             }
@@ -189,19 +231,22 @@ namespace PlantSitterCustomControl
 
             _progressCanvas.Children.Add(_rangeBorder);
 
-            var minOffsetX = _minManiGrid.TransformToVisual(_progressCanvas).TransformPoint(new Windows.Foundation.Point(_minManiGrid.ActualWidth / 2, 0)).X;
-            var maxOffsetX = _maxManiGrid.TransformToVisual(_progressCanvas).TransformPoint(new Windows.Foundation.Point(_maxManiGrid.ActualWidth / 2, 0)).X;
+            var minOffsetX = _minManiGrid.TransformToVisual(_progressCanvas).TransformPoint(new Point(_minManiGrid.ActualWidth / 2, 0)).X;
+            var maxOffsetX = _maxManiGrid.TransformToVisual(_progressCanvas).TransformPoint(new Point(_maxManiGrid.ActualWidth / 2, 0)).X;
             _rangeBorder.Width = maxOffsetX - minOffsetX;
             Canvas.SetLeft(_rangeBorder, minOffsetX);
         }
 
+        /// <summary>
+        /// 更新拖动”块“上的指示器数字
+        /// </summary>
         private void UpdateIndicator()
         {
             var minOffsetX = _minManiGrid.TransformToVisual(_progressCanvas).TransformPoint(new Windows.Foundation.Point(_minManiGrid.ActualWidth / 2, 0)).X;
             var maxOffsetX = _maxManiGrid.TransformToVisual(_progressCanvas).TransformPoint(new Windows.Foundation.Point(_maxManiGrid.ActualWidth / 2, 0)).X;
 
-            CurrentMinValue =(int)(MinValue +(minOffsetX / _progressCanvas.ActualWidth) * (MaxValue - MinValue));
-            CurrentMaxValue= (int)(MinValue + (maxOffsetX / _progressCanvas.ActualWidth) * (MaxValue - MinValue));
+            CurrentMinValue = (int)(MinValue + (minOffsetX / _progressCanvas.ActualWidth) * (MaxValue - MinValue));
+            CurrentMaxValue = (int)Math.Ceiling((MinValue + (maxOffsetX / _progressCanvas.ActualWidth) * (MaxValue - MinValue)));
 
             _minValueTB.Text = CurrentMinValue.ToString();
             _maxValueTB.Text = CurrentMaxValue.ToString();
@@ -260,7 +305,7 @@ namespace PlantSitterCustomControl
             Canvas.SetLeft(_minManiGrid, ((CurrentMinValue - MinValue) / rangeValue) * _progressCanvas.ActualWidth);
             Canvas.SetLeft(_maxManiGrid, ((CurrentMaxValue - MinValue) / rangeValue) * _progressCanvas.ActualWidth);
 
-            DrawRangeBar();
+            DrawRangeBorder();
         }
     }
 }

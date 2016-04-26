@@ -12,7 +12,7 @@
         <cc:RangerSlider Margin="10" VerticalAlignment="Center" ThemeForeColor="Black" ThemeColor="#FFFFD857">
             <cc:RangerSlider.ThumbTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid VerticalAlignment="Bottom" >
                         <Ellipse VerticalAlignment="Bottom" Width="50" Height="50" Fill="#FFFFD857"/>
                     </Grid>
                 </DataTemplate>

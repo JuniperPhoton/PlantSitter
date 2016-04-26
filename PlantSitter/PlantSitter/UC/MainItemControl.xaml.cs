@@ -27,28 +27,5 @@ namespace PlantSitter.UC
         {
             this.InitializeComponent();
         }
-
-        private void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
-        {
-            var ccl = new CanvasCommandList(sender);
-            using (var ds = ccl.CreateDrawingSession())
-            {
-                ds.FillRectangle(new Rect(10, 10, this.ActualWidth - 20, this.ActualHeight - 20), Colors.White);
-
-                var shadowEffect = new Transform2DEffect
-                {
-                    Source = new ShadowEffect
-                    {
-                        Source = ccl,
-                        BlurAmount = 3,
-                        ShadowColor = Color.FromArgb(60, 0, 0, 0),
-                    },
-                    BorderMode = EffectBorderMode.Soft,
-                    TransformMatrix = Matrix3x2.CreateTranslation(5, 5)
-                };
-                args.DrawingSession.DrawImage(shadowEffect, 0, 0);
-            }
-
-        }
     }
 }

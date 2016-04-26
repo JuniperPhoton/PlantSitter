@@ -10,18 +10,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RangerSlider">
-                    <Grid x:Name="RootGrid" Height="80">
+                    <Grid x:Name="RootGrid" Height="60">
                         <Grid.RowDefinitions>
                             <RowDefinition/>
                             <RowDefinition Height="2"/>
-                            <RowDefinition Height="15"/>
+                            <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
-                        <Canvas>
-                            <Grid x:Name="MinThumbMovingGrid" ManipulationMode="TranslateX" VerticalAlignment="Stretch">
-                            <ContentPresenter ContentTemplate="{TemplateBinding ThumbTemplate}"/>
+                        <Canvas Grid.Row="0">
+                            <Grid x:Name="MinThumbMovingGrid" ManipulationMode="TranslateX" VerticalAlignment="Bottom">
+                                <ContentPresenter ContentTemplate="{TemplateBinding ThumbTemplate}" />
                                 <TextBlock x:Name="MinValueTB" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{TemplateBinding ThemeForeColor}"/>
                             </Grid>
-                            <Grid x:Name="MaxThumbMovingGrid" ManipulationMode="TranslateX" VerticalAlignment="Stretch">
+                            <Grid x:Name="MaxThumbMovingGrid" ManipulationMode="TranslateX" VerticalAlignment="Bottom">
                                 <ContentPresenter ContentTemplate="{TemplateBinding ThumbTemplate}"/>
                                 <TextBlock x:Name="MaxValueTB" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{TemplateBinding ThemeForeColor}"/>
                             </Grid>
@@ -30,8 +30,7 @@
                             <Border x:Name="ProgressBorder" Background="#CCA0A0A0"/>
                             <Canvas x:Name="ProgressCanvas" Grid.Row="1" />
                         </Grid>
-                        <Canvas x:Name="BottomCanavs" Grid.Row="2" Margin="0 3 0 0"/>
-
+                        <Canvas x:Name="BottomCanavs" Grid.Row="2" Margin="0 2 0 0" VerticalAlignment="Bottom"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

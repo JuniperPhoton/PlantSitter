@@ -102,8 +102,11 @@ namespace PlantSitter
         {
             if (NavigationService.RootFrame != null)
             {
-                e.Handled = true;
-                if (NavigationService.RootFrame.CanGoBack) NavigationService.RootFrame.GoBack();
+                if (NavigationService.RootFrame.CanGoBack)
+                {
+                    NavigationService.RootFrame.GoBack();
+                    e.Handled = true;
+                }
             }
         }
 

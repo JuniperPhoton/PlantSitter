@@ -19,12 +19,14 @@ namespace PlantSitter.View
 {
     public sealed partial class AddPlanPage : BasePage
     {
-        public AddPlanViewModel AddPlanVM { get; set; }
-
         public AddPlanPage()
         {
             this.InitializeComponent();
-            this.DataContext = AddPlanVM = new AddPlanViewModel();
+        }
+
+        protected override void SetupCacheMode()
+        {
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
     }
 }
