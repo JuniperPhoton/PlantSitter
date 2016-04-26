@@ -14,7 +14,7 @@ namespace PlantSitter.Common
     {
         public static void SetUpStatusBar()
         {
-            if(ApiInformationHelper.HasStatusBar)
+            if (ApiInformationHelper.HasStatusBar)
             {
                 var sb = StatusBar.GetForCurrentView();
                 sb.ForegroundColor = Colors.White;

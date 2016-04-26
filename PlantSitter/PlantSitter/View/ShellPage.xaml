@@ -24,7 +24,7 @@
                     <uc:HamburgerButton x:Name="HamBtn" OnClick="HamBtn_OnClick" HorizontalAlignment="Left" Width="70" Margin="0"/>
                     <TextBlock Text="{x:Bind MainVM.Title,Mode=OneWay}" Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="10,0,0,0"/>
                 </StackPanel>
-                <Button Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Right" Background="#02FFFFFF" VerticalAlignment="Stretch" Width="70" Margin="0">
+                <Button Command="{x:Bind MainVM.AddCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle2}" HorizontalAlignment="Right" Background="#02FFFFFF" VerticalAlignment="Stretch" Width="70" Margin="0">
                     <Border>
                         <SymbolIcon Margin="10" Symbol="Add" Foreground="White"/>
                     </Border>

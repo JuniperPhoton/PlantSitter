@@ -6,7 +6,7 @@ using PlantSitter.View;
 
 namespace PlantSitter.ViewModel
 {
-    public class StartViewModel:ViewModelBase,INavigable
+    public class StartViewModel : ViewModelBase, INavigable
     {
         private RelayCommand _goToLoginPageCommand;
         public RelayCommand GoToLoginPageCommand

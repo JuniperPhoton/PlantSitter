@@ -128,8 +128,8 @@
     <Compile Include="View\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\AddPlantPage.xaml.cs">
-      <DependentUpon>AddPlantPage.xaml</DependentUpon>
+    <Compile Include="View\AddPlanPage.xaml.cs">
+      <DependentUpon>AddPlanPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\AllPlansPage.xaml.cs">
       <DependentUpon>AllPlansPage.xaml</DependentUpon>
@@ -253,7 +253,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\AddPlantPage.xaml">
+    <Page Include="View\AddPlanPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

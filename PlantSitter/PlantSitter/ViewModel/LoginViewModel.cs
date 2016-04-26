@@ -23,7 +23,7 @@ namespace PlantSitter.ViewModel
         Login
     }
 
-    public class LoginViewModel:ViewModelBase,INavigable
+    public class LoginViewModel : ViewModelBase, INavigable
     {
         public bool IsInView { get; set; }
 
@@ -139,7 +139,7 @@ namespace PlantSitter.ViewModel
             get
             {
                 if (_confrimActionCommand != null) return _confrimActionCommand;
-                return _confrimActionCommand = new RelayCommand(async() =>
+                return _confrimActionCommand = new RelayCommand(async () =>
                   {
                       if (!IsInputDataValid())
                       {
@@ -148,11 +148,11 @@ namespace PlantSitter.ViewModel
 
                       ShowLoading = Visibility.Visible;
 
-                      if (LoginMode==LoginMode.Register)
+                      if (LoginMode == LoginMode.Register)
                       {
                           await Register();
                       }
-                      if(LoginMode==LoginMode.Login)
+                      if (LoginMode == LoginMode.Login)
                       {
                           await Login();
                       }
@@ -185,12 +185,12 @@ namespace PlantSitter.ViewModel
 
         private bool IsInputDataValid()
         {
-            if(string.IsNullOrEmpty(Email))
+            if (string.IsNullOrEmpty(Email))
             {
                 ToastService.SendToast("请输入邮箱");
                 return false;
             }
-            if(!Functions.IsValidEmail(Email))
+            if (!Functions.IsValidEmail(Email))
             {
                 ToastService.SendToast("邮箱格式不对");
                 return false;
@@ -200,12 +200,12 @@ namespace PlantSitter.ViewModel
                 ToastService.SendToast("请输入密码");
                 return false;
             }
-            if(LoginMode==LoginMode.Register && string.IsNullOrEmpty(PasswordToBeConfirmed))
+            if (LoginMode == LoginMode.Register && string.IsNullOrEmpty(PasswordToBeConfirmed))
             {
                 ToastService.SendToast("请再次输入密码");
                 return false;
             }
-            if (LoginMode == LoginMode.Register && Password!=PasswordToBeConfirmed)
+            if (LoginMode == LoginMode.Register && Password != PasswordToBeConfirmed)
             {
                 ToastService.SendToast("两次输入的密码不匹配");
                 return false;
@@ -314,9 +314,9 @@ namespace PlantSitter.ViewModel
 
         public void Activate(object param)
         {
-            if(param is int)
+            if (param is int)
             {
-                switch((int)param)
+                switch ((int)param)
                 {
                     //Register
                     case 0:
@@ -325,7 +325,7 @@ namespace PlantSitter.ViewModel
                             ConfirmPwdVisibility = Visibility.Visible;
                             ActionText = Title;
                             LoginMode = LoginMode.Register;
-                        };break;
+                        }; break;
                     //Login
                     case 1:
                         {
@@ -333,7 +333,7 @@ namespace PlantSitter.ViewModel
                             ConfirmPwdVisibility = Visibility.Collapsed;
                             ActionText = Title;
                             LoginMode = LoginMode.Login;
-                        };break;
+                        }; break;
                 }
             }
         }

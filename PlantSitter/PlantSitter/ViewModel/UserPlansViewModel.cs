@@ -14,7 +14,7 @@ using GalaSoft.MvvmLight.Command;
 
 namespace PlantSitter.ViewModel
 {
-    public class UserPlansViewModel:ViewModelBase,INavigable
+    public class UserPlansViewModel : ViewModelBase, INavigable
     {
         private ObservableCollection<UserPlanToDisplay> _currentUserPlans;
         public ObservableCollection<UserPlanToDisplay> CurrentUserPlans
@@ -156,7 +156,7 @@ namespace PlantSitter.ViewModel
                 IsLoading = true;
                 await GetAllUserPlansAsync();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 ToastService.SendToast("获取培养计划失败.");
             }
@@ -168,17 +168,17 @@ namespace PlantSitter.ViewModel
 
         public void Activate(object param)
         {
-            
+
         }
 
         public void Deactivate(object param)
         {
-            
+
         }
 
         public async void OnLoaded()
         {
-           if(IsFirstActived)
+            if (IsFirstActived)
             {
                 IsFirstActived = false;
                 await Refresh();

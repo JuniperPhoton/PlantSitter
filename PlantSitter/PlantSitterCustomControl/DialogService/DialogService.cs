@@ -18,7 +18,7 @@ namespace PlantSitterCustomControl
         PlainText,
         InputContent
     }
-    public class DialogService:ContentControl
+    public class DialogService : ContentControl
     {
         #region DependencyProperty
 
@@ -142,7 +142,7 @@ namespace PlantSitterCustomControl
 
         public static readonly DependencyProperty InputBoxTextProperty =
             DependencyProperty.Register("InputBoxText", typeof(string), typeof(DialogService), new PropertyMetadata("",
-                async(sender,e)=>
+                async (sender, e) =>
                 {
                     var control = sender as DialogService;
                     await control.UpdateInputBoxContent();
@@ -222,7 +222,7 @@ namespace PlantSitterCustomControl
             CurrentPage.SizeChanged += Page_SizeChanged;
         }
 
-        public DialogService(DialogKind kind, string title, string content) :this()
+        public DialogService(DialogKind kind, string title, string content) : this()
         {
             this._kind = kind;
             if (!DesignMode.DesignModeEnabled)
@@ -232,7 +232,7 @@ namespace PlantSitterCustomControl
             }
         }
 
-        public DialogService(string title, string content):this()
+        public DialogService(string title, string content) : this()
         {
             if (!DesignMode.DesignModeEnabled)
             {

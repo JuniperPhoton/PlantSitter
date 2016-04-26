@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PlantSitter.UC"
     xmlns:attach="using:JP.Utils.Framework"
+    xmlns:cc="using:JP.UWP.CustomControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -115,7 +116,7 @@
                 <RowDefinition Height="60"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Grid Background="{StaticResource PlantSitterThemeLightColor}">
+            <Grid Height="60"  Background="{StaticResource PlantSitterThemeLightColor}">
                 <Image Source="ms-appx:///Assets/Icon/BackgrdMask.png" Stretch="UniformToFill"/>
                 <TextBlock FontSize="20" Text="添加植物" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
             </Grid>
@@ -147,7 +148,7 @@
                                     <Grid>
                                         <Ellipse Width="50" Height="50" Fill="{StaticResource PlantSitterDarkLightColor}"/>
                                     </Grid>
-                                    <TextBlock Margin="10 0 0 0" Grid.Column="1" Text="{x:Bind}" VerticalAlignment="Center"/>
+                                    <TextBlock Margin="10 0 0 0" Grid.Column="1" Text="" VerticalAlignment="Center"/>
                                 </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
@@ -164,7 +165,6 @@
                     <TextBlock Text="手动输入植物信息" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </Button>
-
         </Grid>
         <Grid Background="White">
             <Grid.RowDefinitions>

@@ -11,7 +11,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="local:RangerSlider">
                     <Grid x:Name="RootGrid">
-                        
+
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -9,13 +9,13 @@ namespace PlantSitterCustomControl
     public class AdaptiveGridView : GridView
     {
         #region DependencyProperties
-        
+
         /// <summary>
         /// Minimum height for item
         /// </summary>
         public double MinItemHeight
         {
-            get { return (double) GetValue(AdaptiveGridView.MinItemHeightProperty); }
+            get { return (double)GetValue(AdaptiveGridView.MinItemHeightProperty); }
             set { SetValue(AdaptiveGridView.MinItemHeightProperty, value); }
         }
 
@@ -26,9 +26,9 @@ namespace PlantSitterCustomControl
                 typeof(AdaptiveGridView),
                 new PropertyMetadata(1.0, (s, a) =>
                 {
-                    if (!double.IsNaN((double) a.NewValue))
+                    if (!double.IsNaN((double)a.NewValue))
                     {
-                        ((AdaptiveGridView) s).InvalidateMeasure();
+                        ((AdaptiveGridView)s).InvalidateMeasure();
                     }
                 }));
 
@@ -37,7 +37,7 @@ namespace PlantSitterCustomControl
         /// </summary>
         public double MinItemWidth
         {
-            get { return (double) GetValue(AdaptiveGridView.MinimumItemWidthProperty); }
+            get { return (double)GetValue(AdaptiveGridView.MinimumItemWidthProperty); }
             set { SetValue(AdaptiveGridView.MinimumItemWidthProperty, value); }
         }
 
@@ -48,9 +48,9 @@ namespace PlantSitterCustomControl
                 typeof(AdaptiveGridView),
                 new PropertyMetadata(1.0, (s, a) =>
                 {
-                    if (!Double.IsNaN((double) a.NewValue))
+                    if (!Double.IsNaN((double)a.NewValue))
                     {
-                        ((AdaptiveGridView) s).InvalidateMeasure();
+                        ((AdaptiveGridView)s).InvalidateMeasure();
                     }
                 }));
 
@@ -73,7 +73,7 @@ namespace PlantSitterCustomControl
                 }
             };
         }
-        
+
         protected override Size MeasureOverride(Size availableSize)
         {
             var panel = this.ItemsPanelRoot as ItemsWrapGrid;

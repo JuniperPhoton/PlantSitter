@@ -37,7 +37,7 @@ namespace PlantSitter
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
+            e.Handled = false;
         }
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace PlantSitter
             SystemNavigationManager.GetForCurrentView().BackRequested -= App_BackRequested;
             SystemNavigationManager.GetForCurrentView().BackRequested += App_BackRequested;
 
-            if(ApiInformationHelper.HasHardwareButton)
+            if (ApiInformationHelper.HasHardwareButton)
             {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             }
