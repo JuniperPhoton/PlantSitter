@@ -10,7 +10,27 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RangerSlider">
-                    <Grid x:Name="RootGrid">
+                    <Grid x:Name="RootGrid" Height="80">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="2"/>
+                            <RowDefinition Height="15"/>
+                        </Grid.RowDefinitions>
+                        <Canvas>
+                            <Grid x:Name="MinThumbMovingGrid" ManipulationMode="TranslateX" VerticalAlignment="Stretch">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ThumbTemplate}"/>
+                                <TextBlock x:Name="MinValueTB" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{TemplateBinding ThemeForeColor}"/>
+                            </Grid>
+                            <Grid x:Name="MaxThumbMovingGrid" ManipulationMode="TranslateX" VerticalAlignment="Stretch">
+                                <ContentPresenter ContentTemplate="{TemplateBinding ThumbTemplate}"/>
+                                <TextBlock x:Name="MaxValueTB" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{TemplateBinding ThemeForeColor}"/>
+                            </Grid>
+                        </Canvas>
+                        <Grid x:Name="ProgressGrid" Grid.Row="1">
+                            <Border x:Name="ProgressBorder" Background="#CCA0A0A0"/>
+                            <Canvas x:Name="ProgressCanvas" Grid.Row="1" />
+                        </Grid>
+                        <Canvas x:Name="BottomCanavs" Grid.Row="2" Margin="0 3 0 0"/>
 
                     </Grid>
                 </ControlTemplate>
