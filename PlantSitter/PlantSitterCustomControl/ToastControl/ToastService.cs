@@ -6,10 +6,10 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media.Animation;
 
-namespace PlantSitterCusomControl
+namespace PlantSitterCustomControl
 {
-    public class ToastService:Control
-    { 
+    public class ToastService : Control
+    {
         #region DependencyProperty
 
         public string ContentText
@@ -84,12 +84,12 @@ namespace PlantSitterCusomControl
             CurrentPage.SizeChanged += Page_SizeChanged;
         }
 
-        private ToastService(string text):this()
+        private ToastService(string text) : this()
         {
             _tempText = text;
         }
 
-        private ToastService(string text,TimeSpan time):this()
+        private ToastService(string text, TimeSpan time) : this()
         {
             _tempText = text;
             HideTimeSpan = time;
@@ -98,18 +98,18 @@ namespace PlantSitterCusomControl
         public static void SendToast(string text)
         {
             ToastService ts = new ToastService(text);
-            var task=ts.ShowAsync();
+            var task = ts.ShowAsync();
         }
 
-        public static void SendToast(string text,TimeSpan time)
+        public static void SendToast(string text, TimeSpan time)
         {
-            ToastService ts = new ToastService(text,time);
+            ToastService ts = new ToastService(text, time);
             var task = ts.ShowAsync();
         }
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var  task=UpdateSize();
+            var task = UpdateSize();
         }
 
         private async Task UpdateSize()
@@ -137,7 +137,7 @@ namespace PlantSitterCusomControl
             _contentTB.Text = _tempText;
             _tcs.SetResult(0);
         }
-        
+
         public async Task ShowAsync()
         {
             await _tcs.Task;

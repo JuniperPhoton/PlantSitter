@@ -4,7 +4,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace PlantSitterCusomControl
+namespace PlantSitterCustomControl
 {
     public class AdaptiveGridView : GridView
     {

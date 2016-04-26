@@ -1,6 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.Data.Json;
-using PlantSitterCusomControl;
+using PlantSitterCustomControl;
 using PlantSitterShared.Model;
 using PlantSitterShared.API;
 using System.Collections.Generic;

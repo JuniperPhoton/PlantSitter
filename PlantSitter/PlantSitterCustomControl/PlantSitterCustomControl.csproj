@@ -110,6 +110,7 @@
     <Compile Include="Control\AdaptiveGridView.cs" />
     <Compile Include="DialogService\DialogService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RangerSlider\RangerSlider.cs" />
     <Compile Include="ToastControl\ToastService.cs" />
     <EmbeddedResource Include="Properties\PlantSitterCustomControl.rd.xml" />
   </ItemGroup>

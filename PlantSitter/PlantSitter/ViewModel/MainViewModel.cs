@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using JP.Utils.Data;
 using JP.Utils.Framework;
 using PlantSitter.View;
-using PlantSitterCusomControl;
+using PlantSitterCustomControl;
 using PlantSitterShared.Model;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
