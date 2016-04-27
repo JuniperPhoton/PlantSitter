@@ -15,7 +15,6 @@ namespace UnitTestProject
         public async Task TestSearchImage()
         {
             var result = await CloudService.SearchImage("Sunflower");
-            result.ParseAPIResult();
             Assert.IsTrue(result.IsSuccessful);
         }
     }

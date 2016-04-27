@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
-namespace PlantSitter_Resp.Service
+namespace PlantSitter.Service
 {
     public class DateTimeService
     {

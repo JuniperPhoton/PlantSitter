@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlantSitter_Resp.Common
+namespace PlantSitter.Common
 {
-    public class RespSettings : AppSettings
+    public class PlantSitterSettings : AppSettings
     {
         /// <summary>
         /// 上传的频率，单位是毫秒

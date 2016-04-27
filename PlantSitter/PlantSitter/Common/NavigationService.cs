@@ -10,6 +10,11 @@ namespace PlantSitter.Common
 {
     public static class NavigationService
     {
+        /// <summary>
+        /// 通过RootFrame导航
+        /// </summary>
+        /// <param name="pageType"></param>
+        /// <param name="param"></param>
         public static void NavigateViaRootFrame(Type pageType, object param = null)
         {
             RootFrame.Navigate(pageType, param);

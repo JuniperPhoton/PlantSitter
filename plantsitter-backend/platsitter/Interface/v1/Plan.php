@@ -36,7 +36,7 @@ do {
                     $ApiResult['isSuccessed'] = true;
                     $ApiResult['error_code'] = 0;
                     $ApiResult['error_message'] = '';
-                    $ApiResult['Gid'] = $result - fetch();
+                    $ApiResult['Gid'] = $queryUpdate->fetch();
                     break;
                 } else {
                     $ApiResult['isSuccessed'] = false;

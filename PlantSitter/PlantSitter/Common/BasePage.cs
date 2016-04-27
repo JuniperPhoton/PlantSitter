@@ -28,6 +28,7 @@ namespace PlantSitter.Common
                 page.OnLoaded();
             }
         }
+
         protected virtual void SetUpPageAnimation()
         {
             TransitionCollection collection = new TransitionCollection();
@@ -50,11 +51,11 @@ namespace PlantSitter.Common
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
                    NavigationService.RootFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
 
-            if (NavigationService.ContentFrame != null)
-            {
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                    NavigationService.ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-            }
+            //if (NavigationService.ContentFrame != null)
+            //{
+            //    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
+            //        NavigationService.ContentFrame.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            //}
 
             base.OnNavigatedTo(e);
             if (this.DataContext is INavigable)

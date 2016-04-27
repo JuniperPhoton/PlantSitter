@@ -11,7 +11,9 @@ namespace PlantSitter.ViewModel
 {
     public class AboutViewModel : ViewModelBase
     {
-
+        /// <summary>
+        /// 邮件反馈
+        /// </summary>
         private RelayCommand _feedbackCommand;
         public RelayCommand FeedbackCommand
         {
@@ -36,6 +38,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 商店评分
+        /// </summary>
         private RelayCommand _rateCommand;
         public RelayCommand RateCommand
         {

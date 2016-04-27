@@ -11,7 +11,7 @@ using Windows.UI.Xaml;
 using JP.Utils.Functions;
 using System.Diagnostics;
 
-namespace PlantSitter_Resp.Service
+namespace PlantSitter.Service
 {
     public class UploadService
     {

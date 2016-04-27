@@ -27,6 +27,9 @@ namespace PlantSitter.ViewModel
 
         public bool IsInView { get; set; }
 
+        /// <summary>
+        /// 显示添加植物的面板
+        /// </summary>
         private bool _showAddGrid;
         public bool ShowAddGrid
         {
@@ -44,6 +47,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 显示搜索植物图片的面板结果
+        /// </summary>
         private bool _showSearchResultGrid;
         public bool ShowSearchResultGrid
         {
@@ -61,6 +67,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 搜索关键字
+        /// </summary>
         private string _searchInfo;
         public string SearchInfo
         {
@@ -78,6 +87,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 搜索出来的植物列表
+        /// </summary>
         private ObservableCollection<Plant> _resultPlants;
         public ObservableCollection<Plant> ResultPlants
         {
@@ -95,6 +107,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 开始搜索
+        /// </summary>
         private RelayCommand _searchCommand;
         public RelayCommand SearchCommand
         {
@@ -117,6 +132,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 点击手动添加植物
+        /// </summary>
         private RelayCommand _showAddPlantGridCommand;
         public RelayCommand ShowAddPlantGridCommand
         {
@@ -130,6 +148,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 隐藏添加面板
+        /// </summary>
         private RelayCommand _hideAddGridCommand;
         public RelayCommand HideAddGridCommand
         {
@@ -143,6 +164,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 显示加载圈
+        /// </summary>
         private bool _showLoading;
         public bool ShowLoading
         {
@@ -160,6 +184,9 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 显示是否没结果
+        /// </summary>
         private Visibility _showNoResult;
         public Visibility ShowNoResult
         {
@@ -195,7 +222,6 @@ namespace PlantSitter.ViewModel
                 }
             }
         }
-
 
         private RelayCommand _searchImageCommand;
         public RelayCommand SearchImageCommand
@@ -342,7 +368,7 @@ namespace PlantSitter.ViewModel
                 if (_addPlantCommand != null) return _addPlantCommand;
                 return _addPlantCommand = new RelayCommand(async () =>
                   {
-                      await AddPlantAsync();
+                      await AddPlantAndGrowAsync();
                   });
             }
         }
@@ -372,6 +398,10 @@ namespace PlantSitter.ViewModel
               });
         }
 
+        /// <summary>
+        /// 以关键字搜索植物
+        /// </summary>
+        /// <returns></returns>
         private async Task SearchPlantAsync()
         {
             ShowLoading = true;
@@ -411,7 +441,11 @@ namespace PlantSitter.ViewModel
             ShowLoading = false;
         }
 
-        private async Task AddPlantAsync()
+        /// <summary>
+        /// 添加植物到数据库
+        /// </summary>
+        /// <returns></returns>
+        private async Task AddPlantAndGrowAsync()
         {
             if (!CurrentPlant.NameInChinese.IsNotNullOrEmpty())
             {
@@ -432,7 +466,7 @@ namespace PlantSitter.ViewModel
             {
                 var result = await CloudService.AddPlant(
                    CurrentPlant.NameInChinese, CurrentPlant.NameInEnglish,
-                   "0~1",
+                   "1~1",
                    $"{EnviMoistureMin}~{EnviMoistureMax}",
                    $"{EnviTempMin}~{EnviTempMax}",
                    CurrentPlant.LightRange.ConvertToString(),
@@ -461,6 +495,11 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        /// <summary>
+        /// 点击某个植物/新建的植物，让其添加到培养计划
+        /// </summary>
+        /// <param name="plant"></param>
+        /// <returns></returns>
         private async Task SelectPlantToGrowAsync(Plant plant)
         {
             ShowLoading = true;
@@ -482,6 +521,10 @@ namespace PlantSitter.ViewModel
             });
         }
 
+        /// <summary>
+        /// 根据名字搜索植物
+        /// </summary>
+        /// <returns></returns>
         private async Task SearchPlantImageByNameAsync()
         {
             if (!CurrentPlant.NameInChinese.IsNotNullOrEmpty() && !CurrentPlant.NameInEnglish.IsNotNullOrEmpty())

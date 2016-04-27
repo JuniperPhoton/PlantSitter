@@ -7,7 +7,7 @@ using Windows.UI.Xaml;
 using PlantSitterShared.Model;
 using PlantSitterResp.Common;
 using GalaSoft.MvvmLight.Command;
-using PlantSitter_Resp.Service;
+using PlantSitter.Service;
 using PlantSitterResp.Service.SensorService;
 using PlantSitterCustomControl;
 

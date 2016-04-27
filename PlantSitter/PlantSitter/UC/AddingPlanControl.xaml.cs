@@ -1,4 +1,6 @@
-﻿using JP.UWP.CustomControl;
+﻿using JP.Utils.Helper;
+using JP.UWP.CustomControl;
+using PlantSitter.Common;
 using PlantSitter.ViewModel;
 using System;
 using System.Numerics;
@@ -9,6 +11,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace PlantSitter.UC
 {
@@ -110,6 +113,10 @@ namespace PlantSitter.UC
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             PopupService.CurrentShownCPEX?.Hide();
+            if(DeviceHelper.IsMobile)
+            {
+                NavigationService.RootFrame.GoBack();
+            }
         }
 
         private void ListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
@@ -164,6 +171,22 @@ namespace PlantSitter.UC
         private void HideResultBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowSearchResultGrid = false;
+        }
+
+        private void Op1Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Op1Img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon/icon_chooseSun.png"));
+            Op2Img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon/icon_cloud.png"));
+            AddPlanVM.CurrentPlant.LikeSunshine = true;
+            AddPlanVM.CurrentPlant.LightRange = new Vector2(100f,20000f);
+        }
+
+        private void Op2Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Op1Img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon/icon_Sun.png"));
+            Op2Img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon/icon_chooseCloud.png"));
+            AddPlanVM.CurrentPlant.LikeSunshine = false;
+            AddPlanVM.CurrentPlant.LightRange = new Vector2(1f,10000f);
         }
     }
 }

@@ -95,7 +95,7 @@
                 </Grid>
             </Grid>
             <Button Command="{x:Bind AddPlanVM.ShowAddPlantGridCommand,Mode=OneWay}" Margin="10,0,10,10" Grid.RowSpan="2" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Grid.Row="1">
-                <Border Height="40" Background="{StaticResource PlantSitterThemeDarkColor}">
+                <Border Height="40" Background="{StaticResource PlantSitterThemeLightColor}">
                     <TextBlock Text="手动输入植物信息" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </Border>
             </Button>
@@ -146,7 +146,7 @@
                                 <ColumnDefinition Width="130"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="植物英文名字(选填)" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="植物英文名字(选)" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <Border  Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterDarkLightColor}">
                                 <TextBox Text="{x:Bind AddPlanVM.CurrentPlant.NameInEnglish,Mode=TwoWay}" PlaceholderText="输入植物名字" BorderThickness="0"/>
                             </Border>
@@ -168,13 +168,19 @@
                                 </DataTemplate>
                             </cc2:RangerSlider.ThumbTemplate>
                         </cc2:RangerSlider>
-                        <Grid Margin="10" Height="70">
+                        <Grid Margin="10" Height="200">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
+                            <Button x:Name="Op1Btn" Click="Op1Btn_Click" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="130" Background="{x:Null}">
+                                <Image x:Name="Op1Img" Source="ms-appx:///Assets/Icon/icon_chooseSun.png"/>
+                            </Button>
+                            <Button x:Name="Op2Btn" Click="Op2Btn_Click" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="1" Height="130" Background="{x:Null}">
+                                <Image x:Name="Op2Img" Source="ms-appx:///Assets/Icon/icon_cloud.png"/>
+                            </Button>
                         </Grid>
-                        <Button Command="{x:Bind AddPlanVM.AddPlantCommand,Mode=OneWay}" Margin="10" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button Command="{x:Bind AddPlanVM.AddPlantCommand,Mode=OneWay}" Margin="10" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{x:Null}">
                             <Border Height="40" Background="{StaticResource PlantSitterThemeLightColor}">
                                 <TextBlock Text="培养该植物" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>

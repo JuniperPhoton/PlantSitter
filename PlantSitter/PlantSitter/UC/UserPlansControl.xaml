@@ -21,6 +21,7 @@
                      x:Name="PlansGridView"
                      IsItemClickEnabled="True"
                      SelectionMode="None"
+                     attach:ListViewBaseCommandEx.ItemClickCommand="{Binding SelectPlanCommand,Mode=OneWay}"
                      ItemsSource="{Binding CurrentUserPlans,Mode=OneWay}"
                      ItemTemplate="{StaticResource ItemDataTemplate}"
                      MinItemHeight="250"

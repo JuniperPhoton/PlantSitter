@@ -1,18 +1,17 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.UI;
-using PlantSitterShared.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace PlantSitterShared.Model
 {
-    public class UserPlanToDisplay:ViewModelBase
+    public class UserPlanWrapped : ViewModelBase
     {
         public UserPlan CurrentPlan { get; set; }
+
+        public bool IsMain { get; set; }
 
         public string CreateTimeString
         {
@@ -69,12 +68,12 @@ namespace PlantSitterShared.Model
                         ScoreSumUp = "适宜";
                         UpdateColorByScoreLevel(0);
                     }
-                    else if(value<70 && value>=40)
+                    else if (value < 70 && value >= 40)
                     {
                         ScoreSumUp = "不太适宜";
                         UpdateColorByScoreLevel(1);
                     }
-                    else 
+                    else
                     {
                         ScoreSumUp = "非常糟糕";
                         UpdateColorByScoreLevel(2);
@@ -134,7 +133,24 @@ namespace PlantSitterShared.Model
             }
         }
 
-        public UserPlanToDisplay(UserPlan plan)
+        private Visibility _showMainBadge;
+        public Visibility ShowMainBadge
+        {
+            get
+            {
+                return _showMainBadge;
+            }
+            set
+            {
+                if (_showMainBadge != value)
+                {
+                    _showMainBadge = value;
+                    RaisePropertyChanged(() => ShowMainBadge);
+                }
+            }
+        }
+
+        public UserPlanWrapped(UserPlan plan)
         {
             this.CurrentPlan = plan;
             ColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#71997b").Value);
@@ -150,7 +166,7 @@ namespace PlantSitterShared.Model
 
         private void UpdateColorByScoreLevel(int level)
         {
-            switch(level)
+            switch (level)
             {
                 case 0:
                     {

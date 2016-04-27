@@ -102,7 +102,7 @@
     <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Common\ExtentFunctions.cs" />
     <Compile Include="Common\NavigationService.cs" />
-    <Compile Include="Common\RespSettings.cs" />
+    <Compile Include="Common\PlantSitterSettings.cs" />
     <Compile Include="Common\StatusBarHelper.cs" />
     <Compile Include="Common\TitleBarHelper.cs" />
     <Compile Include="LiveTile\LiveTileUpdater.cs" />
@@ -129,6 +129,7 @@
     <Compile Include="ViewModel\AddPlanViewModel.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\PlanDetailViewModel.cs" />
     <Compile Include="ViewModel\PlantDetailViewModel.cs" />
     <Compile Include="ViewModel\StartViewModel.cs" />
     <Compile Include="ViewModel\UserPlansViewModel.cs" />
@@ -149,8 +150,8 @@
     <Compile Include="View\PlantDetailPage.xaml.cs">
       <DependentUpon>PlantDetailPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GrowingPlanDetailPage.xaml.cs">
-      <DependentUpon>GrowingPlanDetailPage.xaml</DependentUpon>
+    <Compile Include="View\PlanDetailPage.xaml.cs">
+      <DependentUpon>PlanDetailPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\RegisterLoginPage.xaml.cs">
       <DependentUpon>RegisterLoginPage.xaml</DependentUpon>
@@ -171,6 +172,10 @@
   <ItemGroup>
     <Content Include="Assets\Backgrd\Background.jpg" />
     <Content Include="Assets\Icon\Drop.png" />
+    <Content Include="Assets\Icon\icon_chooseCloud.png" />
+    <Content Include="Assets\Icon\icon_chooseSun.png" />
+    <Content Include="Assets\Icon\icon_cloud.png" />
+    <Content Include="Assets\Icon\icon_sun.png" />
     <Content Include="Assets\Icon\Logo.png" />
     <Content Include="Assets\Icon\Logo500.png" />
     <Content Include="Assets\Icon\LogoTran.png" />
@@ -282,7 +287,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GrowingPlanDetailPage.xaml">
+    <Page Include="View\PlanDetailPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -318,6 +323,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10586.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>

@@ -11,13 +11,15 @@ using Windows.UI.Xaml;
 using JP.Utils.Framework;
 using System;
 using GalaSoft.MvvmLight.Command;
+using PlantSitter.Common;
+using PlantSitter.View;
 
 namespace PlantSitter.ViewModel
 {
     public class UserPlansViewModel : ViewModelBase, INavigable
     {
-        private ObservableCollection<UserPlanToDisplay> _currentUserPlans;
-        public ObservableCollection<UserPlanToDisplay> CurrentUserPlans
+        private ObservableCollection<UserPlanWrapped> _currentUserPlans;
+        public ObservableCollection<UserPlanWrapped> CurrentUserPlans
         {
             get
             {
@@ -75,8 +77,21 @@ namespace PlantSitter.ViewModel
                 if (_refreshCommand != null) return _refreshCommand;
                 return _refreshCommand = new RelayCommand(async () =>
                 {
-                    await Refresh();
+                    await RefreshAsync();
                 });
+            }
+        }
+
+        private RelayCommand<UserPlanWrapped> _selectPlanCommand;
+        public RelayCommand<UserPlanWrapped> SelectPlanCommand
+        {
+            get
+            {
+                if (_selectPlanCommand != null) return _selectPlanCommand;
+                return _selectPlanCommand = new RelayCommand<UserPlanWrapped>((plan) =>
+                  {
+                      NavigationService.NavigateViaRootFrame(typeof(PlanDetailPage), plan);
+                  });
             }
         }
 
@@ -109,7 +124,7 @@ namespace PlantSitter.ViewModel
 
         private async Task GetAllUserPlansAsync()
         {
-            var plans = new ObservableCollection<UserPlanToDisplay>();
+            var plans = new ObservableCollection<UserPlanWrapped>();
 
             var getResult = await CloudService.GetAllPlans(CTSFactory.MakeCTS(5000).Token);
             getResult.ParseAPIResult();
@@ -129,7 +144,7 @@ namespace PlantSitter.ViewModel
                 plan.CurrentUser = this.CurrentUser;
                 var task = plan.UpdatePlantInfo();
                 tasks.Add(task);
-                plans.Add(new UserPlanToDisplay(plan));
+                plans.Add(new UserPlanWrapped(plan));
             }
 
             this.CurrentUserPlans = plans;
@@ -149,7 +164,7 @@ namespace PlantSitter.ViewModel
             }
         }
 
-        private async Task Refresh()
+        private async Task RefreshAsync()
         {
             try
             {
@@ -168,7 +183,7 @@ namespace PlantSitter.ViewModel
 
         public void AddNewPlan(UserPlan plan)
         {
-            var planToDisplay = new UserPlanToDisplay(plan);
+            var planToDisplay = new UserPlanWrapped(plan);
             this.CurrentUserPlans.Add(planToDisplay);
         }
 
@@ -187,7 +202,7 @@ namespace PlantSitter.ViewModel
             if (IsFirstActived)
             {
                 IsFirstActived = false;
-                await Refresh();
+                await RefreshAsync();
             }
         }
     }

@@ -6,7 +6,7 @@ using JP.Utils.Functions;
 using PlantSitterShared.Model;
 using System.Diagnostics;
 
-namespace PlantSitter_Resp.Service
+namespace PlantSitter.Service
 {
     public class DisplayService
     {
