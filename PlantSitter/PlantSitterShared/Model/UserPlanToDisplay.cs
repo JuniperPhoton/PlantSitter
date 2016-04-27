@@ -143,12 +143,12 @@ namespace PlantSitterShared.Model
             this.ScoreValue = random.Next(1, 100);
         }
 
-        public void UpdateScore()
+        public async Task FetchAndUpdateScore()
         {
 
         }
 
-        public void UpdateColorByScoreLevel(int level)
+        private void UpdateColorByScoreLevel(int level)
         {
             switch(level)
             {

@@ -41,7 +41,7 @@ namespace PlantSitter.View
         public AllPlansPage()
         {
             this.InitializeComponent();
-            this.DataContext = UserPlansVM = new UserPlansViewModel(App.MainVM.CurrentUser);
+            this.DataContext = UserPlansVM = new UserPlansViewModel(App.VMLocator.MainVM.CurrentUser);
 
             var b2 = new Binding()
             {

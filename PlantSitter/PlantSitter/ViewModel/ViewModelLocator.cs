@@ -27,17 +27,11 @@ namespace PlantSitter.ViewModel
             ////    // Create run time view services and models
             ////    SimpleIoc.Default.Register<IDataService, DataService>();
             ////}
-
-            SimpleIoc.Default.Register<MainViewModel>();
         }
 
-        public MainViewModel MainVM
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
+        public MainViewModel MainVM { get; set; }
+
+        public UserPlansViewModel UsersPlansVM { get; set; }
 
         public static void Cleanup()
         {

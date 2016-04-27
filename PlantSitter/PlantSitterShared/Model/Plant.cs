@@ -1,9 +1,11 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using JP.API;
 using JP.Utils.Data;
 using JP.Utils.Data.Json;
 using PlantSitterShared.API;
+using PlantSitterShared.Common;
 using System;
 using System.Collections.Generic;
 using System.Numerics;
@@ -170,10 +172,24 @@ namespace PlantSitterShared.Model
 
         public string ImageUrl { get; set; }
 
+        private RelayCommand _selectCommand;
+        public RelayCommand SelectCommand
+        {
+            get
+            {
+                if (_selectCommand != null) return _selectCommand;
+                return _selectCommand = new RelayCommand(() =>
+                  {
+                      Messenger.Default.Send(new GenericMessage<Plant>(this), MessengerToken.SelectPlantToGrow);
+                  });
+            }
+        }
 
         public Plant()
         {
             ImgBitmap = new BitmapImage();
+            Desc = "";
+            ImageUrl = "";
         }
 
         public async Task DownloadImage()

@@ -1,13 +1,18 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using JP.API;
+using JP.Utils.Data;
 using JP.Utils.Framework;
 using JP.Utils.Functions;
+using JP.UWP.CustomControl;
 using PlantSitter.Common;
 using PlantSitterCustomControl;
 using PlantSitterShared.API;
+using PlantSitterShared.Common;
 using PlantSitterShared.Model;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -33,6 +38,23 @@ namespace PlantSitter.ViewModel
                 {
                     _showAddGrid = value;
                     RaisePropertyChanged(() => ShowAddGrid);
+                }
+            }
+        }
+
+        private bool _showSearchResultGrid;
+        public bool ShowSearchResultGrid
+        {
+            get
+            {
+                return _showSearchResultGrid;
+            }
+            set
+            {
+                if (_showSearchResultGrid != value)
+                {
+                    _showSearchResultGrid = value;
+                    RaisePropertyChanged(() => ShowSearchResultGrid);
                 }
             }
         }
@@ -119,28 +141,6 @@ namespace PlantSitter.ViewModel
             }
         }
 
-        private RelayCommand<object> _selectCommand;
-        public RelayCommand<object> SelectCommand
-        {
-            get
-            {
-                if (_selectCommand != null) return _selectCommand;
-                return _selectCommand = new RelayCommand<object>(async (o) =>
-                {
-                    var pid = (int)o;
-                    ShowLoading = true;
-                    var result = await CloudService.AddPlan(pid, "Plant", DateTime.Now.ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS(10000).Token);
-                    if (!result.IsSuccessful)
-                    {
-                        ShowLoading = false;
-                        ToastService.SendToast("添加计划失败");
-                        return;
-                    }
-
-                });
-            }
-        }
-
         private bool _showLoading;
         public bool ShowLoading
         {
@@ -175,6 +175,78 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        #region Search plant
+
+        private bool _showSearch;
+        public bool ShowSearch
+        {
+            get
+            {
+                return _showSearch;
+            }
+            set
+            {
+                if (_showSearch != value)
+                {
+                    _showSearch = value;
+                    RaisePropertyChanged(() => ShowSearch);
+                }
+            }
+        }
+
+
+        private RelayCommand _searchImageCommand;
+        public RelayCommand SearchImageCommand
+        {
+            get
+            {
+                if (_searchImageCommand != null) return _searchImageCommand;
+                return _searchImageCommand = new RelayCommand(async () =>
+                  {
+                      await SearchPlantImageByNameAsync();
+                  });
+            }
+        }
+
+        private ObservableCollection<NetworkImage> _searchReusltForImages;
+        public ObservableCollection<NetworkImage> SearchReusltForImages
+        {
+            get
+            {
+                return _searchReusltForImages;
+            }
+            set
+            {
+                if (_searchReusltForImages != value)
+                {
+                    _searchReusltForImages = value;
+                    RaisePropertyChanged(() => SearchReusltForImages);
+                }
+            }
+        }
+
+        private RelayCommand<object> _selectImageCommand;
+        public RelayCommand<object> SelectImageCommand
+        {
+            get
+            {
+                if (_selectImageCommand != null) return _selectImageCommand;
+                return _selectImageCommand = new RelayCommand<object>((o) =>
+                  {
+                      var img = o as NetworkImage;
+                      var url = img.Url;
+                      CurrentPlant.ImageUrl = url;
+                      CurrentPlant.ImgBitmap = img.ImgSource;
+                      ShowSearchResultGrid = false;
+                      SearchReusltForImages.Clear();
+                      SearchReusltForImages = null;
+                  });
+            }
+        }
+
+        #endregion
+
+        #region Add plant
         private Plant _currentPlant;
         public Plant CurrentPlant
         {
@@ -268,20 +340,32 @@ namespace PlantSitter.ViewModel
                 if (_addPlantCommand != null) return _addPlantCommand;
                 return _addPlantCommand = new RelayCommand(async () =>
                   {
-                      await AddPlant();
+                      await AddPlantAsync();
                   });
             }
         }
+
+        #endregion
 
         public AddPlanViewModel()
         {
             ShowNoResult = Visibility.Collapsed;
             ShowLoading = false;
+            ShowSearch = false;
             ResultPlants = new ObservableCollection<Plant>();
             CurrentPlant = new Plant();
 
             EnviMoistureMax = EnviTempMax = 35;
             EnviMoistureMin = EnviTempMin = 20;
+            RegisterMessage();
+        }
+
+        private void RegisterMessage()
+        {
+            Messenger.Default.Register<GenericMessage<Plant>>(this, MessengerToken.SelectPlantToGrow, async act =>
+              {
+                  await SelectPlantToGrowAsync(act.Content);
+              });
         }
 
         private async Task SearchPlantAsync()
@@ -323,8 +407,13 @@ namespace PlantSitter.ViewModel
             ShowLoading = false;
         }
 
-        private async Task AddPlant()
+        private async Task AddPlantAsync()
         {
+            if(!CurrentPlant.ImageUrl.IsNotNullOrEmpty())
+            {
+                ToastService.SendToast("请选择一张照片");
+                return;
+            }
             var result = await CloudService.AddPlant(
                 CurrentPlant.NameInChinese, "",
                 "0~0",
@@ -332,10 +421,63 @@ namespace PlantSitter.ViewModel
                 $"{EnviTempMin}~{EnviTempMax}",
                 CurrentPlant.LightRange.ConvertToString(),
                 CurrentPlant.Desc, "", CTSFactory.MakeCTS(10000).Token);
+            result.ParseAPIResult();
             if (!result.IsSuccessful)
             {
-
+                ToastService.SendToast(ErrorTable.GetMessageFromErrorCode(result.ErrorCode));
+                return;
             }
+            PopupService.TryHideCPEX();
+        }
+
+        private async Task SelectPlantToGrowAsync(Plant plant)
+        {
+            ShowLoading = true;
+            var result = await CloudService.AddPlan(plant.Pid, "Plant", DateTime.Now.ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS(10000).Token);
+            result.ParseAPIResult();
+            ShowLoading = false;
+            if (!result.IsSuccessful)
+            {
+                ToastService.SendToast("添加计划失败");
+                return;
+            }
+            PopupService.TryHideCPEX();
+            App.VMLocator.UsersPlansVM.AddNewPlan(new UserPlan()
+            {
+                CurrentPlant = plant,
+                CreateTime = DateTime.Now,
+                Name = "Plant",
+                CurrentUser = App.VMLocator.MainVM.CurrentUser,
+            });
+        }
+
+        private async Task SearchPlantImageByNameAsync()
+        {
+            if (!CurrentPlant.NameInChinese.IsNotNullOrEmpty() && !CurrentPlant.NameInEnglish.IsNotNullOrEmpty())
+            {
+                ToastService.SendToast("请先输入植物的名字");
+                return;
+            }
+            SearchReusltForImages = new ObservableCollection<NetworkImage>();
+            var query = CurrentPlant.NameInChinese.IsNotNullOrEmpty() ? CurrentPlant.NameInChinese : CurrentPlant.NameInEnglish;
+            ShowSearchResultGrid = true;
+            ShowSearch = true;
+            var result = await CloudService.SearchImage(query);
+            if(!result.IsSuccessful)
+            {
+                ToastService.SendToast("搜索失败");
+                return;
+            }
+            var list = NetworkImage.ParseToList(result.JsonSrc);
+            list.ForEach(i => SearchReusltForImages.Add(i));
+
+            var taskList = new List<Task>();
+            foreach(var item in SearchReusltForImages)
+            {
+               taskList.Add(item.DownloadThumbImageAsync());
+            }
+            await Task.WhenAll(taskList);
+            ShowSearch = false;
         }
 
         public void Activate(object param)

@@ -221,13 +221,13 @@ namespace PlantSitter.ViewModel
                 saltResult.ParseAPIResult();
                 if (!saltResult.IsSuccessful)
                 {
-                    throw new APIException(saltResult.ErrorMsg);
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(saltResult.ErrorCode));
                 }
                 var saltObj = JsonObject.Parse(saltResult.JsonSrc);
                 var salt = JsonParser.GetStringFromJsonObj(saltObj, "Salt");
                 if (string.IsNullOrEmpty(salt))
                 {
-                    throw new APIException("User does not exist.");
+                    throw new APIException("用户不存在.");
                 }
 
                 var newPwd = MD5.GetMd5String(Password);
@@ -236,7 +236,7 @@ namespace PlantSitter.ViewModel
                 loginResult.ParseAPIResult();
                 if (!loginResult.IsSuccessful)
                 {
-                    throw new APIException(loginResult.ErrorMsg);
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(loginResult.ErrorCode));
                 }
                 var loginObj = JsonObject.Parse(loginResult.JsonSrc);
                 var userObj = loginObj["UserInfo"];
@@ -273,24 +273,24 @@ namespace PlantSitter.ViewModel
         {
             try
             {
-                var isUserExist = await CloudService.CheckUserExist(Email, CTSFactory.MakeCTS(10000).Token);
-                isUserExist.ParseAPIResult();
-                if (!isUserExist.IsSuccessful)
+                var checkResult = await CloudService.CheckUserExist(Email, CTSFactory.MakeCTS(10000).Token);
+                checkResult.ParseAPIResult();
+                if (!checkResult.IsSuccessful)
                 {
-                    throw new ArgumentException();
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(checkResult.ErrorCode));
                 }
-                var json = JsonObject.Parse(isUserExist.JsonSrc);
+                var json = JsonObject.Parse(checkResult.JsonSrc);
                 var isExist = JsonParser.GetBooleanFromJsonObj(json, "isExist", false);
                 if (isExist)
                 {
-                    throw new ArgumentException("The email has been used.");
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(checkResult.ErrorCode));
                 }
 
                 var registerResult = await CloudService.Register(Email, MD5.GetMd5String(Password), CTSFactory.MakeCTS(100000).Token);
                 registerResult.ParseAPIResult();
                 if (!registerResult.IsSuccessful)
                 {
-                    throw new ArgumentException();
+                    throw new APIException(ErrorTable.GetMessageFromErrorCode(registerResult.ErrorCode));
                 }
                 await Login();
             }
@@ -298,13 +298,9 @@ namespace PlantSitter.ViewModel
             {
                 ToastService.SendToast(e.Message.IsNotNullOrEmpty() ? e.Message : "Fail to register");
             }
-            catch (TaskCanceledException e)
+            catch (TaskCanceledException)
             {
-
-            }
-            catch (Exception e)
-            {
-
+                ToastService.SendToast("请求超时");
             }
             finally
             {

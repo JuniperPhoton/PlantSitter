@@ -18,7 +18,7 @@ namespace PlantSitter.UC
 
         private Compositor _compositor;
         private Visual _addGridVisual;
-        private Visual _searchGridVisual;
+        private Visual _searchResultGridVisual;
 
         public bool ShowAddGrid
         {
@@ -27,16 +27,27 @@ namespace PlantSitter.UC
         }
 
         public static readonly DependencyProperty ShowAddGridProperty =
-            DependencyProperty.Register("ShowAddGrid", typeof(bool), typeof(AddingPlanControl), new PropertyMetadata(false, OnPropertyChanged));
+            DependencyProperty.Register("ShowAddGrid", typeof(bool), typeof(AddingPlanControl), new PropertyMetadata(false, OnShowAddGridPropertyChanged));
 
-        public static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static void OnShowAddGridPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as AddingPlanControl;
-            if ((bool)e.NewValue)
-            {
-                control.ShowAddingGrid();
-            }
-            else control.HideAddGrid();
+            control.ShowOrHideAddingGrid((bool)e.NewValue);
+        }
+
+        public bool ShowSearchResultGrid
+        {
+            get { return (bool)GetValue(ShowSearchResultGridProperty); }
+            set { SetValue(ShowSearchResultGridProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowSearchResultGridProperty =
+            DependencyProperty.Register("ShowSearchResultGrid", typeof(bool), typeof(AddingPlanControl), new PropertyMetadata(false, OnShowSearchResultGridPropertyChanged));
+
+        public static void OnShowSearchResultGridPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = d as AddingPlanControl;
+            control.ShowOrHideSearchingImgGrid((bool)e.NewValue);
         }
 
         public AddingPlanControl()
@@ -47,7 +58,7 @@ namespace PlantSitter.UC
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _addGridVisual = ElementCompositionPreview.GetElementVisual(AddingGrid);
-            _searchGridVisual = ElementCompositionPreview.GetElementVisual(SearchGrid);
+            _searchResultGridVisual = ElementCompositionPreview.GetElementVisual(SearchImageGrid);
 
             InitBinding();
         }
@@ -61,30 +72,39 @@ namespace PlantSitter.UC
                 Mode = BindingMode.TwoWay,
             };
             this.SetBinding(ShowAddGridProperty, b);
+
+            var b2 = new Binding()
+            {
+                Source = AddPlanVM,
+                Path = new PropertyPath("ShowSearchResultGrid"),
+                Mode = BindingMode.TwoWay,
+            };
+            this.SetBinding(ShowSearchResultGridProperty, b2);
         }
 
         private void RootGrid_Loaded(object sender, RoutedEventArgs e)
         {
             RootGrid.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, this.ActualWidth, this.ActualHeight) };
             _addGridVisual.Offset = new Vector3((float)ActualWidth, 0f, 0f);
+            _searchResultGridVisual.Offset = new Vector3(0, (float)ActualHeight, 0f);
         }
 
-        public void ShowAddingGrid()
+        public void ShowOrHideAddingGrid(bool show)
         {
             var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            offsetAnimation.InsertKeyFrame(1f, 0f);
+            offsetAnimation.InsertKeyFrame(1f, show ? 0f : (float)ActualWidth);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
             _addGridVisual.StartAnimation("offset.x", offsetAnimation);
         }
 
-        public void HideAddGrid()
+        public void ShowOrHideSearchingImgGrid(bool show)
         {
             var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            offsetAnimation.InsertKeyFrame(1f, (float)ActualWidth);
+            offsetAnimation.InsertKeyFrame(1f, show ? 0f : (float)ActualHeight);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
-            _addGridVisual.StartAnimation("offset.x", offsetAnimation);
+            _searchResultGridVisual.StartAnimation("offset.y", offsetAnimation);
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)
@@ -141,5 +161,9 @@ namespace PlantSitter.UC
             itemContainer.Loaded -= ItemContainer_Loaded;
         }
 
+        private void HideResultBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowSearchResultGrid = false;
+        }
     }
 }

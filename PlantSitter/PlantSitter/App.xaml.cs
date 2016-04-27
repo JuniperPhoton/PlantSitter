@@ -18,8 +18,13 @@ namespace PlantSitter
     /// </summary>
     sealed partial class App : Application
     {
-
-        public static MainViewModel MainVM { get; set; }
+        public static ViewModelLocator VMLocator
+        {
+            get
+            {
+                return App.Current.Resources["Locator"] as ViewModelLocator;
+            }
+        }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

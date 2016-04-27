@@ -80,7 +80,6 @@ namespace PlantSitter.ViewModel
             }
         }
 
-
         private bool _isLoading;
         public bool IsLoading
         {
@@ -105,6 +104,7 @@ namespace PlantSitter.ViewModel
         public UserPlansViewModel(PlantSitterUser user)
         {
             this.CurrentUser = user;
+            App.VMLocator.UsersPlansVM = this;
         }
 
         private async Task GetAllUserPlansAsync()
@@ -145,7 +145,7 @@ namespace PlantSitter.ViewModel
             foreach (var plan in CurrentUserPlans)
             {
                 var task = plan.CurrentPlan.CurrentPlant.DownloadImage();
-                plan.UpdateScore();
+                var task2 = plan.FetchAndUpdateScore();
             }
         }
 
@@ -164,6 +164,12 @@ namespace PlantSitter.ViewModel
             {
                 IsLoading = false;
             }
+        }
+
+        public void AddNewPlan(UserPlan plan)
+        {
+            var planToDisplay = new UserPlanToDisplay(plan);
+            this.CurrentUserPlans.Add(planToDisplay);
         }
 
         public void Activate(object param)

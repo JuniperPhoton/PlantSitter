@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace PlantSitterShared.API
 {
@@ -34,6 +30,7 @@ namespace PlantSitterShared.API
 
         //Plant
         define('PLANT_NOT_EXIST',500);
+        define('PLANT_EXIST',501);
     */
         private static Dictionary<int, string> ErrorDictionary = new Dictionary<int, string>()
         {
@@ -52,7 +49,8 @@ namespace PlantSitterShared.API
             {404,"用户不存在" },
             {405,"培养计划不存在" },
             {406,"植物不存在" },
-            {500,"植物不存在" }
+            {500,"植物不存在" },
+            {500,"植物已经存在了" }
         };
 
         private static string KNOWN_ERROR_MSG => "未知错误";

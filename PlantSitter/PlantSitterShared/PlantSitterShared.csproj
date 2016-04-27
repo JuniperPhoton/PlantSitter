@@ -113,10 +113,12 @@
     <Compile Include="API\ErrorTable.cs" />
     <Compile Include="API\UrlHelper.cs" />
     <Compile Include="Common\AppSettings.cs" />
+    <Compile Include="Common\MessengerToken.cs" />
     <Compile Include="Converter\EnviMoistureValueConverter.cs" />
     <Compile Include="Converter\EnviTempValueConverter.cs" />
     <Compile Include="Converter\LightValueConverter.cs" />
     <Compile Include="Converter\SoilMoistureValueConverter.cs" />
+    <Compile Include="Model\NetworkImage.cs" />
     <Compile Include="Model\Plant.cs" />
     <Compile Include="Model\PlantSitterUser.cs" />
     <Compile Include="Model\PlantTimeline.cs" />
@@ -131,7 +133,9 @@
       <Name>JP.Utils.UWP</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Search\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

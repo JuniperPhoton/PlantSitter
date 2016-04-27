@@ -22,5 +22,5 @@ define('TIME_FORMAT_WRONG',403);
 
 //Plant
 define('PLANT_NOT_EXIST',500);
-
+define('PLANT_EXIST',501);
 ?>

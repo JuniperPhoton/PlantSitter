@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.Web.Http;
 
 namespace PlantSitterShared.API
 {
@@ -273,7 +274,7 @@ namespace PlantSitterShared.API
         /// <param name="token"></param>
         /// <returns></returns>
         public static async Task<CommonRespMsg> AddPlant(string nameC, string nameE,
-            string soilMoisture, string enviMoisture, string enviTemp, string light, string desc,string imgUrl,CancellationToken token)
+            string soilMoisture, string enviMoisture, string enviTemp, string light, string desc, string imgUrl, CancellationToken token)
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("name_c", nameC));
@@ -285,9 +286,22 @@ namespace PlantSitterShared.API
             param.Add(new KeyValuePair<string, string>("light", light));
             param.Add(new KeyValuePair<string, string>("img_url", imgUrl));
 
-            return await APIHelper.SendPostRequestAsync(UrlHelper.AddPlant, param, token);
+            return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.AddPlant, true), param, token);
         }
         #endregion
+
+        /// <summary>
+        /// 搜索图片
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        public static async Task<CommonRespMsg> SearchImage(string query)
+        {
+            var url = $"{UrlHelper.SearchImage}q={query}";
+            var request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
+            request.Headers.Add(new KeyValuePair<string, string>("Ocp-Apim-Subscription-Key", UrlHelper.AppKey));
+            return await APIHelper.SendRequest(request, CTSFactory.MakeCTS(10000).Token);
+        }
 
         public static void ParseAPIResult(this CommonRespMsg result)
         {

@@ -26,13 +26,14 @@ namespace PlantSitter.ViewModel
                 if (_logoutCommand != null) return _logoutCommand;
                 return _logoutCommand = new RelayCommand(async () =>
                   {
+                      IsDrawerOpen = false;
                       DialogService ds = new DialogService(DialogKind.PlainText, "注意", "确定要登出吗？");
                       ds.OnLeftBtnClick += (e) =>
                         {
                             ds.Hide();
                             LocalSettingHelper.CleanUpAll();
-                            Common.NavigationService.NavigateViaRootFrame(typeof(StartPage), null);
-                            Common.NavigationService.RootFrame.BackStack.Clear();
+                            NavigationService.NavigateViaRootFrame(typeof(StartPage), null);
+                            NavigationService.RootFrame.BackStack.Clear();
                         };
                       ds.OnRightBtnClick += () =>
                         {
@@ -148,7 +149,7 @@ namespace PlantSitter.ViewModel
                 Uid = int.Parse(LocalSettingHelper.GetValue("uid")),
                 Email = LocalSettingHelper.GetValue("email"),
             };
-            App.MainVM = this;
+            App.VMLocator.MainVM = this;
         }
 
         public void Activate(object param)

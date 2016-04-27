@@ -12,106 +12,6 @@
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="500">
-    <UserControl.Resources>
-        <Style x:Key="RadioButtonStyle1" TargetType="RadioButton">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-            <Setter Property="Padding" Value="8,6,0,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Left"/>
-            <Setter Property="VerticalContentAlignment" Value="Top"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-            <Setter Property="MinWidth" Value="120"/>
-            <Setter Property="UseSystemFocusVisuals" Value="True"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Grid BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="OuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseHighBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="CheckOuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckOuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckGlyph">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="OuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="CheckOuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckOuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckGlyph">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseMediumBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="OuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Stroke" Storyboard.TargetName="CheckOuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckOuterEllipse">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill" Storyboard.TargetName="CheckGlyph">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckStates">
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckGlyph"/>
-                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="OuterEllipse"/>
-                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="CheckOuterEllipse"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unchecked"/>
-                                    <VisualState x:Name="Indeterminate"/>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid Visibility="Collapsed" Height="32" VerticalAlignment="Top">
-                                <Ellipse x:Name="OuterEllipse" Height="20" Stroke="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" StrokeThickness="{ThemeResource RadioButtonBorderThemeThickness}" UseLayoutRounding="False" Width="20"/>
-                                <Ellipse x:Name="CheckOuterEllipse" Fill="{ThemeResource SystemControlHighlightTransparentBrush}" Height="20" Opacity="0" Stroke="{ThemeResource SystemControlHighlightAltAccentBrush}" StrokeThickness="{ThemeResource RadioButtonBorderThemeThickness}" UseLayoutRounding="False" Width="20"/>
-                                <Ellipse x:Name="CheckGlyph" Fill="{ThemeResource SystemControlHighlightAltBaseMediumHighBrush}" Height="10" Opacity="0" UseLayoutRounding="False" Width="10"/>
-                            </Grid>
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" Grid.Column="1" TextWrapping="Wrap" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
     <Grid x:Name="RootGrid" Loaded="RootGrid_Loaded" Background="White">
         <Grid x:Name="SearchGrid">
             <Grid.RowDefinitions>
@@ -167,7 +67,7 @@
                         ItemContainerStyle="{StaticResource ListViewContainerStyle}">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="model:Plant">
-                                <Grid Margin="5 15 5 0">
+                                <Grid Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="50"/>
                                         <ColumnDefinition/>
@@ -175,14 +75,14 @@
                                     </Grid.ColumnDefinitions>
                                     <Grid>
                                         <Ellipse Width="50" Height="50" Fill="{StaticResource PlantSitterLightLightGreyColor}"/>
-                                        <Ellipse>
+                                        <Ellipse Width="50" Height="50" >
                                             <Ellipse.Fill>
-                                                <ImageBrush ImageSource="{x:Bind ImgBitmap,Mode=OneWay}"/>
+                                                <ImageBrush ImageSource="{x:Bind ImgBitmap,Mode=OneWay}" Stretch="UniformToFill"/>
                                             </Ellipse.Fill>
                                         </Ellipse>
                                     </Grid>
                                     <TextBlock Margin="20 0 0 0" Grid.Column="1" Text="{x:Bind NameInChinese,Mode=OneWay}" VerticalAlignment="Center"/>
-                                    <Button Command="{Binding SelectCommand,ConverterParameter={x:Bind Pid,Mode=OneWay},Mode=OneWay}" Grid.Column="2" Margin="10" Grid.RowSpan="1" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <Button Command="{x:Bind SelectCommand,Mode=OneWay}" Grid.Column="2" Margin="10" Grid.RowSpan="1" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
                                         <Border Height="40" Background="{StaticResource PlantSitterLightLightGreyColor}">
                                             <TextBlock Text="选择" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </Border>
@@ -219,13 +119,13 @@
             <Grid Grid.Row="1">
                 <ScrollViewer Style="{StaticResource ScrollViewerCommonStyle}">
                     <StackPanel Margin="5">
-                        <Button Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Button Command="{x:Bind AddPlanVM.SearchImageCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Center" Margin="0,10,0,0">
                             <Grid>
                                 <Ellipse Width="100" Height="100" Stroke="{StaticResource PlantSitterLightGreyColor}"/>
-                                <TextBlock Text="上传照片" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PlantSitterDarkLightColor}"/>
+                                <TextBlock Text="搜索照片" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PlantSitterDarkLightColor}"/>
                                 <Ellipse Width="100" Height="100">
                                     <Ellipse.Fill>
-                                        <ImageBrush/>
+                                        <ImageBrush ImageSource="{x:Bind AddPlanVM.CurrentPlant.ImgBitmap,Mode=OneWay}" Stretch="UniformToFill" />
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </Grid>
@@ -262,16 +162,6 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <RadioButton Style="{StaticResource RadioButtonStyle1}" GroupName="Light" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Border>
-                                    <TextBlock Text="喜阳"/>
-                                </Border>
-                            </RadioButton>
-                            <RadioButton GroupName="Light" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Style="{StaticResource RadioButtonStyle1}">
-                                <Border>
-                                    <TextBlock Text="喜阴"/>
-                                </Border>
-                            </RadioButton>
                         </Grid>
                         <Button Command="{x:Bind AddPlanVM.AddPlantCommand,Mode=OneWay}" Margin="10" Style="{StaticResource ButtonCommonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Border Height="40" Background="{StaticResource PlantSitterThemeLightColor}">
@@ -281,6 +171,41 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
+        </Grid>
+        <Grid x:Name="SearchImageGrid" d:IsHidden="True" Background="White">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="60"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid Height="60"  Background="{StaticResource PlantSitterThemeLightColor}">
+                <Image Source="ms-appx:///Assets/Icon/BackgrdMask.png" Stretch="UniformToFill"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="HideResultBtn" Click="HideResultBtn_Click" Style="{StaticResource  ButtonCommonStyle2}" Background="{x:Null}">
+                        <Border Width="50" Height="50">
+                            <SymbolIcon Symbol="Back" Foreground="White"/>
+                        </Border>
+                    </Button>
+                    <TextBlock FontSize="20" Text="选择一张图片" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Grid>
+            <cc2:AdaptiveGridView
+                IsItemClickEnabled="True"
+                attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
+                attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind AddPlanVM.SelectImageCommand,Mode=OneWay}"
+                ItemsSource="{x:Bind AddPlanVM.SearchReusltForImages,Mode=OneWay}"
+                MinItemHeight="200"
+                MinItemWidth="200"
+                Grid.Row="1">
+                <cc2:AdaptiveGridView.ItemTemplate>
+                    <DataTemplate x:DataType="model:NetworkImage">
+                        <Grid>
+                            <Border Background="{StaticResource PlantSitterLightLightGreyColor}"/>
+                            <Image Source="{x:Bind ImgSource,Mode=OneWay}" Stretch="UniformToFill"/>
+                        </Grid>
+                    </DataTemplate>
+                </cc2:AdaptiveGridView.ItemTemplate>
+            </cc2:AdaptiveGridView>
+            <ProgressRing Width="50" Height="50" Grid.Row="1" IsActive="{x:Bind AddPlanVM.ShowSearch,Mode=OneWay}" Foreground="{StaticResource PlantSitterThemeLightColor}" Background="{x:Null}"/>
         </Grid>
     </Grid>
 </UserControl>

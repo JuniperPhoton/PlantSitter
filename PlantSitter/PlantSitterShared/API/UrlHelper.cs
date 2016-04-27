@@ -10,6 +10,7 @@ namespace PlantSitterShared.API
     public static class UrlHelper
     {
         public const string HOST = "juniperphoton.net";
+        public static string AppKey => "4b2006cef57b4dfa845e5a92afa8f832";
 
         public static string CheckUserExist  => $"http://{HOST}/plantsitter/User/CheckUserExist/v1?";
         public static string GetSalt => $"http://{HOST}/plantsitter/User/GetSalt/v1?";
@@ -24,6 +25,7 @@ namespace PlantSitterShared.API
         public static string GetPlantInfo => $"http://{HOST}/plantsitter/Plant/GetPlantInfo/v1?";
         public static string AddPlant => $"http://{HOST}/plantsitter/Plant/AddPlant/v1?";
         public static string SearchPlant => $"http://{HOST}/plantsitter/Plant/SearchPlant/v1?";
+        public static string SearchImage => $"https://bingapis.azure-api.net/api/v5/images/search?";
 
         public static string MakeFullUrlForGetReq(string baseUrl, List<KeyValuePair<string, string>> paramList,bool withAuth)
         {
