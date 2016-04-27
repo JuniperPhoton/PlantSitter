@@ -3,6 +3,28 @@
 do {
     $action = $_GET['action'];
     switch ($action) {
+        case 'SetMainPlan':
+            {
+                $uid = $_GET['uid'];
+                $gid=$_POST['gid'];
+                
+                $queryUpdate = $pdo->prepare('UPDATE user SET main_plan_id=:gid WHERE uid=:uid');
+                $queryUpdate->bindParam(':uid', $uid, PDO::PARAM_INT);
+                $queryUpdate->bindParam(':gid', $gid, PDO::PARAM_INT);
+                $result = $queryUpdate->execute();
+                if ($result) {
+                    $ApiResult['isSuccessed'] = true;
+                    $ApiResult['error_code'] = 0;
+                    $ApiResult['error_message'] = '';
+                    break;
+                } else {
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_message'] = $pdo->errorInfo();
+                    break;
+                }
+            }
+            break;
         case 'GetAllPlans':
             {
                 $uid = $_GET['uid'];

@@ -26,6 +26,7 @@ namespace PlantSitterShared.API
         public static string AddPlant => $"http://{HOST}/plantsitter/Plant/AddPlant/v1?";
         public static string SearchPlant => $"http://{HOST}/plantsitter/Plant/SearchPlant/v1?";
         public static string SearchImage => $"https://bingapis.azure-api.net/api/v5/images/search?";
+        public static string SetMainPlan => $"http://{HOST}/plantsitter/Plan/SetMainPlan/v1?";
 
         public static string MakeFullUrlForGetReq(string baseUrl, List<KeyValuePair<string, string>> paramList,bool withAuth)
         {

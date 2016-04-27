@@ -185,11 +185,31 @@ namespace PlantSitterShared.Model
             }
         }
 
+        private bool _likeSunshine;
+        public bool LikeSunshine
+        {
+            get
+            {
+                return _likeSunshine;
+            }
+            set
+            {
+                if (_likeSunshine != value)
+                {
+                    _likeSunshine = value;
+                    RaisePropertyChanged(() => LikeSunshine);
+                }
+            }
+        }
+
         public Plant()
         {
             ImgBitmap = new BitmapImage();
             Desc = "";
             ImageUrl = "";
+            NameInChinese = "";
+            NameInEnglish = "";
+            LikeSunshine = true;
         }
 
         public async Task DownloadImage()

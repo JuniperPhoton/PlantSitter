@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using JP.API;
 using JP.Utils.Data;
+using JP.Utils.Data.Json;
 using JP.Utils.Framework;
 using JP.Utils.Functions;
 using JP.UWP.CustomControl;
@@ -15,6 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.UI.Xaml;
 
 namespace PlantSitter.ViewModel
@@ -355,8 +357,10 @@ namespace PlantSitter.ViewModel
             ResultPlants = new ObservableCollection<Plant>();
             CurrentPlant = new Plant();
 
-            EnviMoistureMax = EnviTempMax = 35;
-            EnviMoistureMin = EnviTempMin = 20;
+            EnviTempMax = 35;
+            EnviTempMin = 20;
+            EnviMoistureMax = 80;
+            EnviMoistureMin = 20;
             RegisterMessage();
         }
 
@@ -409,25 +413,52 @@ namespace PlantSitter.ViewModel
 
         private async Task AddPlantAsync()
         {
-            if(!CurrentPlant.ImageUrl.IsNotNullOrEmpty())
+            if (!CurrentPlant.NameInChinese.IsNotNullOrEmpty())
+            {
+                ToastService.SendToast("请添加植物中文名");
+                return;
+            }
+            if (!CurrentPlant.ImageUrl.IsNotNullOrEmpty())
             {
                 ToastService.SendToast("请选择一张照片");
                 return;
             }
-            var result = await CloudService.AddPlant(
-                CurrentPlant.NameInChinese, "",
-                "0~0",
-                $"{EnviMoistureMin}~{EnviMoistureMax}",
-                $"{EnviTempMin}~{EnviTempMax}",
-                CurrentPlant.LightRange.ConvertToString(),
-                CurrentPlant.Desc, "", CTSFactory.MakeCTS(10000).Token);
-            result.ParseAPIResult();
-            if (!result.IsSuccessful)
+            if (!CurrentPlant.Desc.IsNotNullOrEmpty())
             {
-                ToastService.SendToast(ErrorTable.GetMessageFromErrorCode(result.ErrorCode));
+                var likeSunshine = CurrentPlant.LikeSunshine ? "喜阳" : "喜阴";
+                CurrentPlant.Desc = $"{CurrentPlant.NameInChinese} 是一种{likeSunshine}植物。";
+            }
+            try
+            {
+                var result = await CloudService.AddPlant(
+                   CurrentPlant.NameInChinese, CurrentPlant.NameInEnglish,
+                   "0~1",
+                   $"{EnviMoistureMin}~{EnviMoistureMax}",
+                   $"{EnviTempMin}~{EnviTempMax}",
+                   CurrentPlant.LightRange.ConvertToString(),
+                   CurrentPlant.Desc, CurrentPlant.ImageUrl, CTSFactory.MakeCTS(10000).Token);
+
+                result.ParseAPIResult();
+                if (!result.IsSuccessful)
+                {
+                    ToastService.SendToast(ErrorTable.GetMessageFromErrorCode(result.ErrorCode));
+                    return;
+                }
+                PopupService.TryHideCPEX();
+                var obj = JsonObject.Parse(result.JsonSrc);
+                var pid = JsonParser.GetStringFromJsonObj(obj, "PlantID",null);
+                if (pid != null)
+                {
+                    CurrentPlant.Pid = int.Parse(pid);
+                    await SelectPlantToGrowAsync(CurrentPlant);
+                }
+                else throw new ArgumentNullException();
+            }
+            catch (Exception)
+            {
+                ToastService.SendToast("添加失败");
                 return;
             }
-            PopupService.TryHideCPEX();
         }
 
         private async Task SelectPlantToGrowAsync(Plant plant)
@@ -463,7 +494,7 @@ namespace PlantSitter.ViewModel
             ShowSearchResultGrid = true;
             ShowSearch = true;
             var result = await CloudService.SearchImage(query);
-            if(!result.IsSuccessful)
+            if (!result.IsSuccessful)
             {
                 ToastService.SendToast("搜索失败");
                 return;
@@ -472,9 +503,9 @@ namespace PlantSitter.ViewModel
             list.ForEach(i => SearchReusltForImages.Add(i));
 
             var taskList = new List<Task>();
-            foreach(var item in SearchReusltForImages)
+            foreach (var item in SearchReusltForImages)
             {
-               taskList.Add(item.DownloadThumbImageAsync());
+                taskList.Add(item.DownloadThumbImageAsync());
             }
             await Task.WhenAll(taskList);
             ShowSearch = false;

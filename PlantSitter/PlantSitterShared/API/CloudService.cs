@@ -180,6 +180,20 @@ namespace PlantSitterShared.API
         }
 
         /// <summary>
+        /// 设置为正在培养的计划
+        /// </summary>
+        /// <param name="gid"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task<CommonRespMsg> SetMainPlan(int gid, CancellationToken token)
+        {
+            var param = GetDefaultParamWithAuthParam();
+            param.Add(new KeyValuePair<string, string>("gid", gid.ToString()));
+
+            return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.SetMainPlan, true),param, token);
+        }
+
+        /// <summary>
         /// 删除计划
         /// </summary>
         /// <param name="gid">计划ID</param>
@@ -274,17 +288,17 @@ namespace PlantSitterShared.API
         /// <param name="token"></param>
         /// <returns></returns>
         public static async Task<CommonRespMsg> AddPlant(string nameC, string nameE,
-            string soilMoisture, string enviMoisture, string enviTemp, string light, string desc, string imgUrl, CancellationToken token)
+            string soilMoisture, string enviMoisture, string enviTemp, string light, string description, string imgUrl, CancellationToken token)
         {
             var param = GetDefaultParamWithAuthParam();
             param.Add(new KeyValuePair<string, string>("name_c", nameC));
             param.Add(new KeyValuePair<string, string>("name_e", nameE));
-            param.Add(new KeyValuePair<string, string>("desc", desc));
             param.Add(new KeyValuePair<string, string>("soil_moisture", soilMoisture));
             param.Add(new KeyValuePair<string, string>("envi_moisture", enviMoisture));
             param.Add(new KeyValuePair<string, string>("envi_temp", enviTemp));
             param.Add(new KeyValuePair<string, string>("light", light));
             param.Add(new KeyValuePair<string, string>("img_url", imgUrl));
+            param.Add(new KeyValuePair<string, string>("description", description));
 
             return await APIHelper.SendPostRequestAsync(UrlHelper.MakeFullUrlForPostReq(UrlHelper.AddPlant, true), param, token);
         }

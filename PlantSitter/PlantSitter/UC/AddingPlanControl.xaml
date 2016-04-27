@@ -135,9 +135,20 @@
                                 <ColumnDefinition Width="100"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Text="植物名字" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <TextBlock Text="植物中文名字" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                             <Border  Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterDarkLightColor}">
                                 <TextBox Text="{x:Bind AddPlanVM.CurrentPlant.NameInChinese,Mode=TwoWay}" PlaceholderText="输入植物名字" BorderThickness="0"/>
+                            </Border>
+
+                        </Grid>
+                        <Grid  Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="植物英文名字(选填)" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            <Border  Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="{StaticResource PlantSitterDarkLightColor}">
+                                <TextBox Text="{x:Bind AddPlanVM.CurrentPlant.NameInEnglish,Mode=TwoWay}" PlaceholderText="输入植物名字" BorderThickness="0"/>
                             </Border>
                         </Grid>
                         <TextBox Text="{x:Bind AddPlanVM.CurrentPlant.Desc,Mode=TwoWay}" Height="100" BorderThickness="1" Margin="10" PlaceholderText="输入植物简介"/>
@@ -150,7 +161,7 @@
                             </cc2:RangerSlider.ThumbTemplate>
                         </cc2:RangerSlider>
                         <TextBlock Text="适宜空气相对湿度(%)" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,20,0,0"/>
-                        <cc2:RangerSlider MinValue="10" MaxValue="35" Margin="10" ThemeForeColor="White" ThemeColor="{StaticResource GoodDarkColor}" CurrentMaxValue="{x:Bind AddPlanVM.EnviMoistureMax,Mode=TwoWay}" CurrentMinValue="{Binding AddPlanVM.EnviMoistureMin,Mode=TwoWay}">
+                        <cc2:RangerSlider MinValue="0" MaxValue="100" Margin="10" ThemeForeColor="White" ThemeColor="{StaticResource GoodDarkColor}" CurrentMaxValue="{x:Bind AddPlanVM.EnviMoistureMax,Mode=TwoWay}" CurrentMinValue="{Binding AddPlanVM.EnviMoistureMin,Mode=TwoWay}">
                             <cc2:RangerSlider.ThumbTemplate>
                                 <DataTemplate>
                                     <Ellipse Width="30" Height="30" Fill="{StaticResource GoodDarkColor}"/>

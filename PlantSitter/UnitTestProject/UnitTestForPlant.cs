@@ -90,7 +90,17 @@ namespace UnitTestProject
         public async Task TestAddPlantCase1()
         {
             Helper.AddAuthInfo();
-            var result = await CloudService.AddPlant("向日葵"+DateTime.Now.Ticks.ToString(), "", "0~1", "20~30", "23~34", "100~2000", "", "", CTSFactory.MakeCTS().Token);
+            var result = await CloudService.AddPlant("向日葵"+DateTime.Now.Ticks.ToString(), "Sunflower", "0~1", "20~30", "23~34", "100~2000", "http://", "向日葵", CTSFactory.MakeCTS().Token);
+            result.ParseAPIResult();
+            Assert.IsTrue(!result.IsSuccessful);
+            Assert.IsTrue(result.ErrorCode == 501);
+        }
+
+        [TestMethod]
+        public async Task TestAddPlantCase2()
+        {
+            Helper.AddAuthInfo();
+            var result = await CloudService.AddPlant("向日葵" + DateTime.Now.Ticks.ToString(), "Sunflower"+ DateTime.Now.Ticks.ToString(), "0~1", "20~30", "23~34", "100~2000", "http://", "向日葵", CTSFactory.MakeCTS().Token);
             result.ParseAPIResult();
             Assert.IsTrue(result.IsSuccessful);
         }

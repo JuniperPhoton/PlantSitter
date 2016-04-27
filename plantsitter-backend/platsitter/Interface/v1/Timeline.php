@@ -66,7 +66,7 @@ do {
                     break;
                 }
 
-                $queryInsert = $pdo->prepare('INSERT INTO user_plant_timeline(pid,uid,gid,soil_moisture,envi_temp,envi_moisture,light,time) 
+                $queryInsert = $pdo->prepare('INSERT INTO user_plant_timeline (pid,uid,gid,soil_moisture,envi_temp,envi_moisture,light,time) 
                                             VALUES (:pid,:uid,:gid,:soil_moisture,:envi_temp,:envi_moisture,:light,:time)');
 
                 $queryInsert->bindParam(':pid', $pid, PDO::PARAM_INT);

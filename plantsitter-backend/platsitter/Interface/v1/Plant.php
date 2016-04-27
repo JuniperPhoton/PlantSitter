@@ -40,7 +40,7 @@ do {
                 $envi_moisture = $_POST['envi_moisture'];
                 $envi_temp = $_POST['envi_temp'];
                 $light = $_POST['light'];
-                $desc = $_POST['desc'];
+                $description = $_POST['description'];
                 $img_url = $_POST['img_url'];
 
                 $querySearch;
@@ -55,29 +55,22 @@ do {
                 if ($searchResult) {
                     if ($querySearch->fetch()) {
                         $ApiResult['isSuccessed'] = false;
-                        $ApiResult['error_code'] = 0;
+                        $ApiResult['error_code'] = 501;
                         $ApiResult['error_message'] = 'The plant with this name:'.$name_c.' has existed.';
                         break;
                     }
                 }
 
-                $queryAdd;
-
-                if ($name_e != '' && $desc != '') {
-                    $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,name_e,soil_moisture,envi_moisture,envi_temp,light,img_url,desc) VALUES (:name_c,:name_e,:soil_moisture,:envi_moisture,:envi_temp,:light,:img_url,:desc)');
-                } else if ($name_e == '' && $desc != '') {
-                    $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,soil_moisture,envi_moisture,envi_temp,light,img_url,desc) VALUES (:name_c,:soil_moisture,:envi_moisture,:envi_temp,:light,:img_url,:desc)');
-                } else if ($name_e != '' && $desc == '') {
-                    $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,name_e,soil_moisture,envi_moisture,envi_temp,light,img_url) VALUES (:name_c,:name_e,:soil_moisture,:envi_moisture,:envi_temp,:light,:img_url)');
-                }
+                $queryAdd = $pdo->prepare('INSERT INTO plant(name_c,name_e,soil_moisture,envi_moisture,envi_temp,light,img_url,description) 
+                                                  VALUES (:name_c,:name_e,:soil_moisture,:envi_moisture,:envi_temp,:light,:img_url,:description)');
                 $queryAdd->bindParam(':name_c', $name_c, PDO::PARAM_STR);
-                if($name_e!='') $queryAdd->bindParam(':name_e', $name_e, PDO::PARAM_STR);
+                $queryAdd->bindParam(':name_e', $name_e, PDO::PARAM_STR);
                 $queryAdd->bindParam(':soil_moisture', $soil_moisture, PDO::PARAM_STR);
                 $queryAdd->bindParam(':envi_moisture', $envi_moisture, PDO::PARAM_STR);
                 $queryAdd->bindParam(':envi_temp', $envi_temp, PDO::PARAM_STR);
                 $queryAdd->bindParam(':light', $light, PDO::PARAM_STR);
                 $queryAdd->bindParam(':img_url', $img_url, PDO::PARAM_STR);
-                if($desc!='') $queryAdd->bindParam(':desc', $desc, PDO::PARAM_STR);
+                $queryAdd->bindParam(':description', $description, PDO::PARAM_STR);
 
                 $result = $queryAdd->execute();
                 if ($result) {
