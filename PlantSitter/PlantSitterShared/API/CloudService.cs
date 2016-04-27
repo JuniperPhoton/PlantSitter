@@ -194,6 +194,19 @@ namespace PlantSitterShared.API
         }
 
         /// <summary>
+        /// 设置为正在培养的计划
+        /// </summary>
+        /// <param name="gid"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static async Task<CommonRespMsg> GetMainPlan(CancellationToken token)
+        {
+            var param = GetDefaultParamWithAuthParam();
+            var url = UrlHelper.MakeFullUrlForGetReq(UrlHelper.GetMainPlan, param, true);
+            return await APIHelper.SendGetRequestAsync(url, token);
+        }
+
+        /// <summary>
         /// 删除计划
         /// </summary>
         /// <param name="gid">计划ID</param>

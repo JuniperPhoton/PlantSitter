@@ -6,8 +6,8 @@ do {
         case 'SetMainPlan':
             {
                 $uid = $_GET['uid'];
-                $gid=$_POST['gid'];
-                
+                $gid = $_POST['gid'];
+
                 $queryUpdate = $pdo->prepare('UPDATE user SET main_plan_id=:gid WHERE uid=:uid');
                 $queryUpdate->bindParam(':uid', $uid, PDO::PARAM_INT);
                 $queryUpdate->bindParam(':gid', $gid, PDO::PARAM_INT);
@@ -16,6 +16,27 @@ do {
                     $ApiResult['isSuccessed'] = true;
                     $ApiResult['error_code'] = 0;
                     $ApiResult['error_message'] = '';
+                    break;
+                } else {
+                    $ApiResult['isSuccessed'] = false;
+                    $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
+                    $ApiResult['error_message'] = $pdo->errorInfo();
+                    break;
+                }
+            }
+            break;
+        case 'GetMainPlan':
+            {
+                $uid = $_GET['uid'];
+
+                $queryUpdate = $pdo->prepare('SELECT main_plan_id FROM user WHERE uid=:uid');
+                $queryUpdate->bindParam(':uid', $uid, PDO::PARAM_INT);
+                $result = $queryUpdate->execute();
+                if ($result) {
+                    $ApiResult['isSuccessed'] = true;
+                    $ApiResult['error_code'] = 0;
+                    $ApiResult['error_message'] = '';
+                    $ApiResult['Gid'] = $result - fetch();
                     break;
                 } else {
                     $ApiResult['isSuccessed'] = false;
@@ -104,7 +125,7 @@ do {
                 $name = $_POST['name'];
                 $time = $_POST['time'];
 
-                if($pid=='' || $uid=='' || $name=='' || $time==''){
+                if ($pid == '' || $uid == '' || $name == '' || $time == '') {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = LACK_SOME_PARAMS;
                     $ApiResult['error_message'] = 'Lack some params.';

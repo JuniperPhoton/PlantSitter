@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.Data.Json;
-using PlantSitterCusomControl;
 using PlantSitterShared.Model;
 using PlantSitterShared.API;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
+using PlantSitterCustomControl;
 
 namespace PlantSitterResp.ViewModel
 {

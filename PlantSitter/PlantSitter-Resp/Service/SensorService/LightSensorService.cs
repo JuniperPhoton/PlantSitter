@@ -1,4 +1,4 @@
-﻿using PlantSitterCusomControl;
+﻿using PlantSitterCustomControl;
 using Sensor.Light;
 using System;
 using System.Collections.Generic;

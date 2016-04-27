@@ -55,6 +55,26 @@ namespace UnitTestProject
         }
 
         [TestMethod]
+        public async Task TestSetMainPlanCase1()
+        {
+            Helper.AddAuthInfo();
+            //Case1
+            var result1 = await CloudService.SetMainPlan(15, CTSFactory.MakeCTS().Token);
+            result1.ParseAPIResult();
+            Assert.IsTrue(result1.IsSuccessful);
+        }
+
+        [TestMethod]
+        public async Task TestGetMainPlanCase1()
+        {
+            Helper.AddAuthInfo();
+            //Case1
+            var result1 = await CloudService.GetMainPlan(CTSFactory.MakeCTS().Token);
+            result1.ParseAPIResult();
+            Assert.IsTrue(result1.IsSuccessful);
+        }
+
+        [TestMethod]
         public async Task TestAddPlanCase1()
         {
             //Helper.AddAuthInfo();

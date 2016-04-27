@@ -5,7 +5,6 @@ using JP.Utils.Data.Json;
 using JP.Utils.Debug;
 using JP.Utils.Functions;
 using JP.Utils.Network;
-using PlantSitterCusomControl;
 using PlantSitterResp.Common;
 using PlantSitterShared.Model;
 using PlantSitterShared.API;
@@ -13,6 +12,7 @@ using System;
 using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
+using PlantSitterCustomControl;
 
 namespace PlantSitterResp.ViewModel
 {

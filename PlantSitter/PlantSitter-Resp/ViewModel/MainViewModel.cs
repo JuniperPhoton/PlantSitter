@@ -1,7 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.Data;
 using JP.Utils.Framework;
-using PlantSitterCusomControl;
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -10,6 +9,7 @@ using PlantSitterResp.Common;
 using GalaSoft.MvvmLight.Command;
 using PlantSitter_Resp.Service;
 using PlantSitterResp.Service.SensorService;
+using PlantSitterCustomControl;
 
 namespace PlantSitterResp.ViewModel
 {
