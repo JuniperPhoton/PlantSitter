@@ -65,8 +65,10 @@ namespace PlantSitter.View
             showAnimation.InsertKeyFrame(1, new Vector3(0f, 50f, 0f));
             showAnimation.Duration = TimeSpan.FromMilliseconds(500);
 
+            var linearEasingFunc = _compositor.CreateLinearEasingFunction();
+            
             var rotateAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            rotateAnimation.InsertKeyFrame(1, 3600f);
+            rotateAnimation.InsertKeyFrame(1, 3600f, linearEasingFunc);
             rotateAnimation.Duration = TimeSpan.FromMilliseconds(10000);
             rotateAnimation.IterationBehavior = AnimationIterationBehavior.Forever;
 
