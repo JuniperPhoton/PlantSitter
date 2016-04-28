@@ -53,7 +53,7 @@ namespace PlantSitter.ViewModel
                 if (_addCommand != null) return _addCommand;
                 return _addCommand = new RelayCommand(async() =>
                   {
-                      if(DeviceHelper.IsDesktop)
+                      if(Window.Current.Bounds.Width>=600)
                       {
                           var control = new AddingPlanControl() { Width = 500, Height = Window.Current.Bounds.Height * 0.9 };
                           ContentPopupEx cpex = new ContentPopupEx(control);
@@ -154,7 +154,7 @@ namespace PlantSitter.ViewModel
 
         public void Activate(object param)
         {
-
+            NavigationService.RootFrame.BackStack.Clear();
         }
 
         public void Deactivate(object param)

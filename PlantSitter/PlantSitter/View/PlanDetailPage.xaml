@@ -3,18 +3,146 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PlantSitter.View"
+    xmlns:cc="using:PlantSitterCustomControl"
     xmlns:common="using:PlantSitter.Common"
+    xmlns:attach="using:JP.Utils.Framework"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Background="{StaticResource PlantSitterThemeLightColor}">
-
-    <Grid Background="White">
+    <Grid Background="White" x:Name="RootGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
-        <Grid Background="{StaticResource PlantSitterThemeLightColor}">
-            
+        <Grid>
+            <Image Source="ms-appx:///Assets/Backgrd/pic_detailbg.png" Stretch="UniformToFill"/>
+            <Border Background="#59B5B5B5"/>
+            <Grid MaxWidth="600" x:Name="TopContentGrid">
+                <StackPanel VerticalAlignment="Bottom">
+                    <Grid x:Name="AvatarGrid" Margin="20 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                        <Ellipse Width="100" Height="100" Fill="{StaticResource PlantSitterLightLightGreyColor}"/>
+                        <Ellipse Width="100" Height="100" StrokeThickness="2" Stroke="White">
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="UniformToFill" ImageSource="{x:Bind PlanDetailVM.CurrentPlanWrapped.CurrentPlan.CurrentPlant.ImgBitmap,Mode=OneWay}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                    </Grid>
+                    <StackPanel VerticalAlignment="Bottom" Margin="20" HorizontalAlignment="Left">
+                        <TextBlock x:Name="NameTB" FontSize="30" Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.CurrentPlan.CurrentPlant.NameInChinese,Mode=OneWay}" Foreground="White" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="ScoreDescTB" FontSize="20" Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreDesc,Mode=OneWay}" Margin="0,5,0,0" Foreground="White" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+            <StackPanel  Margin="10"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreValue,Mode=OneWay,FallbackValue=70}" HorizontalAlignment="Right" FontSize="66.667" VerticalAlignment="Bottom" Foreground="White"/>
+                <TextBlock Text="分" FontSize="25" Foreground="White" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+            </StackPanel>
         </Grid>
+        <Grid Grid.Row="1">
+            <cc:AdaptiveGridView
+                     x:Name="DataGridView"
+                     IsItemClickEnabled="True"
+                     SelectionMode="None"
+                     MinItemHeight="150"
+                     MinItemWidth="300"
+                     ItemContainerTransitions="{x:Null}"
+                     ContainerContentChanging="AdaptiveGridView_ContainerContentChanging"
+                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
+                     ShowsScrollingPlaceholders="False"
+                     >
+                <cc:AdaptiveGridView.Items>
+                    <Grid Loaded="Grid_Loaded" Background="{StaticResource PlantSitterSoilMoistureColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition x:Name="Row0"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="土壤" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <TextBlock Text="湿润" Opacity="0.5" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <Image Source="ms-appx:///Assets/Icon/pic_soild.png" Margin="5,5,5,10" Grid.Row="1"/>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                            <TextBlock Text="有水" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="请保持土壤湿润" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Background="{StaticResource PlantSitterEnviMoistureColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="温度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <TextBlock Text="适宜" Opacity="0.5" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <Image Source="ms-appx:///Assets/Icon/pic_temp.png" Margin="5,5,5,10" Grid.Row="1"/>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                            <TextBlock Text="23℃" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="适宜的环境温度23~30摄氏度" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Background="{StaticResource PlantSitterLightColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="光线" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <TextBlock Text="充足" Opacity="1" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <Image Source="ms-appx:///Assets/Icon/pic_light.png" Margin="5,5,5,10" Grid.Row="1"/>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                            <TextBlock Text="550 Lux" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="喜阳植物光线可以强一点" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                    <Grid Background="{StaticResource PlantSitterEnviTempColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="湿度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <TextBlock Text="适宜" Opacity="1" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <Image Source="ms-appx:///Assets/Icon/pic_wet.png" Margin="5,5,5,10" Grid.Row="1"/>
+                        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
+                            <TextBlock Text="78%" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="相对湿度适合在 50~70% 之间" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </cc:AdaptiveGridView.Items>
+                <cc:AdaptiveGridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                        <Setter Property="HorizontalAlignment"
+                            Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment"
+                            Value="Stretch" />
+                        <Setter Property="VerticalAlignment"
+                            Value="Stretch" />
+                        <Setter Property="Margin"
+                            Value="5" />
+                    </Style>
+                </cc:AdaptiveGridView.ItemContainerStyle>
+            </cc:AdaptiveGridView>
+        </Grid>
+        <CommandBar Grid.Row="1" VerticalAlignment="Bottom" Grid.RowSpan="2">
+            <AppBarButton Command="{x:Bind PlanDetailVM.DeleteCommand,Mode=OneWay}" Icon="Delete" Label="删除该计划"/>
+            <AppBarButton Command="{x:Bind PlanDetailVM.SetMainCommand,Mode=OneWay}" Label="设置为照看中">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE734;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
     </Grid>
 </common:BasePage>

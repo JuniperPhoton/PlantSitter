@@ -543,6 +543,11 @@ namespace PlantSitter.ViewModel
                 return;
             }
             var list = NetworkImage.ParseToList(result.JsonSrc);
+            if(list== null)
+            {
+                ToastService.SendToast("搜索失败");
+                return;
+            }
             list.ForEach(i => SearchReusltForImages.Add(i));
 
             var taskList = new List<Task>();

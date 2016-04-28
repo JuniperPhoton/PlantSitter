@@ -15,7 +15,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid>
-            <Image Source="ms-appx:///Assets/Backgrd/Background.jpg" Stretch="UniformToFill"/>
+            <Image Source="ms-appx:///Assets/Backgrd/pic_navigabg.png" Stretch="UniformToFill"/>
             <Grid Height="50" VerticalAlignment="Bottom" Margin="0,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="50"/>

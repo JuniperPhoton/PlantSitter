@@ -11,7 +11,22 @@ namespace PlantSitterShared.Model
     {
         public UserPlan CurrentPlan { get; set; }
 
-        public bool IsMain { get; set; }
+        private bool _isMain;
+        public bool IsMain
+        {
+            get
+            {
+                return _isMain;
+            }
+            set
+            {
+                if (_isMain != value)
+                {
+                    _isMain = value;
+                    RaisePropertyChanged(() => IsMain);
+                }
+            }
+        }
 
         public string CreateTimeString
         {
@@ -32,6 +47,9 @@ namespace PlantSitterShared.Model
             }
         }
 
+        /// <summary>
+        /// 首页显示的
+        /// </summary>
         private string _scoreSumUp;
         public string ScoreSumUp
         {
@@ -66,22 +84,28 @@ namespace PlantSitterShared.Model
                     if (value >= 70)
                     {
                         ScoreSumUp = "适宜";
+                        ScoreDesc = $"环境综合分{ScoreValue}分，说明此时的环境十分适合成长喔~";
                         UpdateColorByScoreLevel(0);
                     }
                     else if (value < 70 && value >= 40)
                     {
                         ScoreSumUp = "不太适宜";
+                        ScoreDesc = $"环境综合分{ScoreValue}分，说明此时的环境比较一般~";
                         UpdateColorByScoreLevel(1);
                     }
                     else
                     {
                         ScoreSumUp = "非常糟糕";
+                        ScoreDesc = $"环境综合分{ScoreValue}分，说明此时的环境非常糟糕 :-(";
                         UpdateColorByScoreLevel(2);
                     }
                 }
             }
         }
 
+        /// <summary>
+        /// 首页显示的
+        /// </summary>
         private string _scoreToDisplay;
         public string ScoreToDisplay
         {
@@ -95,6 +119,26 @@ namespace PlantSitterShared.Model
                 {
                     _scoreToDisplay = value;
                     RaisePropertyChanged(() => ScoreToDisplay);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 在详情页面的植物名字下面显示的
+        /// </summary>
+        private string _scoreDesc;
+        public string ScoreDesc
+        {
+            get
+            {
+                return _scoreDesc;
+            }
+            set
+            {
+                if (_scoreDesc != value)
+                {
+                    _scoreDesc = value;
+                    RaisePropertyChanged(() => ScoreDesc);
                 }
             }
         }
@@ -133,28 +177,9 @@ namespace PlantSitterShared.Model
             }
         }
 
-        private Visibility _showMainBadge;
-        public Visibility ShowMainBadge
-        {
-            get
-            {
-                return _showMainBadge;
-            }
-            set
-            {
-                if (_showMainBadge != value)
-                {
-                    _showMainBadge = value;
-                    RaisePropertyChanged(() => ShowMainBadge);
-                }
-            }
-        }
-
         public UserPlanWrapped(UserPlan plan)
         {
             this.CurrentPlan = plan;
-            ColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#71997b").Value);
-            SecondColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#8db923").Value);
             var random = new Random((int)DateTime.Now.Ticks);
             this.ScoreValue = random.Next(1, 100);
         }

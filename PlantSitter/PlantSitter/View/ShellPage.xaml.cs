@@ -18,8 +18,6 @@ namespace PlantSitter.View
         private Compositor _compositor;
         private Visual _drawerGridVisual;
         private Visual _maskVisual;
-        private Visual _loadingVisual;
-        private Visual _refreshVisual;
 
         public bool IsDrawerOpen
         {

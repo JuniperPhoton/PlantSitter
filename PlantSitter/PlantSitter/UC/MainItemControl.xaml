@@ -3,12 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PlantSitter.UC"
+    xmlns:converter="using:PlantSitterShared.Converter"
     xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <converter:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid Margin="0">
             <Grid.RowDefinitions>
@@ -22,6 +26,9 @@
                     <TextBlock FontSize="30" Margin="10 0 0 10" Text="{Binding CurrentPlan.CurrentPlant.NameInChinese,Mode=OneWay,FallbackValue=仙人掌}" Foreground="White"/>
                     <TextBlock FontSize="15" Margin="10 0 0 10" Text="{Binding CreateTimeString,Mode=OneWay,FallbackValue=照看了第 28 天}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White"/>
                 </StackPanel>
+                <Border Visibility="{Binding IsMain,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{StaticResource PlantSitterThemeLightColor}">
+                    <TextBlock Margin="10" Text="照看中" Foreground="White" FontWeight="Bold"/>
+                </Border>
             </Grid>
             <Grid Grid.Row="1" Background="White">
                 <Border Background="{Binding ColorByScore,Mode=OneWay,FallbackValue=#FFFC6666}"/>

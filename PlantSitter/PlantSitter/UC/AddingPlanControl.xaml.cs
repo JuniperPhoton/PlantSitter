@@ -87,6 +87,11 @@ namespace PlantSitter.UC
 
         private void RootGrid_Loaded(object sender, RoutedEventArgs e)
         {
+            UpdateContentLayout();
+        }
+
+        private void UpdateContentLayout()
+        {
             RootGrid.Clip = new RectangleGeometry() { Rect = new Rect(0, 0, this.ActualWidth, this.ActualHeight) };
             _addGridVisual.Offset = new Vector3((float)ActualWidth, 0f, 0f);
             _searchResultGridVisual.Offset = new Vector3(0, (float)ActualHeight, 0f);
@@ -113,12 +118,13 @@ namespace PlantSitter.UC
         private void BackBtn_Click(object sender, RoutedEventArgs e)
         {
             PopupService.CurrentShownCPEX?.Hide();
-            if(DeviceHelper.IsMobile)
+            if(NavigationService.RootFrame.CanGoBack)
             {
                 NavigationService.RootFrame.GoBack();
             }
         }
 
+        #region ItemAnimation
         private void ListView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             int index = args.ItemIndex;
@@ -168,6 +174,8 @@ namespace PlantSitter.UC
             itemContainer.Loaded -= ItemContainer_Loaded;
         }
 
+        #endregion
+
         private void HideResultBtn_Click(object sender, RoutedEventArgs e)
         {
             ShowSearchResultGrid = false;
@@ -187,6 +195,11 @@ namespace PlantSitter.UC
             Op2Img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Icon/icon_chooseCloud.png"));
             AddPlanVM.CurrentPlant.LikeSunshine = false;
             AddPlanVM.CurrentPlant.LightRange = new Vector2(1f,10000f);
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateContentLayout();
         }
     }
 }

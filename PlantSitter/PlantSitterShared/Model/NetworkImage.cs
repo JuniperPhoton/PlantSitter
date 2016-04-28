@@ -41,9 +41,9 @@ namespace PlantSitterShared.Model
 
         public async Task DownloadThumbImageAsync()
         {
-            if(ThumbnailUrl.IsNotNullOrEmpty())
+            if (ThumbnailUrl.IsNotNullOrEmpty())
             {
-                var stream =await APIHelper.GetIRandomAccessStreamFromUrlAsync(ThumbnailUrl);
+                var stream = await APIHelper.GetIRandomAccessStreamFromUrlAsync(ThumbnailUrl);
                 var bitmap = new BitmapImage();
                 await bitmap.SetSourceAsync(stream);
                 this.ImgSource = bitmap;
@@ -54,20 +54,28 @@ namespace PlantSitterShared.Model
         {
             List<NetworkImage> list = new List<NetworkImage>();
             JsonObject jsonObj;
-            if (!JsonObject.TryParse(respJson, out jsonObj))
+            try
+            {
+                if (!JsonObject.TryParse(respJson, out jsonObj))
+                {
+                    return null;
+                }
+                var valueArray = JsonParser.GetJsonArrayFromJsonObj(jsonObj, "value");
+                foreach (var item in valueArray)
+                {
+                    var thumbUrl = JsonParser.GetStringFromJsonObj(item, "thumbnailUrl");
+                    var url = JsonParser.GetStringFromJsonObj(item, "contentUrl");
+                    var networkImage = new NetworkImage();
+                    networkImage.ThumbnailUrl = thumbUrl;
+                    networkImage.Url = url;
+                    list.Add(networkImage);
+                }
+            }
+            catch (Exception)
             {
                 return null;
             }
-            var valueArray = JsonParser.GetJsonArrayFromJsonObj(jsonObj, "value");
-            foreach(var item in valueArray)
-            {
-                var thumbUrl = JsonParser.GetStringFromJsonObj(item, "thumbnailUrl");
-                var url = JsonParser.GetStringFromJsonObj(item, "contentUrl");
-                var networkImage = new NetworkImage();
-                networkImage.ThumbnailUrl = thumbUrl;
-                networkImage.Url = url;
-                list.Add(networkImage);
-            }
+
             return list;
         }
     }

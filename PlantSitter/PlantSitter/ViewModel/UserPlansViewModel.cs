@@ -147,6 +147,16 @@ namespace PlantSitter.ViewModel
                 plans.Add(new UserPlanWrapped(plan));
             }
 
+            int mainGid = -1;
+            var mainGidResult = await CloudService.GetMainPlan(CTSFactory.MakeCTS().Token);
+            if(mainGidResult.IsSuccessful)
+            {
+                var jsonObj = JsonObject.Parse(mainGidResult.JsonSrc);
+                var gidObj = jsonObj["Gid"];
+                var gid = JsonParser.GetStringFromJsonObj(gidObj, "main_plan_id");
+                int.TryParse(gid, out mainGid);
+            }
+
             this.CurrentUserPlans = plans;
 
             if (CurrentUserPlans.Count == 0)
@@ -161,6 +171,10 @@ namespace PlantSitter.ViewModel
             {
                 var task = plan.CurrentPlan.CurrentPlant.DownloadImage();
                 var task2 = plan.FetchAndUpdateScore();
+                if(mainGid!=-1 && plan.CurrentPlan.Gid==mainGid)
+                {
+                    plan.IsMain = true;
+                }
             }
         }
 
@@ -185,6 +199,20 @@ namespace PlantSitter.ViewModel
         {
             var planToDisplay = new UserPlanWrapped(plan);
             this.CurrentUserPlans.Add(planToDisplay);
+        }
+
+        public void DeletePlan(UserPlanWrapped plan)
+        {
+            this.CurrentUserPlans.Remove(plan);
+        }
+
+        public void SetMain(UserPlanWrapped plan)
+        {
+            foreach(var item in CurrentUserPlans)
+            {
+                item.IsMain = false;
+            }
+            plan.IsMain = true;
         }
 
         public void Activate(object param)
