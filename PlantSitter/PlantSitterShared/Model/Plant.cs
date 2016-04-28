@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight.Messaging;
 using JP.API;
 using JP.Utils.Data;
 using JP.Utils.Data.Json;
+using PlantSitterCustomControl;
 using PlantSitterShared.API;
 using PlantSitterShared.Common;
 using System;
@@ -115,6 +116,7 @@ namespace PlantSitterShared.Model
                 {
                     _enviTempRange = value;
                     RaisePropertyChanged(() => EnviTempRange);
+                    TempRangeStr = $"{EnviTempRange.X} ℃ ~ {EnviTempRange.Y} ℃";
                 }
             }
         }
@@ -132,6 +134,7 @@ namespace PlantSitterShared.Model
                 {
                     _enviMoistureRange = value;
                     RaisePropertyChanged(() => EnviMoistureRange);
+                    MoistureRangeStr = $"{EnviMoistureRange.X} % ~ {EnviMoistureRange.Y} %";
                 }
             }
         }
@@ -198,6 +201,59 @@ namespace PlantSitterShared.Model
                 {
                     _likeSunshine = value;
                     RaisePropertyChanged(() => LikeSunshine);
+                    if (value) SunshineKindStr = "喜阳植物";
+                    else SunshineKindStr = "喜阴植物";
+                }
+            }
+        }
+
+        private string _sunshineKindStr;
+        public string SunshineKindStr
+        {
+            get
+            {
+                return _sunshineKindStr;
+            }
+            set
+            {
+                if (_sunshineKindStr != value)
+                {
+                    _sunshineKindStr = value;
+                    RaisePropertyChanged(() => SunshineKindStr);
+                }
+            }
+        }
+
+        private string _tempRangeStr;
+        public string TempRangeStr
+        {
+            get
+            {
+                return _tempRangeStr;
+            }
+            set
+            {
+                if (_tempRangeStr != value)
+                {
+                    _tempRangeStr = value;
+                    RaisePropertyChanged(() => TempRangeStr);
+                }
+            }
+        }
+
+        private string _moistureRangeStr;
+        public string MoistureRangeStr
+        {
+            get
+            {
+                return _moistureRangeStr;
+            }
+            set
+            {
+                if (_moistureRangeStr != value)
+                {
+                    _moistureRangeStr = value;
+                    RaisePropertyChanged(() => MoistureRangeStr);
                 }
             }
         }
@@ -205,7 +261,7 @@ namespace PlantSitterShared.Model
         public Plant()
         {
             ImgBitmap = new BitmapImage();
-            Desc = "";
+            Desc = "暂无简介";
             ImageUrl = "";
             NameInChinese = "";
             NameInEnglish = "";
@@ -222,6 +278,30 @@ namespace PlantSitterShared.Model
             var bitmap = new BitmapImage();
             await bitmap.SetSourceAsync(stream);
             ImgBitmap = bitmap;
+        }
+
+        public async Task UpdateInfoAsync()
+        {
+            var result = await CloudService.GetPlantInfo(this.Pid, CTSFactory.MakeCTS().Token);
+            result.ParseAPIResult();
+            if(!result.IsSuccessful)
+            {
+                ToastService.SendToast("获取植物信息失败");
+                return;
+            }
+            var jsonObj = JsonObject.Parse(result.JsonSrc);
+            var plantObj = JsonParser.GetJsonObjFromJsonObj(jsonObj, "Plant");
+            var plant = Plant.ParseJsonToObj(plantObj.ToString());
+            this.NameInChinese = plant.NameInChinese;
+            this.NameInEnglish = plant.NameInEnglish;
+            this.Desc = plant.Desc;
+            this.SoilMoistureRange = plant.SoilMoistureRange;
+            this.EnviMoistureRange = plant.EnviMoistureRange;
+            this.EnviTempRange = plant.EnviTempRange;
+            this.LightRange = plant.LightRange;
+            this.ImageUrl = plant.ImageUrl;
+
+            await this.DownloadImage();
         }
 
         public static async Task<Plant> GetPlantByIdAsync(int pid)
@@ -311,7 +391,7 @@ namespace PlantSitterShared.Model
             var envi_moisture = JsonParser.GetStringFromJsonObj(jsonObj, "envi_moisture");
             var light = JsonParser.GetStringFromJsonObj(jsonObj, "light");
             var img_url = JsonParser.GetStringFromJsonObj(jsonObj, "img_url");
-            var desc = JsonParser.GetStringFromJsonObj(jsonObj, "desc");
+            var desc = JsonParser.GetStringFromJsonObj(jsonObj, "description");
 
             try
             {
@@ -340,6 +420,8 @@ namespace PlantSitterShared.Model
                 }
                 if (img_url.IsNotNullOrEmpty()) plant.ImageUrl = img_url;
                 if (desc.IsNotNullOrEmpty()) plant.Desc = desc;
+
+                if (plant.LightRange.Y >= 20000) plant.LikeSunshine = true;
 
                 return plant;
             }

@@ -133,6 +133,10 @@
       <Project>{357c51db-765e-4a88-950f-cda24f7184c3}</Project>
       <Name>JP.Utils.UWP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PlantSitterCustomControl\PlantSitterCustomControl.csproj">
+      <Project>{e525983b-258e-4754-9596-9a299dfc99a5}</Project>
+      <Name>PlantSitterCustomControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Search\" />

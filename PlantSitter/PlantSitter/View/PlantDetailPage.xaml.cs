@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlantSitter.Common;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,14 +16,17 @@ using Windows.UI.Xaml.Navigation;
 
 namespace PlantSitter.View
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class PlantDetailPage : Page
+    public sealed partial class PlantDetailPage : BasePage
     {
         public PlantDetailPage()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            DetailControl.DataContext = e.Parameter;
         }
     }
 }

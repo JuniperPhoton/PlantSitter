@@ -1,7 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using JP.Utils.Framework;
+using JP.UWP.CustomControl;
 using PlantSitter.Common;
+using PlantSitter.UC;
+using PlantSitter.View;
 using PlantSitterCustomControl;
 using PlantSitterShared.API;
 using PlantSitterShared.Model;
@@ -10,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml;
 
 namespace PlantSitter.ViewModel
 {
@@ -42,7 +46,7 @@ namespace PlantSitter.ViewModel
             get
             {
                 if (_deleteCommand != null) return _deleteCommand;
-                return _deleteCommand = new RelayCommand(async() =>
+                return _deleteCommand = new RelayCommand(async () =>
                   {
                       DialogService ds = new DialogService(DialogKind.PlainText, "注意", "确实要删除吗？删除后无法恢复");
                       ds.OnLeftBtnClick += async (s) =>
@@ -55,6 +59,41 @@ namespace PlantSitter.ViewModel
                   });
             }
         }
+
+        private RelayCommand _refreshCommand;
+        public RelayCommand RefreshCommand
+        {
+            get
+            {
+                if (_refreshCommand != null) return _refreshCommand;
+                return _refreshCommand = new RelayCommand(() =>
+                  {
+
+                  });
+            }
+        }
+
+        private RelayCommand _tapPlantCommand;
+        public RelayCommand TapPlantCommand
+        {
+            get
+            {
+                if (_tapPlantCommand != null) return _tapPlantCommand;
+                return _tapPlantCommand = new RelayCommand(async () =>
+                  {
+                      if (Window.Current.Bounds.Width <= 700)
+                      {
+                          NavigationService.RootFrame.Navigate(typeof(PlantDetailPage), CurrentPlanWrapped.CurrentPlan.CurrentPlant);
+                      }
+                      else
+                      {
+                          ContentPopupEx cpex = new ContentPopupEx(new PlantDetailControl() { DataContext=CurrentPlanWrapped.CurrentPlan.CurrentPlant, Width = 500, Height = Window.Current.Bounds.Height * 0.9 });
+                          await cpex.ShowAsync();
+                      }
+                  });
+            }
+        }
+
 
         private RelayCommand _setMainCommand;
         public RelayCommand SetMainCommand

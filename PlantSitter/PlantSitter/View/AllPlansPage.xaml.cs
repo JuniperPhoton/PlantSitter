@@ -74,7 +74,7 @@ namespace PlantSitter.View
 
             _refreshVisual.CenterPoint = new Vector3((float)RefreshSymbol.ActualWidth / 2, (float)RefreshSymbol.ActualHeight / 2, 0f);
             _refreshVisual.RotationAngleInDegrees = 0;
-
+            
             _refreshVisual.StopAnimation("RotationAngleInDegrees");
             _refreshVisual.StartAnimation("RotationAngleInDegrees", rotateAnimation);
             _loadingVisual.StartAnimation("Offset", showAnimation);
