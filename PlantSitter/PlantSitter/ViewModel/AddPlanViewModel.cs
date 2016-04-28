@@ -436,7 +436,7 @@ namespace PlantSitter.ViewModel
 
             foreach (var plant in ResultPlants)
             {
-                var task = plant.DownloadImage();
+                var task= DownloadImageHelper.DownloadImage(plant);
             }
             ShowLoading = false;
         }

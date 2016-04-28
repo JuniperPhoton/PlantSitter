@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;

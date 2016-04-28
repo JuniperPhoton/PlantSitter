@@ -8,24 +8,24 @@
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="400" Background="{StaticResource PlantSitterThemeLightColor}">
-    <Grid Background="White">
-        <ScrollViewer x:Name="MainScrollViewer" Style="{StaticResource ScrollViewerCommonStyle}">
+    <Grid Background="{StaticResource PlantSitterThemeLightColor}" x:Name="RootGrid">
+        <ScrollViewer x:Name="MainScrollViewer" Style="{StaticResource ScrollViewerCommonStyle}" Background="White">
             <StackPanel>
-                <StackPanel Height="220" Background="{StaticResource PlantSitterThemeLightColor}">
+                <StackPanel Background="{StaticResource PlantSitterThemeLightColor}">
                     <Grid x:Name="AvatarGrid" Margin="10">
                         <Ellipse Width="100" Height="100" StrokeThickness="2" Fill="White"/>
                         <Ellipse Width="100" Height="100" StrokeThickness="2" Stroke="{StaticResource PlantSitterLightLightGreyColor}">
                             <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding ImgBitmap,Mode=OneWay}"/>
+                                <ImageBrush ImageSource="{Binding ImgBitmap,Mode=OneWay}" Stretch="UniformToFill"/>
                             </Ellipse.Fill>
                         </Ellipse>
                     </Grid>
-                    <Grid x:Name="NameGrid" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel x:Name="NameGrid" VerticalAlignment="Bottom" Background="{StaticResource PlantSitterThemeLightColor}">
                         <TextBlock Margin="10" FontSize="30" Text="{Binding NameInChinese,Mode=OneWay}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Center"/>
-                    </Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,10,0,0">
-                        <Image/>
-                        <TextBlock FontSize="15" Text="{Binding SunshineKindStr,Mode=OneWay}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10">
+                            <Image/>
+                            <TextBlock FontSize="15" Text="{Binding SunshineKindStr,Mode=OneWay}" Foreground="White" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
                 <TextBlock Text="简介" Margin="10" FontWeight="Normal" FontSize="15" SelectionChanged="TextBlock_SelectionChanged"/>

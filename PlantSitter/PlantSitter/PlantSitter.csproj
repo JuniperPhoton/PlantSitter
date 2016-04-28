@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Common\BasePage.cs" />
     <Compile Include="Common\ConfigHelper.cs" />
+    <Compile Include="Common\DownloadImageHelper.cs" />
     <Compile Include="Common\ExtentFunctions.cs" />
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\PlantSitterSettings.cs" />
@@ -109,6 +110,9 @@
     <Compile Include="Notification\NotificationUpdater.cs" />
     <Compile Include="UC\AddingPlanControl.xaml.cs">
       <DependentUpon>AddingPlanControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\DataTableControl.xaml.cs">
+      <DependentUpon>DataTableControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UC\DrawerControl.xaml.cs">
       <DependentUpon>DrawerControl.xaml</DependentUpon>
@@ -250,6 +254,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UC\AddingPlanControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\DataTableControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

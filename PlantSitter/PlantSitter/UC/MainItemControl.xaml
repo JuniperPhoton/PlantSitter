@@ -24,12 +24,15 @@
                 <Border Background="#31000000"/>
                 <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Left">
                     <TextBlock FontSize="30" Margin="10 0 0 10" Text="{Binding CurrentPlan.CurrentPlant.NameInChinese,Mode=OneWay,FallbackValue=仙人掌}" Foreground="White"/>
-                    <TextBlock FontSize="15" Margin="10 0 0 10" Text="{Binding CreateTimeString,Mode=OneWay,FallbackValue=照看了第 28 天}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White"/>
+                    <StackPanel Orientation="Horizontal" Margin="5,0,0,5">
+                        <Border Visibility="{Binding IsMain,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Bottom" Background="{StaticResource NormalDarkColor}">
+                            <TextBlock Margin="5" Text="照看中" Foreground="White" FontWeight="Bold"/>
+                        </Border>
+                        <TextBlock FontSize="15" Margin="5,0,0,5" Text="{Binding CreateTimeString,Mode=OneWay,FallbackValue=照看了第 28 天}" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="White"/>
+                    </StackPanel>
                 </StackPanel>
-                <Border Visibility="{Binding IsMain,Mode=OneWay,Converter={StaticResource BooleanToVisibilityConverter}}" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{StaticResource PlantSitterThemeLightColor}">
-                    <TextBlock Margin="10" Text="照看中" Foreground="White" FontWeight="Bold"/>
-                </Border>
             </Grid>
+
             <Grid Grid.Row="1" Background="White">
                 <Border Background="{Binding ColorByScore,Mode=OneWay,FallbackValue=#FFFC6666}"/>
                 <Border Width="5" Background="{Binding SecondColorByScore,Mode=OneWay,FallbackValue=#FFAB2121}" HorizontalAlignment="Left"/>

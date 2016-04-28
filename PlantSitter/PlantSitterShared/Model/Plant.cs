@@ -268,18 +268,6 @@ namespace PlantSitterShared.Model
             LikeSunshine = true;
         }
 
-        public async Task DownloadImage()
-        {
-            if(string.IsNullOrEmpty(ImageUrl))
-            {
-                return;
-            }
-            var stream =await APIHelper.GetIRandomAccessStreamFromUrlAsync(ImageUrl);
-            var bitmap = new BitmapImage();
-            await bitmap.SetSourceAsync(stream);
-            ImgBitmap = bitmap;
-        }
-
         public async Task UpdateInfoAsync()
         {
             var result = await CloudService.GetPlantInfo(this.Pid, CTSFactory.MakeCTS().Token);
@@ -300,8 +288,18 @@ namespace PlantSitterShared.Model
             this.EnviTempRange = plant.EnviTempRange;
             this.LightRange = plant.LightRange;
             this.ImageUrl = plant.ImageUrl;
+        }
 
-            await this.DownloadImage();
+        public async Task DownloadImage()
+        {
+            if (string.IsNullOrEmpty(ImageUrl))
+            {
+                return;
+            }
+            var stream = await APIHelper.GetIRandomAccessStreamFromUrlAsync(ImageUrl);
+            var bitmap = new BitmapImage();
+            await bitmap.SetSourceAsync(stream);
+            ImgBitmap = bitmap;
         }
 
         public static async Task<Plant> GetPlantByIdAsync(int pid)

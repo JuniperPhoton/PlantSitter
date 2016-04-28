@@ -1,4 +1,5 @@
-﻿using PlantSitterShared.Model;
+﻿using PlantSitter.Common;
+using PlantSitterShared.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -47,17 +48,29 @@ namespace PlantSitter.UC
         private async void PlantDetailControl_Loaded(object sender, RoutedEventArgs e)
         {
             await CurrentPlant.UpdateInfoAsync();
+            await DownloadImageHelper.DownloadImage(CurrentPlant);
         }
 
         private void PlantDetailControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            var properties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(MainScrollViewer);
+            var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(MainScrollViewer);
+            var offsetY = (float)NameGrid.TransformToVisual(this.RootGrid).
+                                    TransformPoint(new Point(0, 0)).Y;
 
-            var stickAnimation = _compositor.CreateExpressionAnimation();
-            stickAnimation.Expression = "(1-p.Translation.Y/10d)>=0?(1d-p.Translation.Y/10d):0";
-            stickAnimation.SetReferenceParameter("p", properties);
+            Canvas.SetZIndex(NameGrid.Parent as StackPanel, 10);
 
-            //_avatarGridVisual.StartAnimation("Opacity", fadeAnimation);
+            var scrollingAnimation = _compositor.CreateExpressionAnimation(
+                   "(ScrollingProperties.Translation.Y +OffsetY> 0 ? 0 : -OffsetY - ScrollingProperties.Translation.Y-0f)");
+            scrollingAnimation.SetReferenceParameter("ScrollingProperties", scrollProperties);
+            scrollingAnimation.SetScalarParameter("OffsetY", offsetY);
+
+            //往下滚动，Translation 负增长
+            var fadeAnimation = _compositor.CreateExpressionAnimation();
+            fadeAnimation.Expression = "1+(ScrollingProperties.Translation.Y/100f)";
+            fadeAnimation.SetReferenceParameter("ScrollingProperties", scrollProperties);
+
+            _avatarGridVisual.StartAnimation("opacity", fadeAnimation);
+            _nameGridVisual.StartAnimation("offset.y", scrollingAnimation);
         }
 
         private void TextBlock_SelectionChanged(object sender, RoutedEventArgs e)

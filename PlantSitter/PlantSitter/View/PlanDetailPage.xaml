@@ -6,6 +6,7 @@
     xmlns:cc="using:PlantSitterCustomControl"
     xmlns:common="using:PlantSitter.Common"
     xmlns:attach="using:JP.Utils.Framework"
+    xmlns:uc="using:PlantSitter.UC"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Background="{StaticResource PlantSitterThemeLightColor}">
@@ -41,7 +42,7 @@
                                     <TextBlock x:Name="ScoreDescTB" TextWrapping="Wrap" FontSize="20" Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreDesc,Mode=OneWay}" Margin="0,5,0,0" Foreground="White" HorizontalAlignment="Left"/>
                                 </StackPanel>
                                 <StackPanel x:Name="ScoreSP" SizeChanged="ScoreSP_SizeChanged" Margin="10"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1">
-                                    <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreValue,Mode=OneWay,FallbackValue=70}" HorizontalAlignment="Right" FontSize="66.667" VerticalAlignment="Bottom" Foreground="White"/>
+                                    <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreValue,Mode=OneWay,FallbackValue=70}" HorizontalAlignment="Right" FontSize="66.667" VerticalAlignment="Bottom" Foreground="White" FontFamily="Agency FB"/>
                                     <TextBlock Text="分" FontSize="25" Foreground="White" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
                                 </StackPanel>
                             </Grid>
@@ -124,7 +125,6 @@
                             <TextBlock Text="相对湿度适合在 50~70% 之间" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
-
                 </cc:AdaptiveGridView.Items>
                 <cc:AdaptiveGridView.ItemContainerStyle>
                     <Style TargetType="GridViewItem">
@@ -137,19 +137,106 @@
                         <Setter Property="VerticalAlignment"
                             Value="Stretch" />
                         <Setter Property="Margin"
-                            Value="5" />
+                            Value="2" />
                     </Style>
                 </cc:AdaptiveGridView.ItemContainerStyle>
             </cc:AdaptiveGridView>
         </Grid>
-        <CommandBar Opacity="0.7" Grid.Row="1" VerticalAlignment="Bottom" Grid.RowSpan="2" Foreground="Black" Background="White">
-            <AppBarButton Command="{x:Bind PlanDetailVM.DeleteCommand,Mode=OneWay}" Icon="Delete" Label="删除该计划"/>
+        <Border Height="48" VerticalAlignment="Bottom" Background="#CCFFFFFF"/>
+        <Grid x:Name="TableView" d:IsHidden="False"  Background="White" Margin="0,250,0,0">
+            <cc:AdaptiveGridView
+                     x:Name="TableGridView"
+                     IsItemClickEnabled="True"
+                     SelectionMode="None"
+                     MinItemHeight="150"
+                     MinItemWidth="300"
+                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
+                     ShowsScrollingPlaceholders="False"
+                     >
+                <cc:AdaptiveGridView.FooterTemplate>
+                    <DataTemplate>
+                        <Grid Height="50">
+
+                        </Grid>
+                    </DataTemplate>
+                </cc:AdaptiveGridView.FooterTemplate>
+                <cc:AdaptiveGridView.Items>
+                    <Grid Background="{StaticResource PlantSitterSoilMoistureColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="土壤" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <uc:DataTableControl/>
+                    </Grid>
+                    <Grid Background="{StaticResource PlantSitterEnviMoistureColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="温度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <uc:DataTableControl/>
+                    </Grid>
+                    <Grid Background="{StaticResource PlantSitterLightColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="光线" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <uc:DataTableControl/>
+                    </Grid>
+                    <Grid Background="{StaticResource PlantSitterEnviTempColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="湿度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                        <uc:DataTableControl/>
+                    </Grid>
+                </cc:AdaptiveGridView.Items>
+                <cc:AdaptiveGridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="HorizontalContentAlignment"
+                            Value="Stretch" />
+                        <Setter Property="HorizontalAlignment"
+                            Value="Stretch" />
+                        <Setter Property="VerticalContentAlignment"
+                            Value="Stretch" />
+                        <Setter Property="VerticalAlignment"
+                            Value="Stretch" />
+                        <Setter Property="Margin"
+                            Value="2" />
+                    </Style>
+                </cc:AdaptiveGridView.ItemContainerStyle>
+            </cc:AdaptiveGridView>
+        </Grid>
+        <CommandBar Opacity="1" Grid.Row="1" VerticalAlignment="Bottom" Grid.RowSpan="2" Foreground="Black" Background="{x:Null}">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Command="{x:Bind PlanDetailVM.DeleteCommand,Mode=OneWay}" Icon="Delete" Label="删除该计划"/>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Icon="Switch" Label="切换视图"/>
+            <AppBarButton Command="{x:Bind PlanDetailVM.RefreshCommand,Mode=OneWay}" Icon="Refresh" Label="刷新"/>
             <AppBarButton Command="{x:Bind PlanDetailVM.SetMainCommand,Mode=OneWay}" Label="设置为照看中">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE734;"/>
                 </AppBarButton.Icon>
             </AppBarButton>
-            <AppBarButton Command="{x:Bind PlanDetailVM.RefreshCommand,Mode=OneWay}" Icon="Refresh" Label="刷新"/>
         </CommandBar>
     </Grid>
 </common:BasePage>

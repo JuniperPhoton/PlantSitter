@@ -155,7 +155,7 @@ namespace PlantSitterShared.Model
             return plan;
         }
 
-        public async Task UpdatePlantInfo()
+        public async Task UpdatePlantInfoAsync()
         {
             var plant = await Plant.GetPlantByIdAsync(CurrentPlant.Pid);
             if(plant!= null)

@@ -142,7 +142,7 @@ namespace PlantSitter.ViewModel
             {
                 var plan = UserPlan.ParseFromJson(item.ToString());
                 plan.CurrentUser = this.CurrentUser;
-                var task = plan.UpdatePlantInfo();
+                var task = plan.UpdatePlantInfoAsync();
                 tasks.Add(task);
                 plans.Add(new UserPlanWrapped(plan));
             }
@@ -169,7 +169,7 @@ namespace PlantSitter.ViewModel
 
             foreach (var plan in CurrentUserPlans)
             {
-                var task = plan.CurrentPlan.CurrentPlant.DownloadImage();
+                var task = DownloadImageHelper.DownloadImage(plan.CurrentPlan.CurrentPlant);
                 var task2 = plan.FetchAndUpdateScore();
                 if(mainGid!=-1 && plan.CurrentPlan.Gid==mainGid)
                 {

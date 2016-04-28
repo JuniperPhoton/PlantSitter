@@ -54,10 +54,6 @@ namespace PlantSitter.View
             {
                 _descVisual.Scale = new Vector3(0.7f, 0.7f, 1f);
             }
-            if(DeviceHelper.IsMobile)
-            {
-                //RootGrid.Margin = new Thickness(0, -27, 0, 0);
-            }
         }
 
         private void PlanDetailPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -66,9 +62,9 @@ namespace PlantSitter.View
             var avatarOffsetX = (float)AvatarGrid.TransformToVisual(RootGrid).TransformPoint(new Point(0, 0)).X;
             var descOffsetX = (float)ScoreDescTB.TransformToVisual(RootGrid).TransformPoint(new Point(0, 0)).X;
 
-            var centralNameX = (float)RootGrid.ActualWidth / 2  - (float)NameTB.ActualWidth / 2;
-            var centralAvatarX = (float)RootGrid.ActualWidth / 2  - (float)AvatarGrid.ActualWidth / 2;
-            var centralDescX = (float)RootGrid.ActualWidth / 2  - (float)ScoreDescTB.ActualWidth / 2;
+            var centralNameX = (float)RootGrid.ActualWidth / 2 - (float)NameTB.ActualWidth / 2;
+            var centralAvatarX = (float)RootGrid.ActualWidth / 2 - (float)AvatarGrid.ActualWidth / 2;
+            var centralDescX = (float)RootGrid.ActualWidth / 2 - (float)ScoreDescTB.ActualWidth / 2;
 
             Debug.WriteLine(centralNameX);
 
@@ -143,7 +139,7 @@ namespace PlantSitter.View
 
         private void UpadateScrollingAnimation()
         {
-            if(_mainScrollViewer==null)
+            if (_mainScrollViewer == null)
             {
                 _mainScrollViewer = DataGridView.GetScrollViewer();
             }
@@ -155,7 +151,7 @@ namespace PlantSitter.View
             var header = DataGridView.Header as FrameworkElement;
             var headerContainer = header.Parent as ContentControl;
             Canvas.SetZIndex(headerContainer, 10);
-            
+
             var scrollingAnimation = _compositor.CreateExpressionAnimation();
             scrollingAnimation.Expression = "-(prop.Translation.Y) / 150f";
             scrollingAnimation.SetReferenceParameter("prop", scrollProperties);
@@ -190,7 +186,7 @@ namespace PlantSitter.View
 
         private void ScoreSP_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            ScoreDescSP.Margin = new Thickness(20, 0,20, 20);
+            ScoreDescSP.Margin = new Thickness(20, 0, 20, 20);
         }
     }
 }

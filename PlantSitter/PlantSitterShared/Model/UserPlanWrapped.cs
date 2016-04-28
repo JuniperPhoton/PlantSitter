@@ -1,6 +1,9 @@
 ﻿using GalaSoft.MvvmLight;
 using JP.Utils.UI;
+using PlantSitterShared.API;
 using System;
+using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -180,13 +183,17 @@ namespace PlantSitterShared.Model
         public UserPlanWrapped(UserPlan plan)
         {
             this.CurrentPlan = plan;
-            var random = new Random((int)DateTime.Now.Ticks);
-            this.ScoreValue = random.Next(1, 100);
         }
 
         public async Task FetchAndUpdateScore()
         {
-
+            var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byNumber", "5", CTSFactory.MakeCTS().Token);
+            var timelineData = PlantTimeline.ParseToList(records.JsonSrc);
+            
+            foreach(var item in timelineData)
+            {
+                CurrentPlan.RecordData.Add(item);
+            }
         }
 
         private void UpdateColorByScoreLevel(int level)
@@ -212,6 +219,27 @@ namespace PlantSitterShared.Model
 
                     }; break;
             }
+        }
+
+        /// <summary>
+        /// 通过最新的数据计算分数
+        /// </summary>
+        private void CalculateScoreAndUpdate()
+        {
+            var lastRecord = CurrentPlan.RecordData.Last();
+            var score = 0;
+
+            //var lightRange = GetLightRange();
+            //var light
+        }
+
+        private Vector2 GetLightRange()
+        {
+            if(CurrentPlan.CurrentPlant.LikeSunshine)
+            {
+                return new Vector2(100, 20000);
+            }
+            else return new Vector2(1, 10000);
         }
     }
 }

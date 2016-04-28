@@ -2,6 +2,7 @@
 using PlantSitter.Common;
 using PlantSitter.View;
 using PlantSitter.ViewModel;
+using PlantSitterShared.Cache;
 using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -25,6 +26,8 @@ namespace PlantSitter
                 return App.Current.Resources["Locator"] as ViewModelLocator;
             }
         }
+
+        public static CacheUtil CacheUtilInstance { get; set; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -50,7 +53,7 @@ namespace PlantSitter
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected async override void OnLaunched(LaunchActivatedEventArgs e)
         {
 
 #if DEBUG
@@ -101,6 +104,9 @@ namespace PlantSitter
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+            CacheUtilInstance = new CacheUtil();
+            await CacheUtilInstance.LoadAsync();
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)

@@ -113,7 +113,7 @@ namespace PlantSitterResp.ViewModel
             {
                 var plan = UserPlan.ParseFromJson(item.ToString());
                 plan.CurrentUser = App.MainVM.CurrentUser;
-                var task = plan.UpdatePlantInfo();
+                var task = plan.UpdatePlantInfoAsync();
                 tasks.Add(task);
                 CurrentUserPlans.Add(plan);
             }

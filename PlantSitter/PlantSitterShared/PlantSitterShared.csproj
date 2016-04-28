@@ -112,6 +112,7 @@
     <Compile Include="API\CTSFactory.cs" />
     <Compile Include="API\ErrorTable.cs" />
     <Compile Include="API\UrlHelper.cs" />
+    <Compile Include="Cache\CacheUtil.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Common\MessengerToken.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Model\Plant.cs" />
     <Compile Include="Model\PlantSitterUser.cs" />
     <Compile Include="Model\PlantTimeline.cs" />
+    <Compile Include="Model\TableGraphics.cs" />
     <Compile Include="Model\UserPlan.cs" />
     <Compile Include="Model\UserPlanWrapped.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +141,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Enum\" />
     <Folder Include="Search\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

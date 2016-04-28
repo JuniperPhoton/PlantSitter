@@ -20,46 +20,46 @@ do {
                     $ApiResult['error_message'] = 'Lack necessary params of the uploading data.';
                     break;
                 }
-                
-                $queryFind=$pdo->prepare('SELECT * FROM user WHERE uid=:uid');
-                $queryFind->bindParam(':uid',$uid,PDO::PARAM_INT);
-                if(!$queryFind->execute()){
+
+                $queryFind = $pdo->prepare('SELECT * FROM user WHERE uid=:uid');
+                $queryFind->bindParam(':uid', $uid, PDO::PARAM_INT);
+                if (!$queryFind->execute()) {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
                     $ApiResult['error_message'] = $pdo->errorInfo();
                     break;
                 }
-                if(!$queryFind->fetch()){
+                if (!$queryFind->fetch()) {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = USER_NOT_EXIST;
                     $ApiResult['error_message'] = "User does not exist.";
                     break;
                 }
-                
-                $queryFind2=$pdo->prepare('SELECT * FROM user_plan WHERE gid=:gid');
-                $queryFind2->bindParam(':gid',$gid,PDO::PARAM_INT);
-                if(!$queryFind2->execute()){
+
+                $queryFind2 = $pdo->prepare('SELECT * FROM user_plan WHERE gid=:gid');
+                $queryFind2->bindParam(':gid', $gid, PDO::PARAM_INT);
+                if (!$queryFind2->execute()) {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
                     $ApiResult['error_message'] = $pdo->errorInfo();
                     break;
                 }
-                if(!$queryFind2->fetch()){
+                if (!$queryFind2->fetch()) {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = PLAN_NOT_EXIST;
                     $ApiResult['error_message'] = "Plan does not exist.";
                     break;
                 }
-                
-                $queryFind3=$pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
-                $queryFind3->bindParam(':pid',$pid,PDO::PARAM_INT);
-                if(!$queryFind3->execute()){
+
+                $queryFind3 = $pdo->prepare('SELECT * FROM plant WHERE pid=:pid');
+                $queryFind3->bindParam(':pid', $pid, PDO::PARAM_INT);
+                if (!$queryFind3->execute()) {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = API_ERROR_DATABASE_ERROR;
                     $ApiResult['error_message'] = $pdo->errorInfo();
                     break;
                 }
-                if(!$queryFind3->fetch()){
+                if (!$queryFind3->fetch()) {
                     $ApiResult['isSuccessed'] = false;
                     $ApiResult['error_code'] = PLANT_NOT_EXIST;
                     $ApiResult['error_message'] = "Plant does not exist.";
@@ -137,17 +137,15 @@ do {
                 }
                 $getQuery;
                 if ($filter_kind == 'byNumber') {
-                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid LIMIT :number');
+                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid ORDER BY tid DESC LIMIT :number ');
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':number', intval($filter_value), PDO::PARAM_INT);
                 } else if ($filter_kind == 'byMonths') {
-
                     $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime');
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':endTime', $endTime, PDO::PARAM_STR);
                     $getQuery->bindParam(':startTime', date('Y-m-d h:i:s', strtotime('-'.$filter_value.' months')), PDO::PARAM_STR);
                 } else if ($filter_kind == 'byYears') {
-
                     $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime');
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':endTime', $endTime, PDO::PARAM_STR);
@@ -188,7 +186,7 @@ do {
                 $ApiResult['isSuccessed'] = true;
                 $ApiResult['error_code'] = 0;
                 $ApiResult['error_message'] = '';
-                $ApiResult['Plans'] = $resultGet;
+                $ApiResult['Record'] = $resultGet;
                 break;
             }
             break;

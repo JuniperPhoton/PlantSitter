@@ -12,9 +12,13 @@ namespace UnitTestProject
         public async Task TestUploadTimelineDataCase0()
         {
             Helper.AddAuthInfo();
-            var result = await CloudService.UploadData(1, 15, 1, 25, 30, 200, DateTime.Now.ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS().Token);
-            result.ParseAPIResult();
-            Assert.IsTrue(result.IsSuccessful);
+            for(int i=0;i<50;i++)
+            {
+                var random = new Random((int)DateTime.Now.Ticks);
+                var result = await CloudService.UploadData(10, 24, 1, random.Next(0,50), random.Next(0,100), random.Next(1,30000), DateTime.Now.AddHours(+i).ToString("yyyy/MM/dd HH:mm"), CTSFactory.MakeCTS().Token);
+                result.ParseAPIResult();
+                Assert.IsTrue(result.IsSuccessful);
+            }
         }
 
         [TestMethod]

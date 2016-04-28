@@ -14,7 +14,7 @@
         <uc:UserPlansControl DataContext="{Binding}"/>
         <Button x:Name="RefreshBtn" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{x:Bind UserPlansVM.RefreshCommand,Mode=OneWay}" Margin="20" Style="{StaticResource ButtonCommonStyle}" Foreground="White" Background="{x:Null}">
             <Grid Width="50" Height="50">
-                <Ellipse Width="50" Height="50" Fill="{StaticResource GoodDarkColor}"/>
+                <Ellipse Width="50" Height="50" Fill="{StaticResource NormalDarkColor}"/>
                 <SymbolIcon Symbol="Refresh" Foreground="White"/>
             </Grid>
         </Button>
