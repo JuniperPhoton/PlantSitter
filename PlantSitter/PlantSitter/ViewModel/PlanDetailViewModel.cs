@@ -40,6 +40,23 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        private bool _showTableView;
+        public bool ShowTableView
+        {
+            get
+            {
+                return _showTableView;
+            }
+            set
+            {
+                if (_showTableView != value)
+                {
+                    _showTableView = value;
+                    RaisePropertyChanged(() => ShowTableView);
+                }
+            }
+        }
+
         private RelayCommand _deleteCommand;
         public RelayCommand DeleteCommand
         {
@@ -94,6 +111,31 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        private RelayCommand _showTableViewCommand;
+        public RelayCommand ShowTableViewCommand
+        {
+            get
+            {
+                if (_showTableViewCommand != null) return _showTableViewCommand;
+                return _showTableViewCommand = new RelayCommand(() =>
+                  {
+                      ShowTableView = !ShowTableView;
+                  });
+            }
+        }
+
+        private RelayCommand _hideTableViewCommand;
+        public RelayCommand HideTableViewCommand
+        {
+            get
+            {
+                if (_hideTableViewCommand != null) return _hideTableViewCommand;
+                return _hideTableViewCommand = new RelayCommand(() =>
+                  {
+                      ShowTableView = false;
+                  });
+            }
+        }
 
         private RelayCommand _setMainCommand;
         public RelayCommand SetMainCommand
@@ -115,6 +157,18 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        private RelayCommand _tapItemCommand;
+        public RelayCommand TapItemCommand
+        {
+            get
+            {
+                if (_tapItemCommand != null) return _tapItemCommand;
+                return _tapItemCommand = new RelayCommand(() =>
+                  {
+                      ShowTableView = true;
+                  });
+            }
+        }
 
         public PlanDetailViewModel()
         {

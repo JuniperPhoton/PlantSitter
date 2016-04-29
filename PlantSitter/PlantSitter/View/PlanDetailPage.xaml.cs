@@ -9,6 +9,7 @@ using Windows.Foundation;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -27,7 +28,23 @@ namespace PlantSitter.View
         private Visual _topBottomGridVisual;
         private Visual _backgrdVisual;
         private ScrollViewer _mainScrollViewer;
+        private Visual _tableViewGrid;
         private bool _doingAnimation = false;
+
+        public bool ShowTableView
+        {
+            get { return (bool)GetValue(ShowTableViewProperty); }
+            set { SetValue(ShowTableViewProperty, value); }
+        }
+
+        public static readonly DependencyProperty ShowTableViewProperty =
+            DependencyProperty.Register("ShowTableView", typeof(bool), typeof(PlanDetailPage), new PropertyMetadata(false,OnShowTableViewPropertyChanged));
+
+        public static void OnShowTableViewPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
+        {
+            var page = d as PlanDetailPage;
+            page.ShowOrHideTableView((bool)e.NewValue);
+        }
 
         public PlanDetailPage()
         {
@@ -41,11 +58,25 @@ namespace PlantSitter.View
             _topBottomBorderVisual = ElementCompositionPreview.GetElementVisual(TopBottomBorder);
             _topBottomGridVisual = ElementCompositionPreview.GetElementVisual(TopBottomGrid);
             _backgrdVisual = ElementCompositionPreview.GetElementVisual(BackBorder);
+            _tableViewGrid = ElementCompositionPreview.GetElementVisual(TableViewGrid);
 
             _topBottomBorderVisual.Opacity = 0f;
+            _tableViewGrid.Offset = new Vector3(0f, (float)Window.Current.Bounds.Height, 0f);
 
             this.SizeChanged += PlanDetailPage_SizeChanged;
             this.Loaded += PlanDetailPage_Loaded;
+            InitBinding();
+        }
+
+        private void InitBinding()
+        {
+            var b = new Binding()
+            {
+                Source = this.PlanDetailVM,
+                Path = new PropertyPath("ShowTableView"),
+                Mode = BindingMode.TwoWay
+            };
+            this.SetBinding(ShowTableViewProperty, b);
         }
 
         private void PlanDetailPage_Loaded(object sender, RoutedEventArgs e)
@@ -54,6 +85,19 @@ namespace PlantSitter.View
             {
                 _descVisual.Scale = new Vector3(0.7f, 0.7f, 1f);
             }
+        }
+
+        private void ScoreSP_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ScoreDescSP.Margin = new Thickness(20, 0, 20, 20);
+        }
+
+        public void ShowOrHideTableView(bool show)
+        {
+            var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation.InsertKeyFrame(1f,show?0f:(float)Window.Current.Bounds.Height);
+            offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
+            _tableViewGrid.StartAnimation("offset.y", offsetAnimation);
         }
 
         private void PlanDetailPage_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -182,11 +226,6 @@ namespace PlantSitter.View
             theme.DefaultNavigationTransitionInfo = info;
             collection.Add(theme);
             this.Transitions = collection;
-        }
-
-        private void ScoreSP_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            ScoreDescSP.Margin = new Thickness(20, 0, 20, 20);
         }
     }
 }

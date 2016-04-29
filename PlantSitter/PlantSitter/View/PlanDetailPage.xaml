@@ -18,6 +18,7 @@
                      SelectionMode="None"
                      MinItemHeight="150"
                      MinItemWidth="300"
+                     attach:ListViewBaseCommandEx.ItemClickCommand="{x:Bind PlanDetailVM.TapItemCommand,Mode=OneWay}"
                      attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
                      ShowsScrollingPlaceholders="False"
                      >
@@ -142,8 +143,27 @@
                 </cc:AdaptiveGridView.ItemContainerStyle>
             </cc:AdaptiveGridView>
         </Grid>
-        <Border Height="48" VerticalAlignment="Bottom" Background="#CCFFFFFF"/>
-        <Grid x:Name="TableView" d:IsHidden="False"  Background="White" Margin="0,250,0,0">
+        <CommandBar Opacity="1" Grid.Row="1" VerticalAlignment="Bottom" Grid.RowSpan="2" Foreground="Black" Background="#FFD7D7D7">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Command="{x:Bind PlanDetailVM.DeleteCommand,Mode=OneWay}" Icon="Delete" Label="删除该计划"/>
+            </CommandBar.SecondaryCommands>
+            <AppBarButton Command="{x:Bind PlanDetailVM.RefreshCommand,Mode=OneWay}" Icon="Refresh" Label="刷新"/>
+            <AppBarButton Command="{x:Bind PlanDetailVM.SetMainCommand,Mode=OneWay}" Label="设置为照看中">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE734;"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+        <Grid x:Name="TableViewGrid" d:IsHidden="False" Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Background="#F2E7E7E7" Grid.RowSpan="29"/>
+            <TextBlock Text="历史数据" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="26.667" Margin="10,0,0,0" FontFamily="Segoe UI Light"/>
+            <Button Command="{x:Bind PlanDetailVM.HideTableViewCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle2}" Background="{x:Null}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Stretch" Width="80">
+                <SymbolIcon Symbol="Cancel"/>
+            </Button>
             <cc:AdaptiveGridView
                      x:Name="TableGridView"
                      IsItemClickEnabled="True"
@@ -151,7 +171,7 @@
                      MinItemHeight="150"
                      MinItemWidth="300"
                      attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
-                     ShowsScrollingPlaceholders="False"
+                     ShowsScrollingPlaceholders="False" Grid.Row="1"
                      >
                 <cc:AdaptiveGridView.FooterTemplate>
                     <DataTemplate>
@@ -226,17 +246,5 @@
                 </cc:AdaptiveGridView.ItemContainerStyle>
             </cc:AdaptiveGridView>
         </Grid>
-        <CommandBar Opacity="1" Grid.Row="1" VerticalAlignment="Bottom" Grid.RowSpan="2" Foreground="Black" Background="{x:Null}">
-            <CommandBar.SecondaryCommands>
-                <AppBarButton Command="{x:Bind PlanDetailVM.DeleteCommand,Mode=OneWay}" Icon="Delete" Label="删除该计划"/>
-            </CommandBar.SecondaryCommands>
-            <AppBarButton Icon="Switch" Label="切换视图"/>
-            <AppBarButton Command="{x:Bind PlanDetailVM.RefreshCommand,Mode=OneWay}" Icon="Refresh" Label="刷新"/>
-            <AppBarButton Command="{x:Bind PlanDetailVM.SetMainCommand,Mode=OneWay}" Label="设置为照看中">
-                <AppBarButton.Icon>
-                    <FontIcon Glyph="&#xE734;"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
-        </CommandBar>
     </Grid>
 </common:BasePage>

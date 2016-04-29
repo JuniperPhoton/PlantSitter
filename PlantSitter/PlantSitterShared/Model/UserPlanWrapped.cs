@@ -183,6 +183,9 @@ namespace PlantSitterShared.Model
         public UserPlanWrapped(UserPlan plan)
         {
             this.CurrentPlan = plan;
+
+            var random = new Random((int)DateTime.Now.Ticks);
+            this.ScoreValue = random.Next(1, 100);
         }
 
         public async Task FetchAndUpdateScore()
@@ -221,16 +224,29 @@ namespace PlantSitterShared.Model
             }
         }
 
-        /// <summary>
-        /// 通过最新的数据计算分数
-        /// </summary>
+        /* <summary>
+                一个例子：
+
+        植物A：
+	        - 喜阳植物（100-20000lux）
+	        - 环境温度（25~30摄氏度）
+	        - 土壤湿度（1~1）
+	        - 环境湿度（60~80%）
+
+        当前记录的数据：
+	        - 光照强度200lux
+	        - 温度20摄氏度
+	        - 土壤湿度为1
+	        - 环境湿度70%
+
+        */
         private void CalculateScoreAndUpdate()
         {
-            var lastRecord = CurrentPlan.RecordData.Last();
-            var score = 0;
+            //var lastRecord = CurrentPlan.RecordData.Last();
+            //var score = 0;
 
             //var lightRange = GetLightRange();
-            //var light
+            //var
         }
 
         private Vector2 GetLightRange()
