@@ -141,23 +141,21 @@ do {
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':number', intval($filter_value), PDO::PARAM_INT);
                 } else if ($filter_kind == 'byMonths') {
-                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime');
+                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime ORDER BY tid DESC');
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':endTime', $endTime, PDO::PARAM_STR);
                     $getQuery->bindParam(':startTime', date('Y-m-d h:i:s', strtotime('-'.$filter_value.' months')), PDO::PARAM_STR);
                 } else if ($filter_kind == 'byYears') {
-                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime');
+                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime ORDER BY tid DESC');
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':endTime', $endTime, PDO::PARAM_STR);
                     $getQuery->bindParam(':startTime', date('Y-m-d h:i:s', strtotime('-'.$filter_value.' years')), PDO::PARAM_STR);
                 } else if ($filter_kind == 'byDays') {
-
-                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime');
+                    $getQuery = $pdo->prepare('SELECT * FROM user_plant_timeline WHERE gid=:gid AND time between :startTime and :endTime ORDER BY tid DESC');
                     $getQuery->bindParam(':gid', $gid, PDO::PARAM_INT);
                     $getQuery->bindParam(':endTime', $endTime, PDO::PARAM_STR);
                     $getQuery->bindParam(':startTime', date('Y-m-d h:i:s', strtotime('-'.$filter_value.' days')), PDO::PARAM_STR);
                 } else if ($filter_kind == 'betweenDates') {
-
                     $dateRange = $filter_value;
                     $dates = explode('~', $dateRange);
                     $startDate = $dates[0];
@@ -187,6 +185,7 @@ do {
                 $ApiResult['error_code'] = 0;
                 $ApiResult['error_message'] = '';
                 $ApiResult['Record'] = $resultGet;
+                $ApiResult["Msg"]=$endTime.' '.date('Y-m-d h:i:s', strtotime('-'.$filter_value.' days'));
                 break;
             }
             break;

@@ -22,6 +22,7 @@ namespace PlantSitter.Common
                 var bitmap = new BitmapImage();
                 await bitmap.SetSourceAsync(fs);
                 plant.ImgBitmap = bitmap;
+                plant.CacheFilePath = file.Path;
             }
         }
     }

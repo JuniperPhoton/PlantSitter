@@ -201,6 +201,7 @@ namespace PlantSitterShared.Model
             var uid = JsonParser.GetStringFromJsonObj(item, "uid");
             var gid = JsonParser.GetStringFromJsonObj(item, "gid");
             var soil_moisture = JsonParser.GetStringFromJsonObj(item, "soil_moisture");
+            var envi_moisture = JsonParser.GetStringFromJsonObj(item, "envi_moisture");
             var envi_temp = JsonParser.GetStringFromJsonObj(item, "envi_temp");
             var light = JsonParser.GetStringFromJsonObj(item, "light");
             var time = JsonParser.GetStringFromJsonObj(item, "time");
@@ -215,6 +216,7 @@ namespace PlantSitterShared.Model
                     Gid = int.Parse(gid),
                     SoilMoisture = double.Parse(soil_moisture),
                     EnviTemp = double.Parse(envi_temp),
+                    EnviMoisture=double.Parse(envi_moisture),
                     Light = double.Parse(light),
                     RecordTime = DateTime.Parse(time)
                 };

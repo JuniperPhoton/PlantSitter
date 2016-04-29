@@ -114,6 +114,7 @@
     <Compile Include="API\UrlHelper.cs" />
     <Compile Include="Cache\CacheUtil.cs" />
     <Compile Include="Common\AppSettings.cs" />
+    <Compile Include="Common\LiveTileUpdater.cs" />
     <Compile Include="Common\MessengerToken.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\EnviMoistureValueConverter.cs" />

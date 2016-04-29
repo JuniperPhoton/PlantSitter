@@ -116,6 +116,8 @@ namespace PlantSitter.ViewModel
 
         public bool IsFirstActived { get; set; } = true;
 
+        private int _mainGid = -1;
+
         public UserPlansViewModel(PlantSitterUser user)
         {
             this.CurrentUser = user;
@@ -147,14 +149,13 @@ namespace PlantSitter.ViewModel
                 plans.Add(new UserPlanWrapped(plan));
             }
 
-            int mainGid = -1;
             var mainGidResult = await CloudService.GetMainPlan(CTSFactory.MakeCTS().Token);
             if(mainGidResult.IsSuccessful)
             {
                 var jsonObj = JsonObject.Parse(mainGidResult.JsonSrc);
                 var gidObj = jsonObj["Gid"];
                 var gid = JsonParser.GetStringFromJsonObj(gidObj, "main_plan_id");
-                int.TryParse(gid, out mainGid);
+                int.TryParse(gid, out _mainGid);
             }
 
             this.CurrentUserPlans = plans;
@@ -169,12 +170,18 @@ namespace PlantSitter.ViewModel
 
             foreach (var plan in CurrentUserPlans)
             {
-                var task = DownloadImageHelper.DownloadImage(plan.CurrentPlan.CurrentPlant);
-                var task2 = plan.FetchAndUpdateScore();
-                if(mainGid!=-1 && plan.CurrentPlan.Gid==mainGid)
-                {
-                    plan.IsMain = true;
-                }
+                var task = DownloadImageAndUpdateScore(plan);
+            }
+        }
+
+        private async Task DownloadImageAndUpdateScore(UserPlanWrapped plan)
+        {
+            await DownloadImageHelper.DownloadImage(plan.CurrentPlan.CurrentPlant);
+            await plan.FetchRecordGetScoreAsync();
+            if (_mainGid != -1 && plan.CurrentPlan.Gid == _mainGid)
+            {
+                plan.IsMain = true;
+                plan.UpdateTile();
             }
         }
 

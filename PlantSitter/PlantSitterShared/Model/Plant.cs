@@ -175,6 +175,8 @@ namespace PlantSitterShared.Model
 
         public string ImageUrl { get; set; }
 
+        public string CacheFilePath { get; set; }
+
         private RelayCommand _selectCommand;
         public RelayCommand SelectCommand
         {

@@ -106,7 +106,6 @@
     <Compile Include="Common\PlantSitterSettings.cs" />
     <Compile Include="Common\StatusBarHelper.cs" />
     <Compile Include="Common\TitleBarHelper.cs" />
-    <Compile Include="LiveTile\LiveTileUpdater.cs" />
     <Compile Include="Notification\NotificationUpdater.cs" />
     <Compile Include="UC\AddingPlanControl.xaml.cs">
       <DependentUpon>AddingPlanControl.xaml</DependentUpon>

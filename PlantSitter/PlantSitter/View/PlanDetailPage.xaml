@@ -46,6 +46,7 @@
                                     <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreValue,Mode=OneWay,FallbackValue=70}" HorizontalAlignment="Right" FontSize="66.667" VerticalAlignment="Bottom" Foreground="White" FontFamily="Agency FB"/>
                                     <TextBlock Text="分" FontSize="25" Foreground="White" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
                                 </StackPanel>
+                                <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LastRecordTime,Mode=OneWay}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2"/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -68,11 +69,11 @@
                             <RowDefinition x:Name="Row0"/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="土壤" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <TextBlock Text="湿润" Opacity="0.5" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.SMStatusSumUp,Mode=OneWay}" Opacity="0.5" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
                         <Image Source="ms-appx:///Assets/Icon/pic_soild.png" Margin="5,5,5,10" Grid.Row="1"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
-                            <TextBlock Text="有水" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
-                            <TextBlock Text="请保持土壤湿润" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.SMStauts,Mode=OneWay}" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.SMAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid Background="{StaticResource PlantSitterEnviMoistureColor}">
@@ -85,11 +86,11 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="温度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <TextBlock Text="适宜" Opacity="0.5" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.TempSumUp,Mode=OneWay}" Opacity="0.5" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
                         <Image Source="ms-appx:///Assets/Icon/pic_temp.png" Margin="5,5,5,10" Grid.Row="1"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
-                            <TextBlock Text="23℃" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
-                            <TextBlock Text="适宜的环境温度23~30摄氏度" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.TempValue,Mode=OneWay}" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.TempAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid Background="{StaticResource PlantSitterLightColor}">
@@ -102,11 +103,11 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="光线" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <TextBlock Text="充足" Opacity="1" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LightSumUp,Mode=OneWay}" Opacity="1" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
                         <Image Source="ms-appx:///Assets/Icon/pic_light.png" Margin="5,5,5,10" Grid.Row="1"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
-                            <TextBlock Text="550 Lux" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
-                            <TextBlock Text="喜阳植物光线可以强一点" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LightValue,Mode=OneWay}" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LightAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                     <Grid Background="{StaticResource PlantSitterEnviTempColor}">
@@ -119,11 +120,11 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="湿度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <TextBlock Text="适宜" Opacity="1" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
+                        <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureSumUp,Mode=OneWay}" Opacity="1" FontSize="25" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,10,0" Grid.ColumnSpan="2"/>
                         <Image Source="ms-appx:///Assets/Icon/pic_wet.png" Margin="5,5,5,10" Grid.Row="1"/>
                         <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10">
-                            <TextBlock Text="78%" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
-                            <TextBlock Text="相对湿度适合在 50~70% 之间" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureValue,Mode=OneWay}" Foreground="White" FontSize="25" HorizontalAlignment="Right"/>
+                            <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
                 </cc:AdaptiveGridView.Items>
@@ -154,7 +155,7 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
-        <Grid x:Name="TableViewGrid" d:IsHidden="False" Margin="0">
+        <Grid x:Name="TableViewGrid" d:IsHidden="True" Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition/>
@@ -246,5 +247,6 @@
                 </cc:AdaptiveGridView.ItemContainerStyle>
             </cc:AdaptiveGridView>
         </Grid>
+        <ProgressBar Visibility="{x:Bind PlanDetailVM.ShowLoading,Mode=OneWay}" Foreground="White" IsIndeterminate="True" VerticalAlignment="Top" Margin="0,5,0,0"/>
     </Grid>
 </common:BasePage>

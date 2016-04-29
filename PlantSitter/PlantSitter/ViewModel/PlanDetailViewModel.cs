@@ -57,6 +57,23 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        private Visibility _showLoading;
+        public Visibility ShowLoading
+        {
+            get
+            {
+                return _showLoading;
+            }
+            set
+            {
+                if (_showLoading != value)
+                {
+                    _showLoading = value;
+                    RaisePropertyChanged(() => ShowLoading);
+                }
+            }
+        }
+
         private RelayCommand _deleteCommand;
         public RelayCommand DeleteCommand
         {
@@ -83,9 +100,9 @@ namespace PlantSitter.ViewModel
             get
             {
                 if (_refreshCommand != null) return _refreshCommand;
-                return _refreshCommand = new RelayCommand(() =>
+                return _refreshCommand = new RelayCommand(async() =>
                   {
-
+                      await Refresh();
                   });
             }
         }
@@ -148,6 +165,7 @@ namespace PlantSitter.ViewModel
                       DialogService ds = new DialogService(DialogKind.PlainText, "注意", "确实要设置为照看中吗？");
                       ds.OnLeftBtnClick += async (s) =>
                       {
+                          this.CurrentPlanWrapped.IsMain = true;
                           App.VMLocator.UsersPlansVM.SetMain(this.CurrentPlanWrapped);
                           var result = await CloudService.SetMainPlan(CurrentPlanWrapped.CurrentPlan.Gid, CTSFactory.MakeCTS().Token);
                           ToastService.SendToast("设置成功 :-P");
@@ -170,9 +188,32 @@ namespace PlantSitter.ViewModel
             }
         }
 
+        private DispatcherTimer _timer;
+
         public PlanDetailViewModel()
         {
+            ShowLoading = Visibility.Collapsed;
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromMinutes(15);
+            _timer.Tick += _timer_Tick;
+            _timer.Start();
+        }
 
+        private async void _timer_Tick(object sender, object e)
+        {
+            await Refresh();
+        }
+
+        private async Task Refresh()
+        {
+            ShowLoading = Visibility.Visible;
+            await CurrentPlanWrapped.FetchRecordGetScoreAsync();
+            if(CurrentPlanWrapped.IsMain)
+            {
+                CurrentPlanWrapped.UpdateTile();
+            }
+            await Task.Delay(1000);
+            ShowLoading = Visibility.Collapsed;
         }
 
         public void Activate(object param)
@@ -182,7 +223,7 @@ namespace PlantSitter.ViewModel
 
         public void Deactivate(object param)
         {
-
+            _timer?.Stop();
         }
 
         public void OnLoaded()

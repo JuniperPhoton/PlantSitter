@@ -29,6 +29,7 @@ namespace PlantSitter.View
         private Visual _backgrdVisual;
         private ScrollViewer _mainScrollViewer;
         private Visual _tableViewGrid;
+
         private bool _doingAnimation = false;
 
         public bool ShowTableView
@@ -109,6 +110,8 @@ namespace PlantSitter.View
             var centralNameX = (float)RootGrid.ActualWidth / 2 - (float)NameTB.ActualWidth / 2;
             var centralAvatarX = (float)RootGrid.ActualWidth / 2 - (float)AvatarGrid.ActualWidth / 2;
             var centralDescX = (float)RootGrid.ActualWidth / 2 - (float)ScoreDescTB.ActualWidth / 2;
+
+            if (!ShowTableView) _tableViewGrid.Offset = new Vector3(0f, (float)Window.Current.Bounds.Height, 0f);
 
             Debug.WriteLine(centralNameX);
 
