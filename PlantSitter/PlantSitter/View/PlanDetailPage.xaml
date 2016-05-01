@@ -7,6 +7,7 @@
     xmlns:common="using:PlantSitter.Common"
     xmlns:attach="using:JP.Utils.Framework"
     xmlns:uc="using:PlantSitter.UC"
+    xmlns:canvas="using:Microsoft.Graphics.Canvas.UI.Xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Background="{StaticResource PlantSitterThemeLightColor}">
@@ -59,7 +60,7 @@
                     </DataTemplate>
                 </cc:AdaptiveGridView.FooterTemplate>
                 <cc:AdaptiveGridView.Items>
-                    <Grid Background="{StaticResource PlantSitterSoilMoistureColor}">
+                    <Grid Tag="0" Background="{StaticResource PlantSitterSoilMoistureColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -76,7 +77,7 @@
                             <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.SMAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
-                    <Grid Background="{StaticResource PlantSitterEnviMoistureColor}">
+                    <Grid Tag="1" Background="{StaticResource PlantSitterEnviMoistureColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -93,7 +94,7 @@
                             <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.TempAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
-                    <Grid Background="{StaticResource PlantSitterLightColor}">
+                    <Grid Tag="2" Background="{StaticResource PlantSitterLightColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -110,7 +111,7 @@
                             <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LightAdv,Mode=OneWay}" Opacity="0.5" Foreground="White" FontSize="15" Margin="0,5,0,0"/>
                         </StackPanel>
                     </Grid>
-                    <Grid Background="{StaticResource PlantSitterEnviTempColor}">
+                    <Grid Tag="3" Background="{StaticResource PlantSitterEnviTempColor}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
@@ -155,97 +156,37 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
-        <Grid x:Name="TableViewGrid" d:IsHidden="False" Margin="0">
+        <Grid x:Name="TableViewGrid" d:IsHidden="True" Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border Background="#F2E7E7E7" Grid.RowSpan="29"/>
-            <TextBlock Text="历史数据" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="26.667" Margin="10,0,0,0" FontFamily="Segoe UI Light"/>
+            <Border Grid.RowSpan="29" Background="{StaticResource PlantSitterLightLightGreyColor}"/>
+            <Grid MaxWidth="800">
+                <TextBlock Text="历史数据" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="26.667" Margin="10,0,0,0" FontFamily="Segoe UI Light"/>
+                <ProgressBar Visibility="{x:Bind PlanDetailVM.ShowLoadingTable,Mode=OneWay}" IsIndeterminate="True" Foreground="{StaticResource PlantSitterThemeLightColor}" VerticalAlignment="Bottom"/>
+            </Grid>
             <Button Command="{x:Bind PlanDetailVM.HideTableViewCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle2}" Background="{x:Null}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Stretch" Width="80">
                 <SymbolIcon Symbol="Cancel"/>
             </Button>
-            <cc:AdaptiveGridView
-                     x:Name="TableGridView"
-                     IsItemClickEnabled="True"
-                     SelectionMode="None"
-                     MinItemHeight="150"
-                     MinItemWidth="300"
-                     attach:ScrollViewerStyleChanger.Style="{StaticResource ScrollViewerCommonStyle}"
-                     ShowsScrollingPlaceholders="False" Grid.Row="1"
-                     >
-                <cc:AdaptiveGridView.FooterTemplate>
-                    <DataTemplate>
-                        <Grid Height="50">
-
-                        </Grid>
-                    </DataTemplate>
-                </cc:AdaptiveGridView.FooterTemplate>
-                <cc:AdaptiveGridView.Items>
-                    <Grid Background="{StaticResource PlantSitterSoilMoistureColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="土壤" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.SoilTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
-                    </Grid>
-                    <Grid Background="{StaticResource PlantSitterEnviMoistureColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="温度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.TempTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
-                    </Grid>
-                    <Grid Background="{StaticResource PlantSitterLightColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="光线" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.LightTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
-                    </Grid>
-                    <Grid Background="{StaticResource PlantSitterEnviTempColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="湿度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
-                    </Grid>
-                </cc:AdaptiveGridView.Items>
-                <cc:AdaptiveGridView.ItemContainerStyle>
-                    <Style TargetType="GridViewItem">
-                        <Setter Property="HorizontalContentAlignment"
-                            Value="Stretch" />
-                        <Setter Property="HorizontalAlignment"
-                            Value="Stretch" />
-                        <Setter Property="VerticalContentAlignment"
-                            Value="Stretch" />
-                        <Setter Property="VerticalAlignment"
-                            Value="Stretch" />
-                        <Setter Property="Margin"
-                            Value="2" />
-                    </Style>
-                </cc:AdaptiveGridView.ItemContainerStyle>
-            </cc:AdaptiveGridView>
+            <Grid x:Name="TableGrid" MaxWidth="800" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{x:Bind PlanDetailVM.TableName,Mode=OneWay}" Opacity="0.5" FontSize="20" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                    <uc:DataTableControl
+                            x:Name="TableControl"
+                            Margin="30"
+                            TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureTableData,Mode=OneWay}"
+                            />
+                </Grid>
+            </Grid>
         </Grid>
         <ProgressBar Visibility="{x:Bind PlanDetailVM.ShowLoading,Mode=OneWay}" Foreground="White" IsIndeterminate="True" VerticalAlignment="Top" Margin="0,5,0,0"/>
     </Grid>

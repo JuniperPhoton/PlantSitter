@@ -114,6 +114,8 @@ namespace PlantSitter.ViewModel
             }
         }
 
+
+
         private bool _isLoading;
         public bool IsLoading
         {

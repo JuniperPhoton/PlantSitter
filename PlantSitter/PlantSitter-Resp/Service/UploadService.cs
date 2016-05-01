@@ -20,7 +20,7 @@ namespace PlantSitter.Service
         public UploadService()
         {
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMinutes(1);
+            _timer.Interval = GetTimeInMillisecondFromSettings();
             _timer.Tick += _timer_Tick;
             _timer.Start();
         }

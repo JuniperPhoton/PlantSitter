@@ -7,10 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    VerticalAlignment="Stretch"
+    HorizontalAlignment="Stretch"
     d:DesignHeight="300"
     d:DesignWidth="400">
-
-    <Grid>
-        <canvas:CanvasControl x:Name="CanvasControl" Draw="CanvasControl_Draw"/>
-    </Grid>
+    <canvas:CanvasControl x:Name="CanvasControl" CreateResources="CanvasControl_CreateResources" Draw="CanvasControl_Draw"/>
 </UserControl>

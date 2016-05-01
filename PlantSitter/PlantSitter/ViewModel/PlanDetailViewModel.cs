@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace PlantSitter.ViewModel
 {
@@ -129,16 +130,20 @@ namespace PlantSitter.ViewModel
             }
         }
 
-        private RelayCommand _showTableViewCommand;
-        public RelayCommand ShowTableViewCommand
+        private Visibility _showLoadingTable;
+        public Visibility ShowLoadingTable
         {
             get
             {
-                if (_showTableViewCommand != null) return _showTableViewCommand;
-                return _showTableViewCommand = new RelayCommand(() =>
-                  {
-                      ShowTableView = !ShowTableView;
-                  });
+                return _showLoadingTable;
+            }
+            set
+            {
+                if (_showLoadingTable != value)
+                {
+                    _showLoadingTable = value;
+                    RaisePropertyChanged(() => ShowLoadingTable);
+                }
             }
         }
 
@@ -176,19 +181,37 @@ namespace PlantSitter.ViewModel
             }
         }
 
-        private RelayCommand _tapItemCommand;
-        public RelayCommand TapItemCommand
+        private RelayCommand<object> _tapItemCommand;
+        public RelayCommand<object> TapItemCommand
         {
             get
             {
                 if (_tapItemCommand != null) return _tapItemCommand;
-                return _tapItemCommand = new RelayCommand(async() =>
+                return _tapItemCommand = new RelayCommand<object>((o) =>
                   {
+                      UpdateTableName(int.Parse(((Grid)o).Tag.ToString()));
                       ShowTableView = true;
-                      await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.DayOf5);
                   });
             }
         }
+
+        private string _tableName;
+        public string TableName
+        {
+            get
+            {
+                return _tableName;
+            }
+            set
+            {
+                if (_tableName != value)
+                {
+                    _tableName = value;
+                    RaisePropertyChanged(() => TableName);
+                }
+            }
+        }
+
 
         private DispatcherTimer _timer;
 
@@ -199,6 +222,30 @@ namespace PlantSitter.ViewModel
             _timer.Interval = TimeSpan.FromMinutes(15);
             _timer.Tick += _timer_Tick;
             _timer.Start();
+            ShowLoadingTable = Visibility.Collapsed;
+        }
+
+        private void UpdateTableName(int tag)
+        {
+            switch (tag)
+            {
+                case 0:
+                    {
+                        TableName = "土壤湿度";
+                    }; break;
+                case 1:
+                    {
+                        TableName = "温度";
+                    }; break;
+                case 2:
+                    {
+                        TableName = "光线强度";
+                    }; break;
+                case 3:
+                    {
+                        TableName = "湿度";
+                    }; break;
+            }
         }
 
         private async void _timer_Tick(object sender, object e)
@@ -214,13 +261,22 @@ namespace PlantSitter.ViewModel
             {
                 LiveTileUpdater.UpdateTile(CurrentPlanWrapped.CurrentPlan);
             }
-            await Task.Delay(1000);
+            await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.DayOf5);
+            await UpdateTable();
             ShowLoading = Visibility.Collapsed;
         }
 
-        public void Activate(object param)
+        private async Task UpdateTable()
+        {
+            ShowLoadingTable = Visibility.Visible;
+            await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.DayOf5);
+            ShowLoadingTable = Visibility.Collapsed;
+        }
+
+        public async void Activate(object param)
         {
             this.CurrentPlanWrapped = param as UserPlanWrapped;
+            await UpdateTable();
         }
 
         public void Deactivate(object param)

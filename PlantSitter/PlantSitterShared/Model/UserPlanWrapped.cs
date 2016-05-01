@@ -530,8 +530,20 @@ namespace PlantSitterShared.Model
                 var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byMonths", "5", CTSFactory.MakeCTS().Token);
                 data = PlantTimeline.ParseToList(records.JsonSrc);
             }
+            
+            MoistureTableData = new TableGraphics(FilterTimeLineData(data),RecordDataKind.Light);
+        }
 
-            MoistureTableData = new TableGraphics(data, RecordDataKind.EnviMoisture);
+        private IEnumerable<PlantTimeline> FilterTimeLineData(IEnumerable<PlantTimeline> original)
+        {
+            var list = new List<PlantTimeline>();
+            var maxCount = original.Count() > 10 ? 10 : original.Count();
+            for(int i=0;i< maxCount; i++)
+            {
+                var item = original.ElementAt(i);
+                list.Add(item);
+            }
+            return list;
         }
 
         private void UpdateCardStatus()

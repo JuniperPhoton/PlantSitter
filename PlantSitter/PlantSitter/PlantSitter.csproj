@@ -178,11 +178,15 @@
     <Content Include="Assets\Backgrd\Background.jpg" />
     <Content Include="Assets\Backgrd\pic_detailbg.png" />
     <Content Include="Assets\Backgrd\pic_navigabg.png" />
+    <Content Include="Assets\Backgrd\web.png" />
     <Content Include="Assets\Icon\icon_bubble.png" />
     <Content Include="Assets\Icon\icon_chooseCloud.png" />
     <Content Include="Assets\Icon\icon_chooseSun.png" />
     <Content Include="Assets\Icon\icon_cloud.png" />
+    <Content Include="Assets\Icon\icon_introduction.png" />
     <Content Include="Assets\Icon\icon_sun.png" />
+    <Content Include="Assets\Icon\icon_tempreture.png" />
+    <Content Include="Assets\Icon\icon_wet.png" />
     <Content Include="Assets\Icon\Logo.png" />
     <Content Include="Assets\Icon\Logo500.png" />
     <Content Include="Assets\Icon\LogoTran.png" />

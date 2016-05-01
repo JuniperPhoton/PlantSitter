@@ -28,15 +28,24 @@
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
-                <TextBlock Text="简介" Margin="10" FontWeight="Normal" FontSize="15" SelectionChanged="TextBlock_SelectionChanged"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="ms-appx:///Assets/Icon/icon_introduction.png" Width="30" Margin="10,0,0,0"/>
+                    <TextBlock Text="简介" Margin="10" FontWeight="Normal" FontSize="15" SelectionChanged="TextBlock_SelectionChanged"/>
+                </StackPanel>
                 <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource PlantSitterLightLightGreyColor}">
                     <TextBlock Text="{Binding Desc,Mode=OneWay}" TextWrapping="Wrap" Margin="5"/>
                 </Border>
-                <TextBlock Text="适宜温度/℃" Margin="10" FontWeight="Normal" FontSize="15"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="ms-appx:///Assets/Icon/icon_tempreture.png" Width="30" Margin="10,0,0,0"/>
+                    <TextBlock Text="适宜温度/℃" Margin="10" FontWeight="Normal" FontSize="15"/>
+                </StackPanel>
                 <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource PlantSitterLightLightGreyColor}">
                     <TextBlock FontSize="30" Text="{Binding TempRangeStr,Mode=OneWay}" Margin="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PlantSitterPurpleColor}"/>
                 </Border>
-                <TextBlock Text="适宜空气相对湿度/%" Margin="10" FontWeight="Normal" FontSize="15"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="ms-appx:///Assets/Icon/icon_wet.png" Width="30" Margin="10,0,0,0"/>
+                    <TextBlock Text="适宜空气相对湿度/%" Margin="10" FontWeight="Normal" FontSize="15"/>
+                </StackPanel>
                 <Border BorderThickness="1" Margin="10" BorderBrush="{StaticResource PlantSitterLightLightGreyColor}">
                     <TextBlock FontSize="30" Text="{Binding MoistureRangeStr,Mode=OneWay}" Margin="30" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource PlantSitterBlueColor}"/>
                 </Border>
