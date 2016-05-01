@@ -21,6 +21,7 @@ namespace PlantSitterResp.View
 
         private Compositor _compositor;
         private Visual _loginVisual;
+        private Visual _dashboardVisual;
 
         public bool ShowLoginControl
         {
@@ -60,6 +61,7 @@ namespace PlantSitterResp.View
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _loginVisual = ElementCompositionPreview.GetElementVisual(LoginControl);
+            _dashboardVisual = ElementCompositionPreview.GetElementVisual(DashboardControl);
             _loginVisual.Offset = new Vector3(150f, 0f, 0f);
             _loginVisual.Opacity = 0f;
         }

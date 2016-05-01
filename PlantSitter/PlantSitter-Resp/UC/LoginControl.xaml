@@ -8,15 +8,18 @@
     mc:Ignorable="d"
     d:DesignHeight="720"
     d:DesignWidth="1280">
-    <Grid Background="{StaticResource PlantSitterThemeColor}">
+    <Grid Background="#FFEEEEEE">
         <StackPanel MaxWidth="400" VerticalAlignment="Center" Margin="0 0 0 100">
-            <Image Width="150" Source="ms-appx:///Assets/Backgrd/Logo500.png"/>
-            <TextBlock Text="您好，请登录" FontSize="20" Foreground="White" HorizontalAlignment="Center" Margin="0,30,0,0"/>
-            <Border Margin="0 20 0 0 " BorderThickness="1" BorderBrush="White">
-                <TextBox Text="{Binding Email,Mode=TwoWay}" IsSpellCheckEnabled="False" PlaceholderText="请输入登录邮箱" Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="White" BorderThickness="0" Style="{StaticResource TextBoxWithWhitePlaceHoderStyle}"/>
+            <Grid>
+                <Ellipse Width="200" Height="200" Fill="{StaticResource PlantSitterThemeColor}"/>
+                <Image Width="170" Source="ms-appx:///Assets/Backgrd/Logo500_tran.png"/>
+            </Grid>
+            <TextBlock Text="您好，请登录" FontSize="20" Foreground="Black" HorizontalAlignment="Center" Margin="0,30,0,0"/>
+            <Border Margin="0 20 0 0 " BorderThickness="1" BorderBrush="{StaticResource PlantSitterThemeDarkColor}">
+                <TextBox Text="{Binding Email,Mode=TwoWay}" IsSpellCheckEnabled="False" PlaceholderText="请输入登录邮箱" Background="{x:Null}" BorderBrush="{x:Null}"  Foreground="Black" BorderThickness="0"/>
             </Border>
-            <Border Margin="0 20 0 0 " BorderThickness="1" BorderBrush="White">
-                <PasswordBox Password="{Binding Password,Mode=TwoWay}" PlaceholderText="请输入密码" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" BorderThickness="0" Style="{StaticResource PasswordBoxWithWhitePlaceHolderStyle}"/>
+            <Border Margin="0 20 0 0 " BorderThickness="1" BorderBrush="{StaticResource PlantSitterThemeDarkColor}">
+                <PasswordBox Password="{Binding Password,Mode=TwoWay}" PlaceholderText="请输入密码" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Black" BorderThickness="0" />
             </Border>
             <Button Command="{Binding ConfirmActionCommand,Mode=OneWay}" Style="{StaticResource ButtonCommonStyle}" Margin="0,20,0,0" HorizontalAlignment="Stretch">
                 <Border Background="{StaticResource PlantSitterThemeDarkColor}">
@@ -24,7 +27,7 @@
                 </Border>
             </Button>
         </StackPanel>
-        <Grid Grid.RowSpan="5" Visibility="{Binding ShowLoading,Mode=OneWay}">
+        <Grid Grid.RowSpan="5" d:IsHidden="true"  Visibility="{Binding ShowLoading,Mode=OneWay}">
             <Border Background="#AB000000"/>
             <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ProgressRing IsActive="True" Width="40" Height="40" Margin="10" Foreground="White"/>

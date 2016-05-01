@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using JP.Utils.Data.Json;
 using JP.Utils.UI;
 using PlantSitterShared.API;
 using PlantSitterShared.Common;
@@ -6,6 +7,7 @@ using System;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -625,6 +627,20 @@ namespace PlantSitterShared.Model
                 return new Vector2(100, 20000);
             }
             else return new Vector2(1, 10000);
+        }
+
+        public static async Task<int> GetMainGIDAsync()
+        {
+            int mainGid = -1;
+            var mainGidResult = await CloudService.GetMainPlan(CTSFactory.MakeCTS().Token);
+            if (mainGidResult.IsSuccessful)
+            {
+                var jsonObj = JsonObject.Parse(mainGidResult.JsonSrc);
+                var gidObj = jsonObj["Gid"];
+                var gid = JsonParser.GetStringFromJsonObj(gidObj, "main_plan_id");
+                int.TryParse(gid, out mainGid);
+            }
+            return mainGid;
         }
     }
 }

@@ -21,76 +21,35 @@ namespace PlantSitterResp.UC
     public sealed partial class DashboardControl : UserControl
     {
         private Compositor _compositor;
+        private Visual _triVisual;
 
         public DashboardControl()
         {
             this.InitializeComponent();
-            this.Loaded += DashboardControl_Loaded;
-        }
-
-        private void DashboardControl_Loaded(object sender, RoutedEventArgs e)
-        {
             this._compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
+            this._triVisual = ElementCompositionPreview.GetElementVisual(SelectedTriImage);
+            this._triVisual.Opacity = 0;
+
+            this.SizeChanged += DashboardControl_SizeChanged;
         }
 
-        private void GridView_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        private void DashboardControl_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            int index = args.ItemIndex;
-            var root = args.ItemContainer.ContentTemplateRoot as UserControl;
-            // Don't run an entrance animation if we're in recycling
-            if (!args.InRecycleQueue)
-            {
-                args.ItemContainer.Loaded -= ItemContainer_Loaded;
-                args.ItemContainer.Loaded += ItemContainer_Loaded;
-            }
+            UpdateSelectedImagePos();
         }
 
-        private void ItemContainer_Unloaded(object sender, RoutedEventArgs e)
+        private void PlansGirdView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var itemsPanel = (ItemsWrapGrid)PlansGirdView.ItemsPanelRoot;
-            var itemContainer = (GridViewItem)sender;
-            var itemVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
-            var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            fadeAnimation.Duration = TimeSpan.FromMilliseconds(500);
-            fadeAnimation.InsertKeyFrame(1f, 0f);
-            itemVisual.StartAnimation("Opacity", fadeAnimation);
+            UpdateSelectedImagePos();
         }
 
-        private void ItemContainer_Loaded(object sender, RoutedEventArgs e)
+        private void UpdateSelectedImagePos()
         {
-            var itemsPanel = (ItemsWrapGrid)PlansGirdView.ItemsPanelRoot;
-            var itemContainer = (GridViewItem)sender;
-            var itemIndex = PlansGirdView.IndexFromContainer(itemContainer);
-
-            var uc = itemContainer.ContentTemplateRoot as UIElement;
-
-            // Don't animate if we're not in the visible viewport
-            if (itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
-            {
-                var itemVisual = ElementCompositionPreview.GetElementVisual(itemContainer);
-
-                float width = (float)uc.RenderSize.Width;
-                float height = (float)uc.RenderSize.Height;
-                itemVisual.CenterPoint = new Vector3(width / 2, height / 2, 0f);
-                itemVisual.Opacity = 0f;
-                itemVisual.Offset = new Vector3(50, 0, 0);
-
-                // Create KeyFrameAnimations
-                var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
-                offsetAnimation.InsertExpressionKeyFrame(1f, "0");
-                offsetAnimation.Duration = TimeSpan.FromMilliseconds(1000);
-                offsetAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
-
-                var fadeAnimation = _compositor.CreateScalarKeyFrameAnimation();
-                fadeAnimation.InsertExpressionKeyFrame(1f, "1");
-                fadeAnimation.Duration = TimeSpan.FromMilliseconds(1000);
-                fadeAnimation.DelayTime = TimeSpan.FromMilliseconds(itemIndex * 100);
-
-                // Start animations
-                itemVisual.StartAnimation("Offset.x", offsetAnimation);
-                itemVisual.StartAnimation("Opacity", fadeAnimation);
-            }
-            itemContainer.Loaded -= ItemContainer_Loaded;
+            var index = PlansGirdView.SelectedIndex;
+            var container = PlansGirdView.ContainerFromIndex(index) as GridViewItem;
+            var centralOffsetX = (float)(container.TransformToVisual(this.RootGrid).TransformPoint(new Point(container.ActualWidth / 2, container.ActualHeight)).X);
+            _triVisual.Opacity = 1;
+            _triVisual.Offset = new Vector3(centralOffsetX - 15f, -5f, 0f);
         }
     }
 }

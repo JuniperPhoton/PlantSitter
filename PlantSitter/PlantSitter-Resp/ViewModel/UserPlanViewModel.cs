@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 using Windows.Data.Json;
 using Windows.UI.Xaml;
 using PlantSitterCustomControl;
+using GalaSoft.MvvmLight.Command;
+using System;
+using JP.Utils.Functions;
 
 namespace PlantSitterResp.ViewModel
 {
@@ -86,11 +89,36 @@ namespace PlantSitterResp.ViewModel
             }
         }
 
+        private RelayCommand _uploadNowCommand;
+        public RelayCommand UploadNowCommand
+        {
+            get
+            {
+                if (_uploadNowCommand != null) return _uploadNowCommand;
+                return _uploadNowCommand = new RelayCommand(async() =>
+                  {
+                      await UpdateNewestData();
+                  });
+            }
+        }
+
         public UserPlanViewModel()
         {
             NoItemVisibility = Visibility.Collapsed;
             CurrentUserPlans = new ObservableCollection<UserPlan>();
             SelectedIndex = -1;
+        }
+
+
+        private async Task UpdateNewestData()
+        {
+            var tempdata = App.MainVM.UserPlanVM.SelectedPlan.RecordData[0];
+            if (tempdata != null)
+            {
+                var result = await CloudService.UploadData(tempdata.CurrentPlant.Pid, tempdata.Gid, tempdata.SoilMoisture,
+                        tempdata.EnviTemp, tempdata.EnviMoisture, tempdata.Light, tempdata.RecordTime.GetDateTimeIn24Format(), CTSFactory.MakeCTS().Token);
+                result.ParseAPIResult();
+            }
         }
 
         public async Task GetAllUserPlansAsync()
@@ -118,7 +146,13 @@ namespace PlantSitterResp.ViewModel
                 CurrentUserPlans.Add(plan);
             }
 
-            SelectedIndex = 0;
+            var mainGid = await UserPlanWrapped.GetMainGIDAsync();
+
+            SelectedIndex = CurrentUserPlans.ToList().FindIndex(s =>
+            {
+                if (s.Gid == mainGid) return true;
+                else return false;
+            });
 
             if (CurrentUserPlans.Count == 0)
             {

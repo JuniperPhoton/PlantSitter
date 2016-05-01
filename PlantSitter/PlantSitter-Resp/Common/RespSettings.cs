@@ -17,7 +17,7 @@ namespace PlantSitterResp.Common
         {
             get
             {
-                return ReadSettings(nameof(UploadFequency), 0);
+                return ReadSettings(nameof(UploadFequency), 1);
             }
             set
             {

@@ -19,7 +19,7 @@
             <attach:InvokeCommandByKeyDown Command="{x:Bind MainVM.LoginVM.ConfirmActionCommand}" PressedKey="Enter" />
         </Core:EventTriggerBehavior>
     </Interactivity:Interaction.Behaviors>
-    <Grid Background="{StaticResource PlantSitterThemeColor}">
+    <Grid Background="#FFE8E8E8">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
             <RowDefinition/>
