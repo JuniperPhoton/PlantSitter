@@ -46,6 +46,7 @@ namespace PlantSitterResp.UC
         private void UpdateSelectedImagePos()
         {
             var index = PlansGirdView.SelectedIndex;
+            if (index < 0) return;
             var container = PlansGirdView.ContainerFromIndex(index) as GridViewItem;
             var centralOffsetX = (float)(container.TransformToVisual(this.RootGrid).TransformPoint(new Point(container.ActualWidth / 2, container.ActualHeight)).X);
             _triVisual.Opacity = 1;

@@ -13,6 +13,8 @@ using System;
 using GalaSoft.MvvmLight.Command;
 using PlantSitter.Common;
 using PlantSitter.View;
+using System.Linq;
+using PlantSitterShared.Common;
 
 namespace PlantSitter.ViewModel
 {
@@ -31,6 +33,23 @@ namespace PlantSitter.ViewModel
                 {
                     _currentUserPlans = value;
                     RaisePropertyChanged(() => CurrentUserPlans);
+                }
+            }
+        }
+
+        private UserPlanWrapped _selectedPlan;
+        public UserPlanWrapped SelectedPlan
+        {
+            get
+            {
+                return _selectedPlan;
+            }
+            set
+            {
+                if (_selectedPlan != value)
+                {
+                    _selectedPlan = value;
+                    RaisePropertyChanged(() => SelectedPlan);
                 }
             }
         }
@@ -150,7 +169,7 @@ namespace PlantSitter.ViewModel
             }
 
             var mainGidResult = await CloudService.GetMainPlan(CTSFactory.MakeCTS().Token);
-            if(mainGidResult.IsSuccessful)
+            if (mainGidResult.IsSuccessful)
             {
                 var jsonObj = JsonObject.Parse(mainGidResult.JsonSrc);
                 var gidObj = jsonObj["Gid"];
@@ -180,8 +199,13 @@ namespace PlantSitter.ViewModel
             await plan.FetchRecordGetScoreAsync();
             if (_mainGid != -1 && plan.CurrentPlan.Gid == _mainGid)
             {
+                SelectedPlan = plan;
                 plan.IsMain = true;
-                plan.UpdateTile();
+
+                if (App.AppSettings.EnableLiveTile)
+                {
+                    LiveTileUpdater.UpdateTile(this.SelectedPlan.CurrentPlan);
+                }
             }
         }
 
@@ -215,12 +239,13 @@ namespace PlantSitter.ViewModel
 
         public void SetMain(UserPlanWrapped plan)
         {
-            foreach(var item in CurrentUserPlans)
+            foreach (var item in CurrentUserPlans)
             {
                 item.IsMain = false;
             }
             plan.IsMain = true;
         }
+
 
         public void Activate(object param)
         {

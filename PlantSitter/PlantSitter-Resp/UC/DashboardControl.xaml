@@ -125,7 +125,7 @@
                                 <ComboBoxItem Style="{StaticResource ComboBoxItemStyle1}" Content="3 小时一次"/>
                             </ComboBox.Items>
                         </ComboBox>
-                        <Button Margin="5" BorderThickness="0" Style="{StaticResource ButtonCommonStyle}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Button Command="{Binding UserPlanVM.UploadNowCommand,Mode=OneWay}" Margin="5" BorderThickness="0" Style="{StaticResource ButtonCommonStyle}" Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                             <Border Background="{StaticResource PlantSitterThemeColor}">
                                 <TextBlock Text="立即上传(EXP)" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
                             </Border>

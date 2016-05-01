@@ -58,7 +58,7 @@ namespace PlantSitterResp
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            //ToastService.SendToast(e.Exception.Message,TimeSpan.FromMilliseconds(5000));
+            ToastService.SendToast(e.Exception.Message,TimeSpan.FromMilliseconds(5000));
         }
 
         /// <summary>

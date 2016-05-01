@@ -1,4 +1,5 @@
 ﻿using PlantSitter.Common;
+using PlantSitter.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,9 +19,12 @@ namespace PlantSitter.View
 {
     public sealed partial class SettingPage : BasePage
     {
+        private SettingViewModel SettingsVM { get; set; }
+
         public SettingPage()
         {
             this.InitializeComponent();
+            this.DataContext = SettingsVM = new SettingViewModel();
         }
     }
 }

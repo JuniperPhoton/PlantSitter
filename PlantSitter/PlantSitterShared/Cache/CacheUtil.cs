@@ -22,6 +22,18 @@ namespace PlantSitterShared.Cache
 
         }
 
+        public async Task CleanUpAsync()
+        {
+            var tempFolder = ApplicationData.Current.TemporaryFolder;
+            var items = await tempFolder.GetItemsAsync();
+            foreach(var item in items)
+            {
+                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+            }
+            CachedFiles.Clear();
+            await SaveAsync();
+        }
+
         public async Task<StorageFile> DownloadImageAsync(string url)
         {
             if(CachedFiles.ContainsKey(url))

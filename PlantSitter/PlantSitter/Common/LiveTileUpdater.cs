@@ -1,4 +1,5 @@
 ﻿using NotificationsExtensions.Tiles;
+using PlantSitterShared.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,21 @@ namespace PlantSitterShared.Common
     public static class LiveTileUpdater
     {
         /// <summary>
+        /// 更新动态磁铁
+        /// </summary>
+        public static void UpdateTile(UserPlan plan)
+        {
+            var lastRecord = plan.RecordData.First();
+            var soilSumup = lastRecord.SoilMoisture.ToString() == "0" ? "干燥" : "湿润";
+            var line1 = "土壤：" + soilSumup;
+            var line2 = "环境温度：" + lastRecord.EnviTemp.ToString() + " ℃";
+            var line3 = "环境湿度：" + lastRecord.EnviMoisture.ToString() + " %";
+            var line4 = "光照：" + lastRecord.Light.ToString() + " Lux";
+
+            UpdateTileiInner(plan.CurrentPlant.CacheFilePath, lastRecord.RecordTime.ToString(), line2, line3, line4);
+        }
+
+        /// <summary>
         /// 更新动态磁贴
         /// </summary>
         /// <param name="imgUrl"></param>
@@ -18,7 +34,7 @@ namespace PlantSitterShared.Common
         /// <param name="line2"></param>
         /// <param name="line3"></param>
         /// <param name="line4"></param>
-        public static void UpdateTile(string imgUrl, string line1, string line2, string line3, string line4)
+        private static void UpdateTileiInner(string imgUrl, string line1, string line2, string line3, string line4)
         {
             var tile = new TileBinding()
             {

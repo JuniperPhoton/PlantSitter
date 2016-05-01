@@ -102,6 +102,7 @@
     <Compile Include="Common\ConfigHelper.cs" />
     <Compile Include="Common\DownloadImageHelper.cs" />
     <Compile Include="Common\ExtentFunctions.cs" />
+    <Compile Include="Common\LiveTileUpdater.cs" />
     <Compile Include="Common\NavigationService.cs" />
     <Compile Include="Common\PlantSitterSettings.cs" />
     <Compile Include="Common\StatusBarHelper.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\PlanDetailViewModel.cs" />
     <Compile Include="ViewModel\PlantDetailViewModel.cs" />
+    <Compile Include="ViewModel\SettingViewModel.cs" />
     <Compile Include="ViewModel\StartViewModel.cs" />
     <Compile Include="ViewModel\UserPlansViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />

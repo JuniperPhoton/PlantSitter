@@ -116,6 +116,12 @@
       <Name>Windows IoT Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PlantSitterCustomControl\PlantSitterCustomControl.csproj">
+      <Project>{e525983b-258e-4754-9596-9a299dfc99a5}</Project>
+      <Name>PlantSitterCustomControl</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

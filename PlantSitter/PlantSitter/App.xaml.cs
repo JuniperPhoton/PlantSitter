@@ -27,6 +27,14 @@ namespace PlantSitter
             }
         }
 
+        public static PlantSitterSettings AppSettings
+        {
+            get
+            {
+                return App.Current.Resources["AppSettings"] as PlantSitterSettings;
+            }
+        }
+
         public static CacheUtil CacheUtilInstance { get; set; }
 
         /// <summary>

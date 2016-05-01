@@ -49,7 +49,7 @@ namespace PlantSitter.Service
                 PlantTimeline timeline1HalfHourAgo = null;
                 PlantTimeline timeline2HourAgo = null;
 
-                if (recordData.Count>=60/_internal)
+                if (recordData.Count>=1800/_internal)
                 {
                     timeline30MinAgo = recordData.ElementAt((60 / _internal)-1);
                 }
@@ -76,13 +76,6 @@ namespace PlantSitter.Service
                     App.MainVM.UserPlanVM.SelectedPlan.TimelineDataToDisplay[4] = timeline2HourAgo;
 
                 App.MainVM.UserPlanVM.SelectedPlan.RaiseTimelineChanged();
-
-                //var debugStr = "";
-                //foreach(var item in recordData)
-                //{
-                //    debugStr += item.Light + ",";
-                //}
-                //Debug.WriteLine(debugStr);
             }
         }
     }

@@ -192,7 +192,7 @@ namespace PlantSitter.View
             }
 
             var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_mainScrollViewer);
-            var offsetY = (float)ScoreDescSP.TransformToVisual(this.RootGrid).
+            var offsetY = (float)ScoreDescSP.TransformToVisual((UIElement)_mainScrollViewer.Content).
                                     TransformPoint(new Point(0, 0)).Y;
 
             var header = DataGridView.Header as FrameworkElement;

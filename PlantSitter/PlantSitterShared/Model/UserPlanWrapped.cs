@@ -4,6 +4,7 @@ using JP.Utils.UI;
 using PlantSitterShared.API;
 using PlantSitterShared.Common;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -427,12 +428,13 @@ namespace PlantSitterShared.Model
         /// <returns></returns>
         public async Task FetchRecordGetScoreAsync()
         {
+            List<PlantTimeline> data;
             var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byDays", "1", CTSFactory.MakeCTS().Token);
-            var timelineData = PlantTimeline.ParseToList(records.JsonSrc);
-
+            data = PlantTimeline.ParseToList(records.JsonSrc);
+            
             //Clear before add new one
             CurrentPlan.RecordData.Clear();
-            foreach(var item in timelineData)
+            foreach(var item in data)
             {
                 CurrentPlan.RecordData.Insert(0,item);
             }
@@ -491,21 +493,6 @@ namespace PlantSitterShared.Model
         }
 
         /// <summary>
-        /// 更新动态磁铁
-        /// </summary>
-        public void UpdateTile()
-        {
-            var lastRecord = CurrentPlan.RecordData.First();
-            var soilSumup= lastRecord.SoilMoisture.ToString() == "0" ? "干燥" : "湿润";
-            var line1 = "土壤：" + soilSumup;
-            var line2 = "环境温度：" + lastRecord.EnviTemp.ToString() + " ℃";
-            var line3 = "环境湿度：" + lastRecord.EnviMoisture.ToString() + " %";
-            var line4 = "光照：" + lastRecord.Light.ToString() + " Lux";
-
-            LiveTileUpdater.UpdateTile(CurrentPlan.CurrentPlant.CacheFilePath, lastRecord.RecordTime.ToString(), line2, line3, line4);
-        }
-
-        /// <summary>
         /// 根据分数等级设置提醒颜色
         /// </summary>
         /// <param name="level"></param>
@@ -530,6 +517,11 @@ namespace PlantSitterShared.Model
                         ColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#e56060").Value);
                         SecondColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#c00404").Value);
 
+                    }; break;
+                case 3:
+                    {
+                        ColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#FFBDBDBD").Value);
+                        SecondColorByScore = new SolidColorBrush(ColorConverter.HexToColor("#FF646464").Value);
                     }; break;
             }
         }
@@ -567,6 +559,12 @@ namespace PlantSitterShared.Model
         private void CalculateScoreAndUpdate()
         {
             var score = 0d;
+
+            if(CurrentPlan.RecordData.Count==0)
+            {
+                UpdateColorByScoreLevel(3);
+                return;
+            }
 
             //SoilMoisture
             var wetCount = CurrentPlan.RecordData.Select(s => s.SoilMoisture == 1).Count();

@@ -7,6 +7,7 @@ using PlantSitter.UC;
 using PlantSitter.View;
 using PlantSitterCustomControl;
 using PlantSitterShared.API;
+using PlantSitterShared.Common;
 using PlantSitterShared.Model;
 using System;
 using System.Collections.Generic;
@@ -100,7 +101,7 @@ namespace PlantSitter.ViewModel
             get
             {
                 if (_refreshCommand != null) return _refreshCommand;
-                return _refreshCommand = new RelayCommand(async() =>
+                return _refreshCommand = new RelayCommand(async () =>
                   {
                       await Refresh();
                   });
@@ -121,7 +122,7 @@ namespace PlantSitter.ViewModel
                       }
                       else
                       {
-                          ContentPopupEx cpex = new ContentPopupEx(new PlantDetailControl() { DataContext=CurrentPlanWrapped.CurrentPlan.CurrentPlant, Width = 500, Height = Window.Current.Bounds.Height * 0.9 });
+                          ContentPopupEx cpex = new ContentPopupEx(new PlantDetailControl() { DataContext = CurrentPlanWrapped.CurrentPlan.CurrentPlant, Width = 500, Height = Window.Current.Bounds.Height * 0.9 });
                           await cpex.ShowAsync();
                       }
                   });
@@ -208,9 +209,9 @@ namespace PlantSitter.ViewModel
         {
             ShowLoading = Visibility.Visible;
             await CurrentPlanWrapped.FetchRecordGetScoreAsync();
-            if(CurrentPlanWrapped.IsMain)
+            if (CurrentPlanWrapped.IsMain)
             {
-                CurrentPlanWrapped.UpdateTile();
+                LiveTileUpdater.UpdateTile(CurrentPlanWrapped.CurrentPlan);
             }
             await Task.Delay(1000);
             ShowLoading = Visibility.Collapsed;

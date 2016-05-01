@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PlantSitterCustomControl;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -70,8 +71,14 @@ namespace Sensor.Light
 
         private void TimerCallback(object state)
         {
-            var lux = ReadI2CLux();
-            OnReading(lux);
+            try
+            {
+                var lux = ReadI2CLux();
+                OnReading(lux);
+            }
+            catch(Exception e)
+            {
+            }
         }
 
         private int ReadI2CLux()

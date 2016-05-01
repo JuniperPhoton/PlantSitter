@@ -32,7 +32,7 @@ namespace PlantSitterShared.API
         private static List<KeyValuePair<string, string>> GetDefaultParamWithAuthParam()
         {
             var param = new List<KeyValuePair<string, string>>();
-            param.Add(new KeyValuePair<string, string>("a", new Random().Next().ToString()));
+            param.Add(new KeyValuePair<string, string>("a", new Random((int)DateTime.Now.Ticks).Next().ToString()));
             param.Add(new KeyValuePair<string, string>("uid", LocalSettingHelper.GetValue("uid")));
             param.Add(new KeyValuePair<string, string>("access_token", LocalSettingHelper.GetValue("access_token")));
 
