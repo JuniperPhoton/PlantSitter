@@ -3,13 +3,14 @@ using JP.Utils.Data.Json;
 using JP.Utils.UI;
 using PlantSitterShared.API;
 using PlantSitterShared.Common;
+using PlantSitterShared.Enum;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Windows.Data.Json;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
 namespace PlantSitterShared.Model
@@ -417,6 +418,77 @@ namespace PlantSitterShared.Model
             }
         }
 
+        #region Table
+        private TableGraphics _soilTableData;
+        public TableGraphics SoilTableData
+        {
+            get
+            {
+                return _soilTableData;
+            }
+            set
+            {
+                if (_soilTableData != value)
+                {
+                    _soilTableData = value;
+                    RaisePropertyChanged(() => SoilTableData);
+                }
+            }
+        }
+
+        private TableGraphics _tempTableData;
+        public TableGraphics TempTableData
+        {
+            get
+            {
+                return _tempTableData;
+            }
+            set
+            {
+                if (_tempTableData != value)
+                {
+                    _tempTableData = value;
+                    RaisePropertyChanged(() => TempTableData);
+                }
+            }
+        }
+
+        private TableGraphics _lightTableData;
+        public TableGraphics LightTableData
+        {
+            get
+            {
+                return _lightTableData;
+            }
+            set
+            {
+                if (_lightTableData != value)
+                {
+                    _lightTableData = value;
+                    RaisePropertyChanged(() => LightTableData);
+                }
+            }
+        }
+
+        private TableGraphics _moistureTableData;
+        public TableGraphics MoistureTableData
+        {
+            get
+            {
+                return _moistureTableData;
+            }
+            set
+            {
+                if (_moistureTableData != value)
+                {
+                    _moistureTableData = value;
+                    RaisePropertyChanged(() => MoistureTableData);
+                }
+            }
+        }
+
+        #endregion
+
         public UserPlanWrapped(UserPlan plan)
         {
             this.CurrentPlan = plan;
@@ -426,7 +498,7 @@ namespace PlantSitterShared.Model
         /// 从服务端获取24小时之内的数据
         /// </summary>
         /// <returns></returns>
-        public async Task FetchRecordGetScoreAsync()
+        public async Task FetchLatestRecordGetScoreAsync()
         {
             List<PlantTimeline> data;
             var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byDays", "1", CTSFactory.MakeCTS().Token);
@@ -442,6 +514,24 @@ namespace PlantSitterShared.Model
 
             CalculateScoreAndUpdate();
             UpdateCardStatus();
+        }
+
+        public async Task FetchTableDataAndUpdateAsync(TableXAxisKind kind)
+        {
+            List<PlantTimeline> data = new List<PlantTimeline>();
+
+            if (kind==TableXAxisKind.DayOf5)
+            {
+                var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byDays", "5", CTSFactory.MakeCTS().Token);
+                data = PlantTimeline.ParseToList(records.JsonSrc);
+            }
+            else if(kind==TableXAxisKind.MonthOf5)
+            {
+                var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byMonths", "5", CTSFactory.MakeCTS().Token);
+                data = PlantTimeline.ParseToList(records.JsonSrc);
+            }
+
+            MoistureTableData = new TableGraphics(data, RecordDataKind.EnviMoisture);
         }
 
         private void UpdateCardStatus()

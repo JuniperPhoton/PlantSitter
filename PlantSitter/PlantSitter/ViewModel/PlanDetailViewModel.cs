@@ -182,9 +182,10 @@ namespace PlantSitter.ViewModel
             get
             {
                 if (_tapItemCommand != null) return _tapItemCommand;
-                return _tapItemCommand = new RelayCommand(() =>
+                return _tapItemCommand = new RelayCommand(async() =>
                   {
                       ShowTableView = true;
+                      await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.DayOf5);
                   });
             }
         }
@@ -208,7 +209,7 @@ namespace PlantSitter.ViewModel
         private async Task Refresh()
         {
             ShowLoading = Visibility.Visible;
-            await CurrentPlanWrapped.FetchRecordGetScoreAsync();
+            await CurrentPlanWrapped.FetchLatestRecordGetScoreAsync();
             if (CurrentPlanWrapped.IsMain)
             {
                 LiveTileUpdater.UpdateTile(CurrentPlanWrapped.CurrentPlan);

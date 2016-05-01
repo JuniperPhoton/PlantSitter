@@ -115,11 +115,13 @@
     <Compile Include="Cache\CacheUtil.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Common\MessengerToken.cs" />
+    <Compile Include="Common\TableXAxisKind.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\EnviMoistureValueConverter.cs" />
     <Compile Include="Converter\EnviTempValueConverter.cs" />
     <Compile Include="Converter\LightValueConverter.cs" />
     <Compile Include="Converter\SoilMoistureValueConverter.cs" />
+    <Compile Include="Enum\RecordDataKind.cs" />
     <Compile Include="Model\NetworkImage.cs" />
     <Compile Include="Model\Plant.cs" />
     <Compile Include="Model\PlantSitterUser.cs" />
@@ -141,7 +143,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Enum\" />
     <Folder Include="Search\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

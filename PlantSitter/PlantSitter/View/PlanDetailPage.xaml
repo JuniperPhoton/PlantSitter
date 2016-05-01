@@ -46,7 +46,7 @@
                                     <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.ScoreValue,Mode=OneWay,FallbackValue=70}" HorizontalAlignment="Right" FontSize="66.667" VerticalAlignment="Bottom" Foreground="White" FontFamily="Agency FB"/>
                                     <TextBlock Text="分" FontSize="25" Foreground="White" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
                                 </StackPanel>
-                                <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LastRecordTime,Mode=OneWay}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,2,2"/>
+                                <TextBlock Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.LastRecordTime,Mode=OneWay}" Foreground="White" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,2"/>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -155,7 +155,7 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
-        <Grid x:Name="TableViewGrid" d:IsHidden="True" Margin="0">
+        <Grid x:Name="TableViewGrid" d:IsHidden="False" Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition/>
@@ -192,7 +192,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="土壤" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl/>
+                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.SoilTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
                     </Grid>
                     <Grid Background="{StaticResource PlantSitterEnviMoistureColor}">
                         <Grid.ColumnDefinitions>
@@ -204,7 +204,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="温度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl/>
+                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.TempTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
                     </Grid>
                     <Grid Background="{StaticResource PlantSitterLightColor}">
                         <Grid.ColumnDefinitions>
@@ -216,7 +216,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="光线" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl/>
+                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.LightTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
                     </Grid>
                     <Grid Background="{StaticResource PlantSitterEnviTempColor}">
                         <Grid.ColumnDefinitions>
@@ -228,7 +228,7 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <TextBlock Text="湿度" Opacity="0.5" FontSize="20" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
-                        <uc:DataTableControl/>
+                        <uc:DataTableControl TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureTableData,Mode=OneWay}" Grid.Row="1" Grid.ColumnSpan="2"/>
                     </Grid>
                 </cc:AdaptiveGridView.Items>
                 <cc:AdaptiveGridView.ItemContainerStyle>

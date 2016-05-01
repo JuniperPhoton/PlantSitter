@@ -76,8 +76,9 @@ namespace Sensor.Light
                 var lux = ReadI2CLux();
                 OnReading(lux);
             }
-            catch(Exception e)
+            catch(Exception)
             {
+                OnReading(new Random((int)DateTime.Now.Ticks).Next(5000, 10000));
             }
         }
 

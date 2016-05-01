@@ -23,11 +23,17 @@ namespace PlantSitter.UC
     {
         public TableGraphics TableData
         {
-            get
-            {
-                return this.DataContext as TableGraphics;
-            }
+            get { return (TableGraphics)GetValue(TableDataProperty); }
+            set { SetValue(TableDataProperty, value); }
         }
+
+        public static readonly DependencyProperty TableDataProperty =
+            DependencyProperty.Register("TableData", typeof(TableGraphics), typeof(DataTableControl), new PropertyMetadata(null,
+                (sender,e)=>
+                {
+                    var control =sender as DataTableControl;
+                    control.Redraw();
+                }));
 
         public SolidColorBrush DotThemeColor
         {
@@ -37,7 +43,6 @@ namespace PlantSitter.UC
 
         public static readonly DependencyProperty DotThemeColorProperty =
             DependencyProperty.Register("DotThemeColor", typeof(SolidColorBrush), typeof(DataTableControl), new PropertyMetadata(Colors.DarkCyan));
-
 
         public SolidColorBrush LineStrokeColor
         {
@@ -67,16 +72,13 @@ namespace PlantSitter.UC
             if (TableData == null) return;
             if (!sender.ReadyToDraw) return;
 
-            var point1 = new Vector2(120, 220);
-            var point2 = new Vector2(210, 240);
-            var point3 = new Vector2(316, 235);
-            args.DrawingSession.DrawLine(point1,point2, Colors.Black,5f);
-            args.DrawingSession.DrawLine(point2,point3,Colors.Black, 5f);
-            args.DrawingSession.FillCircle(point1, 20f, Colors.DarkCyan);
-            args.DrawingSession.FillCircle(point2, 20f, Colors.DarkCyan);
-            args.DrawingSession.FillCircle(point3, 20f, Colors.DarkCyan);
+            var dataToDisplay = TableData.Data;
+
         }
 
-        
+        public void Redraw()
+        {
+            CanvasControl.Invalidate();
+        }
     }
 }

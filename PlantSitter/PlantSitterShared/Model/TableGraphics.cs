@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using PlantSitterShared.Enum;
 using System.Collections.Generic;
 using System.Numerics;
 
@@ -8,15 +9,12 @@ namespace PlantSitterShared.Model
     {
         public IEnumerable<PlantTimeline> Data { get; set; }
 
-        public Vector2 XaxisRange { get; set; }
+        public RecordDataKind Kind { get; set; }
 
-        public Vector2 YaxisRange { get; set; }
-
-        public TableGraphics(IEnumerable<PlantTimeline> data,Vector2 xrange,Vector2 yrange)
+        public TableGraphics(IEnumerable<PlantTimeline> data,RecordDataKind kind)
         {
             this.Data = data;
-            this.XaxisRange = xrange;
-            this.YaxisRange = yrange;
+            this.Kind = kind;
         }
     }
 }
