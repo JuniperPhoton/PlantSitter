@@ -15,6 +15,14 @@ using Windows.UI.Xaml.Media;
 
 namespace PlantSitterShared.Model
 {
+    public enum TableXAxisKind
+    {
+        Newest10,
+        DayOf5,
+        MonthOf1,
+        MonthOf6,
+    }
+
     public class UserPlanWrapped : ViewModelBase
     {
         public UserPlan CurrentPlan { get; set; }
@@ -419,79 +427,54 @@ namespace PlantSitterShared.Model
         }
 
         #region Table
-        private TableGraphics _soilTableData;
-        public TableGraphics SoilTableData
+        private TableGraphics _currentTableData;
+        public TableGraphics CurrentTableData
         {
             get
             {
-                return _soilTableData;
+                return _currentTableData;
             }
             set
             {
-                if (_soilTableData != value)
+                if (_currentTableData != value)
                 {
-                    _soilTableData = value;
-                    RaisePropertyChanged(() => SoilTableData);
+                    _currentTableData = value;
+                    RaisePropertyChanged(() => CurrentTableData);
                 }
             }
         }
 
-        private TableGraphics _tempTableData;
-        public TableGraphics TempTableData
+        private int _selectedTableKind;
+        public int SelectedTableKind
         {
             get
             {
-                return _tempTableData;
+                return _selectedTableKind;
             }
             set
             {
-                if (_tempTableData != value)
+                if (_selectedTableKind != value)
                 {
-                    _tempTableData = value;
-                    RaisePropertyChanged(() => TempTableData);
+                    _selectedTableKind = value;
+                    RaisePropertyChanged(() => SelectedTableKind);
                 }
             }
         }
 
-        private TableGraphics _lightTableData;
-        public TableGraphics LightTableData
-        {
-            get
-            {
-                return _lightTableData;
-            }
-            set
-            {
-                if (_lightTableData != value)
-                {
-                    _lightTableData = value;
-                    RaisePropertyChanged(() => LightTableData);
-                }
-            }
-        }
+        private TableGraphics SoilTableData { get; set; }
 
-        private TableGraphics _moistureTableData;
-        public TableGraphics MoistureTableData
-        {
-            get
-            {
-                return _moistureTableData;
-            }
-            set
-            {
-                if (_moistureTableData != value)
-                {
-                    _moistureTableData = value;
-                    RaisePropertyChanged(() => MoistureTableData);
-                }
-            }
-        }
+        private TableGraphics EnviTempTableData { get; set; }
+
+        private TableGraphics EnviMoistureTableData { get; set; }
+
+        private TableGraphics LightTableData { get; set; }
 
         #endregion
 
         public UserPlanWrapped(UserPlan plan)
         {
             this.CurrentPlan = plan;
+            SelectedTableKind = 0;
         }
 
         /// <summary>
@@ -516,25 +499,51 @@ namespace PlantSitterShared.Model
             UpdateCardStatus();
         }
 
+        public void UpdateTableToBeShown(RecordDataKind kind)
+        {
+            switch(kind)
+            {
+                case RecordDataKind.Light:
+                    {
+                        CurrentTableData = LightTableData;
+                    }; break;
+                case RecordDataKind.SoilMoisture:
+                    {
+                        CurrentTableData = SoilTableData;
+                    }; break;
+                case RecordDataKind.EnviTemp:
+                    {
+                        CurrentTableData = EnviTempTableData;
+                    }; break;
+                case RecordDataKind.EnviMoisture:
+                    {
+                        CurrentTableData = EnviMoistureTableData;
+                    }; break;
+            }
+        }
+
         public async Task FetchTableDataAndUpdateAsync(TableXAxisKind kind)
         {
             List<PlantTimeline> data = new List<PlantTimeline>();
 
-            if (kind==TableXAxisKind.DayOf5)
+            if (kind==TableXAxisKind.Newest10)
             {
-                var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byDays", "5", CTSFactory.MakeCTS().Token);
+                var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byNumber", "10", CTSFactory.MakeCTS().Token);
                 data = PlantTimeline.ParseToList(records.JsonSrc);
             }
-            else if(kind==TableXAxisKind.MonthOf5)
+            else if(kind==TableXAxisKind.MonthOf1)
             {
-                var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byMonths", "5", CTSFactory.MakeCTS().Token);
+                var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byMonths", "1", CTSFactory.MakeCTS().Token);
                 data = PlantTimeline.ParseToList(records.JsonSrc);
             }
             
-            MoistureTableData = new TableGraphics(FilterTimeLineData(data),RecordDataKind.Light);
+            LightTableData = new TableGraphics(FilterTimeLineData(data,kind),RecordDataKind.Light);
+            SoilTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.SoilMoisture);
+            EnviMoistureTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.EnviMoisture);
+            EnviTempTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.EnviTemp);
         }
 
-        private IEnumerable<PlantTimeline> FilterTimeLineData(IEnumerable<PlantTimeline> original)
+        private IEnumerable<PlantTimeline> FilterTimeLineData(IEnumerable<PlantTimeline> original, TableXAxisKind kind)
         {
             var list = new List<PlantTimeline>();
             var maxCount = original.Count() > 10 ? 10 : original.Count();

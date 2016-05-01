@@ -8,6 +8,7 @@ using PlantSitter.View;
 using PlantSitterCustomControl;
 using PlantSitterShared.API;
 using PlantSitterShared.Common;
+using PlantSitterShared.Enum;
 using PlantSitterShared.Model;
 using System;
 using System.Collections.Generic;
@@ -189,7 +190,9 @@ namespace PlantSitter.ViewModel
                 if (_tapItemCommand != null) return _tapItemCommand;
                 return _tapItemCommand = new RelayCommand<object>((o) =>
                   {
-                      UpdateTableName(int.Parse(((Grid)o).Tag.ToString()));
+                      var kind = GetRecordDataKind(int.Parse(((Grid)o).Tag.ToString()));
+                      UpdateTableName(kind);
+                      CurrentPlanWrapped.UpdateTableToBeShown(kind);
                       ShowTableView = true;
                   });
             }
@@ -212,7 +215,6 @@ namespace PlantSitter.ViewModel
             }
         }
 
-
         private DispatcherTimer _timer;
 
         public PlanDetailViewModel()
@@ -225,23 +227,50 @@ namespace PlantSitter.ViewModel
             ShowLoadingTable = Visibility.Collapsed;
         }
 
-        private void UpdateTableName(int tag)
+        private RecordDataKind GetRecordDataKind(int tag)
         {
-            switch (tag)
+            switch(tag)
             {
                 case 0:
                     {
+                        return RecordDataKind.SoilMoisture;
+                    };
+                case 1:
+                    {
+                        return RecordDataKind.EnviTemp;
+                    }
+                case 2:
+                    {
+                        return RecordDataKind.Light;
+                    }
+                case 3:
+                    {
+                        return RecordDataKind.EnviMoisture;
+                    }
+                default:
+                    {
+                        return RecordDataKind.EnviMoisture;
+                    }
+            }
+        }
+
+        private void UpdateTableName(RecordDataKind kind)
+        {
+            switch (kind)
+            {
+                case RecordDataKind.SoilMoisture:
+                    {
                         TableName = "土壤湿度";
                     }; break;
-                case 1:
+                case RecordDataKind.EnviTemp:
                     {
                         TableName = "温度";
                     }; break;
-                case 2:
+                case RecordDataKind.Light:
                     {
                         TableName = "光线强度";
                     }; break;
-                case 3:
+                case RecordDataKind.EnviMoisture:
                     {
                         TableName = "湿度";
                     }; break;
@@ -261,7 +290,7 @@ namespace PlantSitter.ViewModel
             {
                 LiveTileUpdater.UpdateTile(CurrentPlanWrapped.CurrentPlan);
             }
-            await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.DayOf5);
+            await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.Newest10);
             await UpdateTable();
             ShowLoading = Visibility.Collapsed;
         }
@@ -269,7 +298,7 @@ namespace PlantSitter.ViewModel
         private async Task UpdateTable()
         {
             ShowLoadingTable = Visibility.Visible;
-            await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.DayOf5);
+            await CurrentPlanWrapped.FetchTableDataAndUpdateAsync(TableXAxisKind.Newest10);
             ShowLoadingTable = Visibility.Collapsed;
         }
 

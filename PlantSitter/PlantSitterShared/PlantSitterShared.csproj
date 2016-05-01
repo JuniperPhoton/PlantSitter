@@ -115,7 +115,6 @@
     <Compile Include="Cache\CacheUtil.cs" />
     <Compile Include="Common\AppSettings.cs" />
     <Compile Include="Common\MessengerToken.cs" />
-    <Compile Include="Common\TableXAxisKind.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\EnviMoistureValueConverter.cs" />
     <Compile Include="Converter\EnviTempValueConverter.cs" />

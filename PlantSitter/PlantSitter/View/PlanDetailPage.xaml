@@ -12,7 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Background="{StaticResource PlantSitterThemeLightColor}">
     <Grid Background="White" x:Name="RootGrid">
-        <Grid Grid.Row="0">
+        <Grid Grid.Row="0" x:Name="DataViewGrid">
             <cc:AdaptiveGridView
                      x:Name="DataGridView"
                      IsItemClickEnabled="True"
@@ -156,12 +156,12 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
-        <Grid x:Name="TableViewGrid" d:IsHidden="True" Margin="0">
+        <Grid x:Name="TableViewGrid" d:IsHidden="False" Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Border Grid.RowSpan="29" Background="{StaticResource PlantSitterLightLightGreyColor}"/>
+            <Border Grid.RowSpan="29" Opacity="1" Background="{StaticResource PlantSitterLightLightGreyColor}"/>
             <Grid MaxWidth="800">
                 <TextBlock Text="历史数据" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="26.667" Margin="10,0,0,0" FontFamily="Segoe UI Light"/>
                 <ProgressBar Visibility="{x:Bind PlanDetailVM.ShowLoadingTable,Mode=OneWay}" IsIndeterminate="True" Foreground="{StaticResource PlantSitterThemeLightColor}" VerticalAlignment="Bottom"/>
@@ -179,11 +179,17 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="{x:Bind PlanDetailVM.TableName,Mode=OneWay}" Opacity="0.5" FontSize="20" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+                <ComboBox SelectedIndex="{x:Bind PlanDetailVM.CurrentPlanWrapped.SelectedTableKind,Mode=OneWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Grid.ColumnSpan="2" BorderThickness="1">
+                    <ComboBoxItem Content="最新的10条数据"/>
+                    <ComboBoxItem Content="最近5天的平均数据"/>
+                    <ComboBoxItem Content="最近1个月的平均数据"/>
+                    <ComboBoxItem Content="最近半年个月的平均数据"/>
+                </ComboBox>
                 <Grid Grid.Row="1" Grid.ColumnSpan="2">
                     <uc:DataTableControl
                             x:Name="TableControl"
-                            Margin="30"
-                            TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.MoistureTableData,Mode=OneWay}"
+                            Margin="20"
+                            TableData="{x:Bind PlanDetailVM.CurrentPlanWrapped.CurrentTableData,Mode=OneWay}"
                             />
                 </Grid>
             </Grid>

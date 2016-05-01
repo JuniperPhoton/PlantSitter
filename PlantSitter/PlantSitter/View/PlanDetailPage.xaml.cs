@@ -1,17 +1,29 @@
 ﻿using JP.Utils.Helper;
 using JP.Utils.UI;
+using Microsoft.Graphics.Canvas;
+using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Graphics.Canvas.UI;
+using Microsoft.Graphics.Canvas.UI.Xaml;
 using PlantSitter.Common;
 using PlantSitter.ViewModel;
 using System;
 using System.Diagnostics;
 using System.Numerics;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Graphics.DirectX;
+using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
+using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace PlantSitter.View
@@ -29,6 +41,7 @@ namespace PlantSitter.View
         private Visual _backgrdVisual;
         private ScrollViewer _mainScrollViewer;
         private Visual _tableViewGrid;
+        private Visual _dataViewGrid;
 
         private bool _doingAnimation = false;
 
@@ -39,9 +52,9 @@ namespace PlantSitter.View
         }
 
         public static readonly DependencyProperty ShowTableViewProperty =
-            DependencyProperty.Register("ShowTableView", typeof(bool), typeof(PlanDetailPage), new PropertyMetadata(false,OnShowTableViewPropertyChanged));
+            DependencyProperty.Register("ShowTableView", typeof(bool), typeof(PlanDetailPage), new PropertyMetadata(false, OnShowTableViewPropertyChanged));
 
-        public static void OnShowTableViewPropertyChanged(DependencyObject d,DependencyPropertyChangedEventArgs e)
+        public static void OnShowTableViewPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var page = d as PlanDetailPage;
             page.ShowOrHideTableView((bool)e.NewValue);
@@ -60,6 +73,7 @@ namespace PlantSitter.View
             _topBottomGridVisual = ElementCompositionPreview.GetElementVisual(TopBottomGrid);
             _backgrdVisual = ElementCompositionPreview.GetElementVisual(BackBorder);
             _tableViewGrid = ElementCompositionPreview.GetElementVisual(TableViewGrid);
+            _dataViewGrid = ElementCompositionPreview.GetElementVisual(DataViewGrid);
 
             _topBottomBorderVisual.Opacity = 0f;
             _tableViewGrid.Offset = new Vector3(0f, (float)Window.Current.Bounds.Height, 0f);
@@ -96,9 +110,15 @@ namespace PlantSitter.View
         public void ShowOrHideTableView(bool show)
         {
             var offsetAnimation = _compositor.CreateScalarKeyFrameAnimation();
-            offsetAnimation.InsertKeyFrame(1f,show?0f:(float)Window.Current.Bounds.Height);
+            offsetAnimation.InsertKeyFrame(1f, show ? 0f : (float)Window.Current.Bounds.Height);
             offsetAnimation.Duration = TimeSpan.FromMilliseconds(500);
+
+            var offsetAnimation2 = _compositor.CreateScalarKeyFrameAnimation();
+            offsetAnimation2.InsertKeyFrame(1f, show ? -100f : 0f);
+            offsetAnimation2.Duration = TimeSpan.FromMilliseconds(show ? 1200 : 500);
+
             _tableViewGrid.StartAnimation("offset.y", offsetAnimation);
+            _dataViewGrid.StartAnimation("offset.y", offsetAnimation2);
         }
 
         private void PlanDetailPage_SizeChanged(object sender, SizeChangedEventArgs e)

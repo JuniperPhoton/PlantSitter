@@ -110,6 +110,10 @@ namespace PlantSitter.UC
 
         private Vector2 GetYAxisRange()
         {
+            if (TableData.Kind == RecordDataKind.SoilMoisture)
+            {
+                return new Vector2(0f, 1f);
+            }
             var dataToDisplay = TableData.Data;
             var maxValue = dataToDisplay.Max(s =>
             {
@@ -119,33 +123,9 @@ namespace PlantSitter.UC
             {
                 return (float)GetValueOfSpecifiedKind(s);
             });
-            var yAxisMax = maxValue * 1.2;
-            var yAixMin = minValue * 0.8;
-            return new Vector2((float)yAixMin, (float)yAxisMax);
-        }
-
-        private Vector2 GetXAxisRange()
-        {
-            var dataToDisplay = TableData.Data;
-            var maxValue = dataToDisplay.Max(s =>
-            {
-                if (TableData.Kind == RecordDataKind.EnviMoisture)
-                {
-                    return s.EnviMoisture;
-                }
-                else return -1d;
-            });
-            var minValue = dataToDisplay.Max(s =>
-            {
-                if (TableData.Kind == RecordDataKind.EnviMoisture)
-                {
-                    return s.EnviMoisture;
-                }
-                else return -1d;
-            });
-            var yAxisMax = maxValue * 1.2;
-            var yAixMin = minValue * 0.8;
-            return new Vector2((float)yAixMin, (float)yAxisMax);
+            var yAxisMax = (int)(maxValue * 1.2);
+            var yAixMin = (int)(minValue * 0.8);
+            return new Vector2(yAixMin, yAxisMax);
         }
 
         private double GetValueOfSpecifiedKind(PlantTimeline s)
@@ -168,12 +148,12 @@ namespace PlantSitter.UC
         private float GetYPosBaseOnValue(Vector2 range, float currentValue)
         {
             var ratio = 1f - (currentValue - range.X) / (range.Y - range.X);
-            return (float)((CanvasControl.Size.Height-AxisCornerGap*2) * ratio);
+            return ratio == 0 ? 50f : (float)((CanvasControl.Size.Height - AxisCornerGap) * ratio);
         }
 
         private float GetXPosBaseOnValue(int index)
         {
-            return (float)((CanvasControl.Size.Width - AxisCornerGap*2) / TableData.Data.Count() * (index + 1)) + 20f;
+            return (float)((CanvasControl.Size.Width - AxisCornerGap * 2) / TableData.Data.Count() * (index + 1)) + 20f;
         }
 
         private string GetXUnit()
