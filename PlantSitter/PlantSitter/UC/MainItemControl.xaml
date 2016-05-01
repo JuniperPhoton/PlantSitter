@@ -32,8 +32,7 @@
                     </StackPanel>
                 </StackPanel>
             </Grid>
-
-            <Grid Grid.Row="1" Background="White">
+            <Grid Grid.Row="1" Background="{StaticResource PlantSitterLightGreyColor}">
                 <Border Background="{Binding ColorByScore,Mode=OneWay,FallbackValue=#FFFC6666}"/>
                 <Border Width="5" Background="{Binding SecondColorByScore,Mode=OneWay,FallbackValue=#FFAB2121}" HorizontalAlignment="Left"/>
                 <TextBlock FontSize="20" Text="{Binding ScoreSumUp,Mode=OneWay,FallbackValue=非常糟糕}" Foreground="White" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="20,0,0,0"/>

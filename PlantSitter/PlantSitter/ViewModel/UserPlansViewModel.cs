@@ -195,8 +195,8 @@ namespace PlantSitter.ViewModel
 
         private async Task DownloadImageAndUpdateScore(UserPlanWrapped plan)
         {
-            await DownloadImageHelper.DownloadImage(plan.CurrentPlan.CurrentPlant);
             await plan.FetchRecordGetScoreAsync();
+            await DownloadImageHelper.DownloadImage(plan.CurrentPlan.CurrentPlant);
             if (_mainGid != -1 && plan.CurrentPlan.Gid == _mainGid)
             {
                 SelectedPlan = plan;

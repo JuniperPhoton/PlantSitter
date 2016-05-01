@@ -32,7 +32,7 @@
                         Background="{x:Null}"
                         HorizontalAlignment="Center">
                 <ListBox.Items>
-                    <Grid Height="50">
+                    <Grid Height="70">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition/>
@@ -40,7 +40,7 @@
                         <SymbolIcon Symbol="Home" Foreground="White"/>
                         <TextBlock FontSize="17" Text="首页" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
                     </Grid>
-                    <Grid Height="50">
+                    <Grid Height="70">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition/>
@@ -48,7 +48,7 @@
                         <SymbolIcon Symbol="Setting" Foreground="White"/>
                         <TextBlock FontSize="17" Text="设置" Grid.Column="1" Foreground="White" VerticalAlignment="Center"/>
                     </Grid>
-                    <Grid Height="50">
+                    <Grid Height="70">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
                             <ColumnDefinition/>
