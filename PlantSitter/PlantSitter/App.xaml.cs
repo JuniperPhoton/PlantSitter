@@ -53,7 +53,7 @@ namespace PlantSitter
 
         private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            e.Handled = false;
+            e.Handled = true;
         }
 
         /// <summary>

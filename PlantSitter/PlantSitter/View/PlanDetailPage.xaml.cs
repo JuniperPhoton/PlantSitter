@@ -212,7 +212,7 @@ namespace PlantSitter.View
             }
 
             var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(_mainScrollViewer);
-            var offsetY = (float)ScoreDescSP.TransformToVisual((UIElement)_mainScrollViewer.Content).
+            var offsetY = (float)TopBottomGrid.TransformToVisual((UIElement)_mainScrollViewer.Content).
                                     TransformPoint(new Point(0, 0)).Y;
 
             var header = DataGridView.Header as FrameworkElement;
@@ -227,7 +227,7 @@ namespace PlantSitter.View
             _backgrdVisual.StartAnimation("Opacity", scrollingAnimation);
 
             var scrollingAnimation2 = _compositor.CreateExpressionAnimation(
-                   "(ScrollingProperties.Translation.Y +OffsetY> 0 ? 0 : -OffsetY - ScrollingProperties.Translation.Y-0f)");
+                   "(ScrollingProperties.Translation.Y +OffsetY>= 0 ? 0 : -OffsetY - ScrollingProperties.Translation.Y)");
             scrollingAnimation2.SetReferenceParameter("ScrollingProperties", scrollProperties);
             scrollingAnimation2.SetScalarParameter("OffsetY", offsetY);
 
@@ -241,14 +241,17 @@ namespace PlantSitter.View
 
         protected override void SetUpPageAnimation()
         {
-            TransitionCollection collection = new TransitionCollection();
-            NavigationThemeTransition theme = new NavigationThemeTransition();
+            if (DeviceHelper.IsDesktop)
+            {
+                TransitionCollection collection = new TransitionCollection();
+                NavigationThemeTransition theme = new NavigationThemeTransition();
 
-            var info = new ContinuumNavigationTransitionInfo();
+                var info = new ContinuumNavigationTransitionInfo();
 
-            theme.DefaultNavigationTransitionInfo = info;
-            collection.Add(theme);
-            this.Transitions = collection;
+                theme.DefaultNavigationTransitionInfo = info;
+                collection.Add(theme);
+                this.Transitions = collection;
+            }
         }
     }
 }

@@ -486,14 +486,14 @@ namespace PlantSitterShared.Model
             List<PlantTimeline> data;
             var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byDays", "1", CTSFactory.MakeCTS().Token);
             data = PlantTimeline.ParseToList(records.JsonSrc);
-            
+
             //Clear before add new one
             CurrentPlan.RecordData.Clear();
-            foreach(var item in data)
+            foreach (var item in data)
             {
-                CurrentPlan.RecordData.Insert(0,item);
+                CurrentPlan.RecordData.Insert(0, item);
             }
-            LastRecordTime = CurrentPlan.RecordData.Last().RecordTime.ToString();
+            LastRecordTime = CurrentPlan.RecordData.LastOrDefault()?.RecordTime.ToString();
 
             CalculateScoreAndUpdate();
             UpdateCardStatus();
@@ -501,7 +501,7 @@ namespace PlantSitterShared.Model
 
         public void UpdateTableToBeShown(RecordDataKind kind)
         {
-            switch(kind)
+            switch (kind)
             {
                 case RecordDataKind.Light:
                     {
@@ -526,18 +526,18 @@ namespace PlantSitterShared.Model
         {
             List<PlantTimeline> data = new List<PlantTimeline>();
 
-            if (kind==TableXAxisKind.Newest10)
+            if (kind == TableXAxisKind.Newest10)
             {
                 var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byNumber", "10", CTSFactory.MakeCTS().Token);
                 data = PlantTimeline.ParseToList(records.JsonSrc);
             }
-            else if(kind==TableXAxisKind.MonthOf1)
+            else if (kind == TableXAxisKind.MonthOf1)
             {
                 var records = await CloudService.GetTimelineData(this.CurrentPlan.Gid, "byMonths", "1", CTSFactory.MakeCTS().Token);
                 data = PlantTimeline.ParseToList(records.JsonSrc);
             }
-            
-            LightTableData = new TableGraphics(FilterTimeLineData(data,kind),RecordDataKind.Light);
+
+            LightTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.Light);
             SoilTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.SoilMoisture);
             EnviMoistureTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.EnviMoisture);
             EnviTempTableData = new TableGraphics(FilterTimeLineData(data, kind), RecordDataKind.EnviTemp);
@@ -547,7 +547,7 @@ namespace PlantSitterShared.Model
         {
             var list = new List<PlantTimeline>();
             var maxCount = original.Count() > 10 ? 10 : original.Count();
-            for(int i=0;i< maxCount; i++)
+            for (int i = 0; i < maxCount; i++)
             {
                 var item = original.ElementAt(i);
                 list.Add(item);
@@ -560,9 +560,11 @@ namespace PlantSitterShared.Model
             SMAdv = CurrentPlan.CurrentPlant.SoilMoistureRange.X == 0 ? "请保持土壤干燥" : "请保持土壤湿润";
             LightAdv = CurrentPlan.CurrentPlant.LikeSunshine ? "喜阳植物光线应该强一点" : "喜阴植物光线应该弱一点";
             MoistureAdv = $"相对湿度适合在 {CurrentPlan.CurrentPlant.EnviMoistureRange.X} ~ {CurrentPlan.CurrentPlant.EnviMoistureRange.Y} %";
-            TempAdv= $"环境温度适合在 {CurrentPlan.CurrentPlant.EnviTempRange.X} ~ {CurrentPlan.CurrentPlant.EnviTempRange.Y} ℃";
+            TempAdv = $"环境温度适合在 {CurrentPlan.CurrentPlant.EnviTempRange.X} ~ {CurrentPlan.CurrentPlant.EnviTempRange.Y} ℃";
 
-            var lastRecord = CurrentPlan.RecordData.Last();
+            var lastRecord = CurrentPlan.RecordData.LastOrDefault();
+            if (lastRecord == null) return;
+
             if (lastRecord.SoilMoisture == 0)
             {
                 SMStatusSumUp = "不湿润";
@@ -581,14 +583,14 @@ namespace PlantSitterShared.Model
             }
             else TempSumUp = "不适宜";
 
-            MoistureValue = lastRecord.EnviMoisture.ToString() +" %";
+            MoistureValue = lastRecord.EnviMoisture.ToString() + " %";
             if (lastRecord.EnviMoisture >= CurrentPlan.CurrentPlant.EnviMoistureRange.X && lastRecord.EnviTemp <= CurrentPlan.CurrentPlant.EnviMoistureRange.Y)
             {
                 MoistureSumUp = "适宜";
             }
             else MoistureSumUp = "不适宜";
 
-            LightValue = lastRecord.Light.ToString()+ " Lux";
+            LightValue = lastRecord.Light.ToString() + " Lux";
             if (lastRecord.Light >= CurrentPlan.CurrentPlant.LightRange.X && lastRecord.EnviTemp <= CurrentPlan.CurrentPlant.LightRange.Y)
             {
                 LightSumUp = "充足";
@@ -671,9 +673,10 @@ namespace PlantSitterShared.Model
         {
             var score = 0d;
 
-            if(CurrentPlan.RecordData.Count==0)
+            if (CurrentPlan.RecordData.Count == 0)
             {
                 UpdateColorByScoreLevel(3);
+                ScoreSumUp = "没有数据";
                 return;
             }
 
@@ -689,20 +692,20 @@ namespace PlantSitterShared.Model
             var enviMoistureRange = CurrentPlan.CurrentPlant.EnviMoistureRange;
             var emcount = CurrentPlan.RecordData.Select(s =>
             {
-               return s.EnviMoisture <= enviMoistureRange.Y && s.EnviMoisture >= enviMoistureRange.X;
+                return s.EnviMoisture <= enviMoistureRange.Y && s.EnviMoisture >= enviMoistureRange.X;
             }).Count();
             var emi = emcount / (double)CurrentPlan.RecordData.Count;
             score += 15 * emi;
 
             //EnviTemp
             var dayData = from e in CurrentPlan.RecordData where e.RecordTime.Hour >= 7 && e.RecordTime.Hour <= 16 select e;
-            
+
             var nightData = from e in CurrentPlan.RecordData where e.RecordTime.Hour >= 16 && e.RecordTime.Hour <= 7 select e;
 
             var tempRange = CurrentPlan.CurrentPlant.EnviTempRange;
 
             var dayGoodData = (from e in dayData where e.EnviTemp <= tempRange.Y && e.EnviTemp >= tempRange.X select e).ToList();
-            var nightGoodData = (from e in nightData where e.EnviTemp <= tempRange.X+2 && e.EnviTemp >= tempRange.X-5 select e).ToList();
+            var nightGoodData = (from e in nightData where e.EnviTemp <= tempRange.X + 2 && e.EnviTemp >= tempRange.X - 5 select e).ToList();
 
             if (dayData.Count() != 0)
             {
@@ -717,10 +720,10 @@ namespace PlantSitterShared.Model
 
             //Light
             var lightRange = GetLightRange();
-            var goodLightDataCount= CurrentPlan.RecordData.Select(s =>
-            {
-                return s.Light <= lightRange.Y && s.Light >= lightRange.X;
-            }).Count();
+            var goodLightDataCount = CurrentPlan.RecordData.Select(s =>
+             {
+                 return s.Light <= lightRange.Y && s.Light >= lightRange.X;
+             }).Count();
             var ratio = goodLightDataCount / (double)CurrentPlan.RecordData.Count;
             if (ratio >= 0.7) score += 30 * ratio;
             else if (ratio >= 0.4 && ratio < 0.7) score += 20 * ratio;
@@ -731,7 +734,7 @@ namespace PlantSitterShared.Model
 
         private Vector2 GetLightRange()
         {
-            if(CurrentPlan.CurrentPlant.LikeSunshine)
+            if (CurrentPlan.CurrentPlant.LikeSunshine)
             {
                 return new Vector2(100, 20000);
             }

@@ -24,7 +24,7 @@
                      ShowsScrollingPlaceholders="False"
                      >
                 <cc:AdaptiveGridView.Header>
-                    <Grid Height="250">
+                    <Grid Height="300">
                         <Grid x:Name="Row0Grid">
                             <Image Source="ms-appx:///Assets/Backgrd/pic_detailbg.png" Stretch="UniformToFill"/>
                             <Border Background="#59B5B5B5"/>
@@ -37,7 +37,7 @@
                                     </Ellipse.Fill>
                                 </Ellipse>
                             </Grid>
-                            <Grid x:Name="TopBottomGrid" VerticalAlignment="Bottom">
+                            <Grid x:Name="TopBottomGrid" VerticalAlignment="Bottom" Height="130">
                                 <Border x:Name="TopBottomBorder" Background="{StaticResource PlantSitterThemeLightColor}"/>
                                 <StackPanel x:Name="ScoreDescSP" VerticalAlignment="Bottom" Margin="20,20,10,10" HorizontalAlignment="Left">
                                     <TextBlock x:Name="NameTB" FontSize="30" Text="{x:Bind PlanDetailVM.CurrentPlanWrapped.CurrentPlan.CurrentPlant.NameInChinese,Mode=OneWay}" Foreground="White" HorizontalAlignment="Left"/>
@@ -156,7 +156,7 @@
                 </AppBarButton.Icon>
             </AppBarButton>
         </CommandBar>
-        <Grid x:Name="TableViewGrid" d:IsHidden="False" Margin="0">
+        <Grid x:Name="TableViewGrid" d:IsHidden="True" Margin="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="100"/>
                 <RowDefinition/>

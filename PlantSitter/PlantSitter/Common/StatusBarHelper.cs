@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.ViewManagement;
+using Windows.UI.Xaml.Media;
 
 namespace PlantSitter.Common
 {
@@ -14,10 +15,12 @@ namespace PlantSitter.Common
     {
         public static void SetUpStatusBar()
         {
-            if (ApiInformationHelper.HasStatusBar)
+            if (DeviceHelper.IsMobile)
             {
                 var sb = StatusBar.GetForCurrentView();
                 sb.ForegroundColor = Colors.White;
+                sb.BackgroundOpacity = 1;
+                sb.BackgroundColor = (App.Current.Resources["PlantSitterThemeLightColor"] as SolidColorBrush).Color;
             }
         }
     }
