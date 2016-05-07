@@ -19,12 +19,7 @@ namespace Sensor.Light
 
         public int TimerIntervalMs { get; set; }
 
-        public event Action<int?> Reading;
-
-        private void OnReading(int lux)
-        {
-            Reading?.Invoke(lux);
-        }
+        public event Action<int?> OnReading;
 
         public GY30LightSensor(int timerIntervalMs = 100)
         {
@@ -74,7 +69,7 @@ namespace Sensor.Light
             try
             {
                 var lux = ReadI2CLux();
-                OnReading(lux);
+                OnReading?.Invoke(lux);
             }
             catch(Exception)
             {
@@ -88,7 +83,6 @@ namespace Sensor.Light
             byte[] readBuf = new byte[2];
             I2CLightSensor.WriteRead(regAddrBuf, readBuf);
 
-            // is this calculation correct?
             var valf = ((readBuf[0] << 8) | readBuf[1]) / 1.2;
 
             return (int)valf;

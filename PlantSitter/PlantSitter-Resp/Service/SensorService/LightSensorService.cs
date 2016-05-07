@@ -24,7 +24,7 @@ namespace PlantSitterResp.Service.SensorService
             {
                 var sensor = new GY30LightSensor();
                 await sensor.InitAsync();
-                sensor.Reading += async (value) =>
+                sensor.OnReading += async (value) =>
                 {
                     await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                      {

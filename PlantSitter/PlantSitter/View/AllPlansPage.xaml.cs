@@ -57,8 +57,6 @@ namespace PlantSitter.View
             _loadingVisual.Offset = new Vector3(0f, -50f, 0f);
         }
 
-        
-
         public void ShowLoading()
         {
             var showAnimation = _compositor.CreateVector3KeyFrameAnimation();
