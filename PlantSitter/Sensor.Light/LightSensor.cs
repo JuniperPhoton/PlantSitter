@@ -19,7 +19,7 @@ namespace Sensor.Light
 
         public int TimerIntervalMs { get; set; }
 
-        public event Action<int?> OnReading;
+        public event Action<int?> OnRead;
 
         public GY30LightSensor(int timerIntervalMs = 100)
         {
@@ -69,11 +69,11 @@ namespace Sensor.Light
             try
             {
                 var lux = ReadI2CLux();
-                OnReading?.Invoke(lux);
+                OnRead?.Invoke(lux);
             }
             catch(Exception)
             {
-                OnReading(new Random((int)DateTime.Now.Ticks).Next(5000, 10000));
+                OnRead(new Random((int)DateTime.Now.Ticks).Next(5000, 10000));
             }
         }
 
