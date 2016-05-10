@@ -228,6 +228,7 @@
     <None Include="..\..\..\..\..\..\..\OneDrive\IoT\Data Sheets\DHT11.pdf" />
     <None Include="..\..\..\..\..\..\..\OneDrive\IoT\Data Sheets\DHT22.pdf" />
     <None Include="..\..\..\..\..\..\..\OneDrive\IoT\Hackster.io\DHT11\DHT11-Technical-Data-Sheet-Translated-Version.pdf" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsIoT, Version=10.0.10586.0" />

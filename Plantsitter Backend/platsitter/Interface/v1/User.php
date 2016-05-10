@@ -124,7 +124,7 @@ do {
             if ($resultInsert) {
                 $uid = $pdo->lastInsertId();
 
-                $accessToken = md5($sid);
+                $accessToken = md5($salt);
 
                 $queryInsert = $pdo->prepare('INSERT INTO access_token(uid,access_token) VALUES (:uid,:access_token)');
                 $queryInsert->bindParam(':uid', $uid, PDO::PARAM_INT);

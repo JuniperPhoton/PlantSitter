@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JP.Utils.UWP", "..\..\JP.Ut
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppTest", "AppTest", "{279EC020-379C-4336-889F-A42B12137E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterResp", "PlantSitter-Resp\PlantSitterResp.csproj", "{13FB8A12-01F7-4FF2-A0A5-4F9EBF1B50CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterRasp", "PlantSitter-Resp\PlantSitterRasp.csproj", "{13FB8A12-01F7-4FF2-A0A5-4F9EBF1B50CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlantSitterCustomControl", "PlantSitterCustomControl\PlantSitterCustomControl.csproj", "{E525983B-258E-4754-9596-9A299DFC99A5}"
 EndProject

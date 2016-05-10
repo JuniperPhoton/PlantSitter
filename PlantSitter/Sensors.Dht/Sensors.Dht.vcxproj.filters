@@ -23,5 +23,6 @@
     <None Include="..\..\..\..\..\..\..\OneDrive\IoT\Data Sheets\DHT22.pdf">
       <Filter>Documents</Filter>
     </None>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

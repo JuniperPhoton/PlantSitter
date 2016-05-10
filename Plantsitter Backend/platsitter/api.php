@@ -3,7 +3,6 @@
 //require some file
 require_once("./api_config.php");
 require_once("./error_config.php");
-require_once("./HttpClient.class.php");
 
 do {
 

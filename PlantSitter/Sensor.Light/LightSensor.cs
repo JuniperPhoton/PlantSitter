@@ -11,21 +11,42 @@ namespace Sensor.Light
 {
     public class GY30LightSensor
     {
+        /// <summary>
+        /// 表示I2C 的物理地址
+        /// </summary>
         public int Bh1750Address => 0x23;
 
+        /// <summary>
+        /// 表示I2C 设备
+        /// </summary>
         public I2cDevice I2CLightSensor { get; private set; }
 
+        /// <summary>
+        /// 计时器
+        /// </summary>
         private Timer PeriodicTimer { get; set; }
 
+        /// <summary>
+        /// 计时器时间间隔
+        /// </summary>
         public int TimerIntervalMs { get; set; }
 
+        /// <summary>
+        /// 读取数值后发生的事件
+        /// </summary>
         public event Action<int?> OnRead;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public GY30LightSensor(int timerIntervalMs = 100)
         {
             TimerIntervalMs = timerIntervalMs;
         }
 
+        /// <summary>
+        /// 初始化传感器设置
+        /// </summary>
         public async Task InitAsync()
         {
             string aqs = I2cDevice.GetDeviceSelector();
@@ -64,6 +85,9 @@ namespace Sensor.Light
             PeriodicTimer = new Timer(this.TimerCallback, null, 0, TimerIntervalMs);
         }
 
+        /// <summary>
+        /// Timer 的回掉函数
+        /// </summary>
         private void TimerCallback(object state)
         {
             try
@@ -71,12 +95,15 @@ namespace Sensor.Light
                 var lux = ReadI2CLux();
                 OnRead?.Invoke(lux);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 OnRead(new Random((int)DateTime.Now.Ticks).Next(5000, 10000));
             }
         }
 
+        /// <summary>
+        /// 读取数值
+        /// </summary>
         private int ReadI2CLux()
         {
             byte[] regAddrBuf = new byte[] { 0x23 };

@@ -33,11 +33,13 @@ Dht11::~Dht11()
 	this->_pin = nullptr;
 }
 
+//External call, read current value
 Windows::Foundation::IAsyncOperation<DhtReadingResult>^ Dht11::GetReadingAsync()
 {
 	return this->GetReadingAsync(DEFAULT_MAX_RETRIES);
 }
 
+//Internal call, read current value
 Windows::Foundation::IAsyncOperation<DhtReadingResult>^ Dht11::GetReadingAsync(int maxRetries)
 {
 	return create_async([this, maxRetries]
