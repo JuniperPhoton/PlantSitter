@@ -23,7 +23,7 @@ namespace PlantSitterShared.Common
             var line3 = "环境湿度：" + lastRecord.EnviMoisture.ToString() + " %";
             var line4 = "光照：" + lastRecord.Light.ToString() + " Lux";
 
-            UpdateTileiInner(plan.CurrentPlant.CacheFilePath, lastRecord.RecordTime.ToString(), line2, line3, line4);
+            UpdateTileInner(plan.CurrentPlant.CacheFilePath, lastRecord.RecordTime.ToString(), line2, line3, line4);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace PlantSitterShared.Common
         /// <param name="line2"></param>
         /// <param name="line3"></param>
         /// <param name="line4"></param>
-        private static void UpdateTileiInner(string imgUrl, string line1, string line2, string line3, string line4)
+        private static void UpdateTileInner(string imgUrl, string line1, string line2, string line3, string line4)
         {
             var tile = new TileBinding()
             {
