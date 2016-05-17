@@ -348,7 +348,7 @@ namespace PlantSitterCustomControl
 
             _inStory.Begin();
 
-            if (ApiInformationHelper.HasHardwareButton)
+            if (APIInfoHelper.HasHardwareButton)
             {
                 HardwareButtons.BackPressed += HardwareButtons_BackPressed;
             }

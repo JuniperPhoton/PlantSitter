@@ -2,6 +2,8 @@
 using JP.API;
 using JP.Utils.Data;
 using JP.Utils.Data.Json;
+using JP.Utils.Network;
+using PlantSitterShared.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +45,7 @@ namespace PlantSitterShared.Model
         {
             if (ThumbnailUrl.IsNotNullOrEmpty())
             {
-                var stream = await APIHelper.GetIRandomAccessStreamFromUrlAsync(ThumbnailUrl);
+                var stream = await FileDownloadUtil.GetIRandomAccessStreamFromUrlAsync(ThumbnailUrl, CTSFactory.MakeCTS().Token);
                 var bitmap = new BitmapImage();
                 await bitmap.SetSourceAsync(stream);
                 this.ImgSource = bitmap;
